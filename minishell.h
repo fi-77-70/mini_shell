@@ -1,0 +1,72 @@
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <dirent.h>
+#include <sys/wait.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include "libs/libft/libft.h"
+#include "libs/ft_printf/ft_printf.h"
+
+#define CMD			2
+#define ARG			3
+#define	PIPE		4
+#define RED_OUT		5
+#define APP_OUT		6
+#define	RED_IN		7
+#define	HERE_DOC	8
+
+
+typedef struct s_args{
+	char 			*token;
+	int				type;
+	struct	s_args	*next;
+	struct	s_args	*prev;
+}	t_args;
+
+typedef	struct s_cmds{
+	char			*cmd;
+	char			**args;
+	t_args			*redir;
+	char			*here_doc;
+	struct	s_cmds	*next;
+} t_cmds;
+
+typedef struct s_menu
+{
+	int		fd_out;
+	int		fd_in;
+	int		*pid_arr;
+	char	*til;
+	char	**line;
+	char	**env;
+	t_args	**mshh;
+	t_cmds	**cmds;
+}	t_menu;
+
+t_cmds	**ft_cmd_div(t_args *msh);
+t_args	*lexer(t_args **mshh, char **line, t_menu *menu);
+void	echo_shell(t_args *args);
+int		is_cmd(char *str);
+void	expand(t_args **args, t_menu *menu);
+char	*ft_expander(char *str, int i, t_menu *menu);
+char	*get_var_name(char *env_var);
+char	*ft_final_expand(char *str, char *var, char *var_name, int n);
+int 	ft_input_check(t_args **mshh);
+void	get_pwd(void);
+void	free_all(t_menu *menu);
+int		pid_get(t_menu *menu);
+void	process_handler(t_menu *menu);
+void 	dup_arrr(char **map, t_menu **menu);
+char	*env_get(char *name, t_menu *menu);
+void	free_line(char **line);
+void	free_list(t_args **mshh);
+void	wait_for_process(t_menu *menu);
+int		handle_pipes(t_cmds **cmds, t_menu *menu);
+int		handle_builts(t_cmds *cmds);
+int		ft_change_dir(const char *path);
+
+#endif
