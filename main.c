@@ -74,7 +74,9 @@ void	init_struct(t_menu **menu, char **envp)
 	dup_arrr(envp, &temp);
 	temp->fd_in = dup(STDIN_FILENO);
 	temp->fd_out = dup(STDOUT_FILENO);
+	temp->fd_error = dup(STDOUT_FILENO);
 	temp->mshh = NULL;
+	temp->return_code = 0;
 	temp->pid_arr = NULL;
 	temp->cmds = NULL;
 	temp->til = getenv("HOME");
@@ -129,22 +131,19 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*str;
 	t_menu	*menu;
-	t_args	*msh;
 	t_args	*temp;
 	(void)ac;
 	(void)av;
 
-	msh = NULL;
 	menu = NULL;
 	init_struct(&menu, envp);
 	while(1)
 	{
 		str = readline("minishell: ");
 		if(!str)
-			return (printf("exit\n"),free_line(menu->env), free(menu), 0);
+			return (printf("exit\n"),free_line(menu->env), free(menu), menu->return_code);
 		add_history(str);
 		menu->mshh = (t_args **)malloc(sizeof(t_args *));
-		*(menu->mshh) = msh;
 		menu->line = ft_splot(str);
 		if (!menu->line[0])
 		{
@@ -152,20 +151,19 @@ int	main(int ac, char **av, char **envp)
 			free(menu->line);
 			continue;
 		}
-		msh = lexer(menu->mshh, menu->line, menu);
+		*(menu->mshh) = lexer(menu->mshh, menu->line, menu);
 		free_line(menu->line);
-		*(menu->mshh) = msh;
 		expand(menu->mshh, menu);
-		temp = msh;
+		temp = *(menu->mshh);
 		if (ft_input_check(menu->mshh))
 		{
-			while (temp)
-			{
-				printf("token --> [%s]\n", temp->token);
-				printf("type  --> [%d]\n", temp->type);
-				temp = temp->next;
-			}
-			menu->cmds = ft_cmd_div(msh);
+			// while (temp)
+			// {
+			// 	printf("token --> [%s]\n", temp->token);
+			// 	printf("type  --> [%d]\n", temp->type);
+			// 	temp = temp->next;
+			// }
+			menu->cmds = ft_cmd_div(*(menu->mshh));
 			process_handler(menu);
 			if(menu->pid_arr)
 				wait_for_process(menu);
@@ -173,8 +171,7 @@ int	main(int ac, char **av, char **envp)
 		else
 			printf("ERROR IN PARSING\n");
 		if(!menu->cmds)
-			menu->cmds = ft_cmd_div(msh);
-		*(menu->mshh) = msh;
+			menu->cmds = ft_cmd_div(*(menu->mshh));
 		free_all(menu);
 	}
 }

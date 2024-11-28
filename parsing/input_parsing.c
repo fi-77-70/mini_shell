@@ -62,7 +62,6 @@ int ft_unquote(t_args **msh)
 				return (0);
 		}
 	}
-	printf("%d\n", n);
 	length = ft_strlen(temp->token) - n;
 	ft_unquote_two(msh, length);
 	return (2);

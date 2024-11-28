@@ -1,16 +1,35 @@
 #include "../minishell.h"
 
+int		is_white_space(char c)
+{
+	if (c >= 9 && c <= 13)
+		return (1);
+	if (c == 32)
+		return (1);
+	return (0);
+}
+
+void	write_error_message(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		write(STDERR_FILENO, &str[i++], 1);
+}
+
 void	wait_for_process(t_menu *menu)
 {
 	int	i;
-	int	*j;
+	int	j;
 
 	i = 0;
-	j = NULL;
+	j = 0;
 	while(menu->pid_arr[i] != 0)
 	{
-		printf("wait pid -----> [%d]\n", menu->pid_arr[i]);
-		waitpid(menu->pid_arr[i++], j, WUNTRACED);
+		// printf("wait pid -----> [%d]\n", menu->pid_arr[i]);
+		waitpid(menu->pid_arr[i++], &j, 0);
+		menu->return_code = WEXITSTATUS(j);
 	}
 	free(menu->pid_arr);
 	menu->pid_arr = NULL;

@@ -85,7 +85,6 @@ void	handle_redirs(t_cmds *cmd)
 
 			fd_in = open(cmd->redir->token, O_RDWR , 0777);
 			dup2(fd_in, STDIN_FILENO);
-			close(fd_in);
 		}
 		cmd->redir = cmd->redir->next;
 	}
@@ -116,16 +115,37 @@ void	process_handler(t_menu *menu)
 			path = ft_strdup(cmds->cmd);
 		else
 			path = ft_strjoin("/usr/bin/", cmds->cmd);
+		// printf("badjeras\n");
 		result = execve(path, cmds->args, menu->env);
 		free(path);
 	}
-	if (result == -1)
-		printf("ERROR: command not found -- >  [%s]\n", cmds->cmd);
+	if(errno == EACCES)
+	{
+		result = 126;
+	}
+	else if(errno == ENOENT)
+	{
+		if (cmds->cmd && !ft_strncmp(cmds->cmd, "/", 1))
+		{
+			write_error_message(" No such file or directory\n");
+			result = 126;
+		}
+		else
+		{
+			write_error_message(" command not found\n");
+			result = 127;
+		}
+	}
+	else
+	{
+		write_error_message(" command not found\n");
+		result = 1;
+	}
 	*(menu->cmds) = first_node;
 	free_all(menu);
 	if (menu->pid_arr)
 		free(menu->pid_arr);
 	free_line(menu->env);
 	free(menu);
-	exit(-1);
+	exit (result);
 }
