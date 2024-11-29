@@ -69,9 +69,12 @@ void	free_line(char **line);
 void	free_list(t_args **mshh);
 void	wait_for_process(t_menu *menu);
 int		handle_pipes(t_cmds **cmds, t_menu *menu);
-int		handle_builts(t_cmds *cmds);
-int		ft_change_dir(const char *path);
+int		handle_builts(t_cmds *cmds, t_menu *menu);
+int		ft_change_dir(char **path, t_menu *menu);
 void	write_error_message(char *str);
 int		is_white_space(char c);
+int		check_dir(char *str);
+int		check_acess_file(char *str);
+void	built_exit(t_cmds *cmds, t_menu *menu);
 
 #endif

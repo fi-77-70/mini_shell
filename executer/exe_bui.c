@@ -1,5 +1,30 @@
 #include "../minishell.h"
 
+int		check_acess_file(char *str)
+{
+	if (!access(str, X_OK))
+		return (1);
+	else
+		return (0);
+}
+
+int		check_dir(char *str)
+{
+	struct stat buffer;
+	
+	if (stat(str, &buffer) == -1)
+	{
+		perror("stat");
+		return (1);
+	}
+	else if (S_ISDIR(buffer.st_mode))
+		return (2);
+	else if (S_ISREG(buffer.st_mode))
+		return (0);
+	else
+		return (1);
+}
+
 int		is_white_space(char c)
 {
 	if (c >= 9 && c <= 13)
