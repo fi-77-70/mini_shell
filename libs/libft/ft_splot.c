@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:38:58 by filferna          #+#    #+#             */
-/*   Updated: 2024/11/15 19:29:53 by filferna         ###   ########.fr       */
+/*   Updated: 2024/11/30 18:05:01 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	cut_count(char *str)
 			word = 0;
 		i++;
 	}
-	printf("token number ----->>> [%d]\n", j);
+	// printf("token number ----->>> [%d]\n", j);
 	return (j);
 }
 
@@ -114,7 +114,6 @@ void		check_symbol(char *str, int *j, int *i, char **matrix, int *a)
 	{
 		if (*i != *j)
 			*i = *j;
-		*i += 1;
 		if (!ft_strncmp(str + *j, "<", 1))
 			matrix[*a] = ft_strdup("<");
 		else

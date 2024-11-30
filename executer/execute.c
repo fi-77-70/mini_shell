@@ -1,5 +1,6 @@
 #include "../minishell.h"
 
+
 void	create_pid_arr(t_menu *menu)
 {
 	int		i;
@@ -38,10 +39,10 @@ int	handle_pipes(t_cmds **cmds, t_menu *menu)
 		{
 			dup2(fds[0], STDIN_FILENO);
 			close(fds[0]);
-			cmd = cmd->next;
 			close(fds[1]);
+			cmd = cmd->next;
 			if (!cmd)
-				return (dup2(menu->fd_in, STDIN_FILENO), 1);
+				return (dup2(menu->fd_in, STDIN_FILENO), close(fds[1]), 1);
 		}
 		else
 		{
@@ -50,6 +51,7 @@ int	handle_pipes(t_cmds **cmds, t_menu *menu)
 				break ;
 			dup2(fds[1], STDOUT_FILENO);
 			close(fds[1]);
+			close(fds[0]);
 			return (0);
 		}
 	}
@@ -58,7 +60,7 @@ int	handle_pipes(t_cmds **cmds, t_menu *menu)
 	return (0);
 }
 
-void	handle_redirs(t_cmds *cmd)
+void	handle_redirs(t_cmds *cmd, t_menu *menu)
 {
 	int	fd_out;
 	int	fd_in;
@@ -71,12 +73,52 @@ void	handle_redirs(t_cmds *cmd)
 		if(cmd->redir->type == RED_OUT)
 		{
 			fd_out = open(cmd->redir->token, O_RDWR | O_CREAT, 0777);
+			if(check_dir(cmd->redir->token) == 2)
+			{
+				free_all(menu);
+				if (menu->pid_arr)
+				free(menu->pid_arr);
+				free_line(menu->env);
+				free(menu);
+				write_error_message("Is a directory\n");
+				exit(127);
+			}
+			if(!check_acess_file(cmd->redir->token, 2, menu))
+			{
+				free_all(menu);
+				if (menu->pid_arr)
+				free(menu->pid_arr);
+				free_line(menu->env);
+				free(menu);
+				write_error_message(" Permission denied\n");
+				exit(1);
+			}
 			dup2(fd_out, STDOUT_FILENO);
 			close(fd_out);
 		}
 		else if	(cmd->redir->type == APP_OUT)
 		{
 			fd_out = open(cmd->redir->token, O_CREAT| O_APPEND | O_RDWR, 0777);
+			if(check_dir(cmd->redir->token) == 2)
+			{
+				free_all(menu);
+				if (menu->pid_arr)
+				free(menu->pid_arr);
+				free_line(menu->env);
+				free(menu);
+				write_error_message(" Is a directory\n");
+				exit(127);
+			}
+			if(!check_acess_file(cmd->redir->token, 2, menu))
+			{
+				free_all(menu);
+				if (menu->pid_arr)
+				free(menu->pid_arr);
+				free_line(menu->env);
+				free(menu);
+				write_error_message(" Permission denied\n");
+				exit(1);
+			}
 			dup2(fd_out, STDOUT_FILENO);
 			close(fd_out);
 		}
@@ -84,6 +126,26 @@ void	handle_redirs(t_cmds *cmd)
 		{
 
 			fd_in = open(cmd->redir->token, O_RDWR , 0777);
+			if(check_dir(cmd->redir->token) == 2)
+			{
+				free_all(menu);
+				if (menu->pid_arr)
+				free(menu->pid_arr);
+				free_line(menu->env);
+				free(menu);
+				write_error_message("Is a directory\n");
+				exit(127);
+			}
+			if(!check_acess_file(cmd->redir->token, 1, menu))
+			{
+				free_all(menu);
+				if (menu->pid_arr)
+				free(menu->pid_arr);
+				free_line(menu->env);
+				free(menu);
+				write_error_message(" Permission denied\n");
+				exit(1);
+			}
 			dup2(fd_in, STDIN_FILENO);
 			close(fd_in);
 		}
@@ -102,13 +164,13 @@ void	process_handler(t_menu *menu)
 	fd = 0;
 	first_node = *(menu->cmds);
 	cmds = *(menu->cmds);
-	if(handle_builts(cmds))
-		return ;
 	create_pid_arr(menu);
+	if(handle_builts(cmds, menu))
+		return ;
 	if (handle_pipes(&cmds, menu))
 		return ;
 	if(cmds->redir)
-		handle_redirs(cmds);
+		handle_redirs(cmds, menu);
 	result = 0;
 	if(cmds->cmd)
 	{
@@ -116,16 +178,31 @@ void	process_handler(t_menu *menu)
 			path = ft_strdup(cmds->cmd);
 		else
 			path = ft_strjoin("/usr/bin/", cmds->cmd);
+		// printf("badjeras\n");
 		result = execve(path, cmds->args, menu->env);
 		free(path);
 	}
-	if (result == -1)
-		printf("ERROR: command not found -- >  [%s]\n", cmds->cmd);
+	if(errno == EACCES)
+	{
+		result = 126;
+	}
+	else if(errno == ENOENT)
+	{
+		if (cmds->cmd && !ft_strncmp(cmds->cmd, "/", 1))
+			result = 126;
+		else
+		{
+			write_error_message(" command not found\n");
+			result = 127;
+		}
+	}
+	else
+		result = 1;
 	*(menu->cmds) = first_node;
 	free_all(menu);
 	if (menu->pid_arr)
 		free(menu->pid_arr);
 	free_line(menu->env);
 	free(menu);
-	exit(-1);
+	exit (result);
 }

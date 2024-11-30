@@ -25,9 +25,10 @@ char	*ft_final_expand(char *str, char *var, char *var_name, int n)
 		}
 		if (str[i] == '$' && expanded == 0)
 		{
-			if(str[i] == '$')
+			i++;
+			while (!is_white_space(str[i]) && str[i] != '"' && str[i - 1] != '?' && str[i] != '$' && str[i] != 39 && str[i])
 				i++;
-			while (str[i] != ' ' && str[i] != '"' && str[i] != '$' && str[i] != 39 && str[i])
+			if (str[i] == '$')
 				i++;
 			expanded = 1;
 			if(!var)
@@ -35,7 +36,8 @@ char	*ft_final_expand(char *str, char *var, char *var_name, int n)
 			while (var[a])
 				final[j++] = var[a++];
 		}
-		final[j++] = str[i];
+		if (str[i])
+			final[j++] = str[i];
 		if (!str[i])
 			break ;
 	}
@@ -72,8 +74,21 @@ char	*ft_expander(char *str, int i, t_menu *menu)
 	char	*expanded;
 
 	i++;
-	var_name = get_var_name(str + i);
-	expanded = env_get(var_name, menu);
+	if (str[i] == '?')
+	{
+		var_name = ft_strdup("?");
+		expanded = ft_itoa(menu->return_code);
+	}
+	else if (str[i] == '$')
+	{
+		var_name = ft_strdup("$");
+		expanded = ft_itoa(pid_get(menu));
+	}
+	else
+	{
+		var_name = get_var_name(str + i);
+		expanded = env_get(var_name, menu);
+	}
 	i--;
 	return (ft_final_expand(str, expanded, var_name, i));
 }
@@ -83,11 +98,9 @@ void	expand(t_args **args, t_menu *menu)
 	int		i;
 	int		quoted;
 	t_args	*temp;
-	t_args  *msh;
 
 	temp = NULL;
 	temp = *args;
-	msh = temp;
 	quoted = -1;
 	while(temp)
 	{
@@ -102,12 +115,28 @@ void	expand(t_args **args, t_menu *menu)
 				while (temp->token[i] != 39 && temp->token[i])
 					i++;
 			}
-			if (temp->token[i] == '$' && temp->token[i + 1] && temp->token[i + 1] != '~' && temp->token[i + 1] != '$' && temp->token[i + 1] != '?')
+			if (temp->token[i] == '$' && temp->token[i + 1] && temp->token[i + 1] != '~' && temp->token[i + 1] != '"' && !is_white_space(temp->token[i + 1]))
 				temp->token = ft_expander(temp->token, i, menu);
-			if (!temp->token[i])
-				break ;
+			if (!temp->token[i] && i == 0)
+			{
+				if (temp->next && temp->prev)
+				{
+					temp->prev->next = temp->next;
+					temp->next->prev = temp->prev;
+				}
+				else if (temp->next)
+				{
+					*(menu->mshh) = temp->next;
+					temp->next->prev = NULL;
+				}
+				else if (temp->prev)
+					temp->prev->next = NULL;
+				free(temp);
+				temp = NULL;
+				break;
+			}
 		}
-		temp = temp->next;
+		if (temp)
+			temp = temp->next;
 	}
-  *args = msh;
 }

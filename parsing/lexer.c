@@ -13,13 +13,6 @@ void	ft_get_type(t_args **mshh, t_menu *menu, char *token)
 		(*mshh)->token = ft_strdup(menu->til);
 		msh->type = ARG;
 	}
-	else if (!ft_strcmp(token, "$$"))
-	{
-		free((*mshh)->token);
-		(*mshh)->token = NULL;
-		(*mshh)->token = env_get("$", menu);
-		msh->type = ARG;
-	}
 	else if (!ft_strcmp(token, ">"))
 		msh->type = RED_OUT;
 	else if (!ft_strcmp(token, ">>"))

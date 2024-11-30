@@ -6,8 +6,11 @@
 #include <stdio.h>
 #include <dirent.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <errno.h>
+#include <signal.h>
 #include "libs/libft/libft.h"
 #include "libs/ft_printf/ft_printf.h"
 
@@ -18,7 +21,6 @@
 #define APP_OUT		6
 #define	RED_IN		7
 #define	HERE_DOC	8
-
 
 typedef struct s_args{
 	char 			*token;
@@ -39,7 +41,9 @@ typedef struct s_menu
 {
 	int		fd_out;
 	int		fd_in;
+	int		fd_error;
 	int		*pid_arr;
+	int		return_code;
 	char	*til;
 	char	**line;
 	char	**env;
@@ -66,7 +70,13 @@ void	free_line(char **line);
 void	free_list(t_args **mshh);
 void	wait_for_process(t_menu *menu);
 int		handle_pipes(t_cmds **cmds, t_menu *menu);
-int		handle_builts(t_cmds *cmds);
-int		ft_change_dir(const char *path);
+int		handle_builts(t_cmds *cmds, t_menu *menu);
+int		ft_change_dir(char **path, t_menu *menu);
+void	write_error_message(char *str);
+int		is_white_space(char c);
+int		check_dir(char *str);
+int		check_acess_file(char *str, int	per, t_menu *menu);
+void	built_exit(t_cmds *cmds, t_menu *menu);
+void	free_mid_process(t_menu *menu);
 
 #endif

@@ -114,8 +114,8 @@ t_cmds	**ft_cmd_div(t_args *msh)
 {
 	t_cmds	**cmds;
 	t_cmds	*test;
-	t_args	*re_test;
-	int		i;
+	// t_args	*re_test;
+	// int		i;
 
 	cmds = (t_cmds **)malloc(sizeof(t_cmds *));
 	*cmds = NULL;
@@ -137,23 +137,23 @@ t_cmds	**ft_cmd_div(t_args *msh)
 			msh = msh->next;
 	}
 
-	test = *cmds;
-	while (test)
-	{
-		i = 0;
-		re_test = test->redir;
-		printf("=====================================================\n");
-		printf("process cmd: %s\n", test->cmd);
-		while (test->args && test->args[i])
-			printf("process args: %s\n", test->args[i++]);
-		printf("process here_doc: %s\n", test->here_doc);
-		while (re_test)
-		{
-			printf("process redir: type-> %d, file-> %s\n", re_test->type, re_test->token);
-			re_test = re_test->next;
-		}
-		printf("=====================================================\n");
-		test = test->next;
-	}
+	// test = *cmds;
+	// while (test)
+	// {
+	// 	i = 0;
+	// 	re_test = test->redir;
+	// 	printf("=====================================================\n");
+	// 	printf("process cmd: %s\n", test->cmd);
+	// 	while (test->args && test->args[i])
+	// 		printf("process args: %s\n", test->args[i++]);
+	// 	printf("process here_doc: %s\n", test->here_doc);
+	// 	while (re_test)
+	// 	{
+	// 		printf("process redir: type-> %d, file-> %s\n", re_test->type, re_test->token);
+	// 		re_test = re_test->next;
+	// 	}
+	// 	printf("=====================================================\n");
+	// 	test = test->next;
+	// }
 	return (cmds);
 }
