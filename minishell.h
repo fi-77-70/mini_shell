@@ -10,6 +10,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <errno.h>
+#include <signal.h>
 #include "libs/libft/libft.h"
 #include "libs/ft_printf/ft_printf.h"
 
@@ -74,7 +75,8 @@ int		ft_change_dir(char **path, t_menu *menu);
 void	write_error_message(char *str);
 int		is_white_space(char c);
 int		check_dir(char *str);
-int		check_acess_file(char *str);
+int		check_acess_file(char *str, int	per, t_menu *menu);
 void	built_exit(t_cmds *cmds, t_menu *menu);
+void	free_mid_process(t_menu *menu);
 
 #endif

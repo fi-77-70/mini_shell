@@ -1,17 +1,32 @@
 #include "../minishell.h"
 
-int		check_acess_file(char *str)
+void	free_mid_process(t_menu *menu)
 {
-	if (!access(str, X_OK))
-		return (1);
+	free_all(menu);
+	if (menu->pid_arr)
+		free(menu->pid_arr);
+	free_line(menu->env);
+	free(menu);
+}
+
+int		check_acess_file(char *str, int	per, t_menu *menu)
+{
+	if (access(str, F_OK))
+		return (write_error_message(" No such file or directory\n"), free_mid_process(menu), exit(1), 1);
+	if (per == 1 && access(str, R_OK))
+		return (write_error_message(" Permission denied\n"), free_mid_process(menu), exit(1), 1);
+	if (per == 2 && access(str, W_OK))
+		return (write_error_message(" Permission denied\n"), free_mid_process(menu), exit(1), 1);
+	if (per == 3 && access(str, X_OK))
+		return (write_error_message(" Permission denied\n"), free_mid_process(menu), exit(1), 1);
 	else
-		return (0);
+		return (1);
 }
 
 int		check_dir(char *str)
 {
 	struct stat buffer;
-	
+
 	if (stat(str, &buffer) == -1)
 	{
 		perror("stat");

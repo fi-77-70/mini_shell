@@ -1,5 +1,6 @@
 #include "../minishell.h"
 
+
 void	create_pid_arr(t_menu *menu)
 {
 	int		i;
@@ -38,10 +39,10 @@ int	handle_pipes(t_cmds **cmds, t_menu *menu)
 		{
 			dup2(fds[0], STDIN_FILENO);
 			close(fds[0]);
-			cmd = cmd->next;
 			close(fds[1]);
+			cmd = cmd->next;
 			if (!cmd)
-				return (dup2(menu->fd_in, STDIN_FILENO), 1);
+				return (dup2(menu->fd_in, STDIN_FILENO), close(fds[1]), 1);
 		}
 		else
 		{
@@ -50,6 +51,7 @@ int	handle_pipes(t_cmds **cmds, t_menu *menu)
 				break ;
 			dup2(fds[1], STDOUT_FILENO);
 			close(fds[1]);
+			close(fds[0]);
 			return (0);
 		}
 	}
@@ -81,7 +83,7 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 				write_error_message("Is a directory\n");
 				exit(127);
 			}
-			if(!check_acess_file(cmd->redir->token))
+			if(!check_acess_file(cmd->redir->token, 2, menu))
 			{
 				free_all(menu);
 				if (menu->pid_arr)
@@ -107,7 +109,7 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 				write_error_message(" Is a directory\n");
 				exit(127);
 			}
-			if(!check_acess_file(cmd->redir->token))
+			if(!check_acess_file(cmd->redir->token, 2, menu))
 			{
 				free_all(menu);
 				if (menu->pid_arr)
@@ -134,7 +136,7 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 				write_error_message("Is a directory\n");
 				exit(127);
 			}
-			if(!check_acess_file(cmd->redir->token))
+			if(!check_acess_file(cmd->redir->token, 1, menu))
 			{
 				free_all(menu);
 				if (menu->pid_arr)
@@ -145,6 +147,7 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 				exit(1);
 			}
 			dup2(fd_in, STDIN_FILENO);
+			close(fd_in);
 		}
 		cmd->redir = cmd->redir->next;
 	}
@@ -186,10 +189,7 @@ void	process_handler(t_menu *menu)
 	else if(errno == ENOENT)
 	{
 		if (cmds->cmd && !ft_strncmp(cmds->cmd, "/", 1))
-		{
-			write_error_message(" No such file or directory\n");
 			result = 126;
-		}
 		else
 		{
 			write_error_message(" command not found\n");
@@ -197,10 +197,7 @@ void	process_handler(t_menu *menu)
 		}
 	}
 	else
-	{
-		write_error_message(" command not found\n");
 		result = 1;
-	}
 	*(menu->cmds) = first_node;
 	free_all(menu);
 	if (menu->pid_arr)

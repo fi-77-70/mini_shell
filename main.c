@@ -149,7 +149,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			free(menu->mshh);
 			free(menu->line);
-			continue;
+			continue ;
 		}
 		*(menu->mshh) = lexer(menu->mshh, menu->line, menu);
 		free_line(menu->line);

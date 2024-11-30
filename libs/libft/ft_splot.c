@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:38:58 by filferna          #+#    #+#             */
-/*   Updated: 2024/11/28 14:12:45 by filferna         ###   ########.fr       */
+/*   Updated: 2024/11/30 18:05:01 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ void		check_symbol(char *str, int *j, int *i, char **matrix, int *a)
 	{
 		if (*i != *j)
 			*i = *j;
-		*i += 1;
 		if (!ft_strncmp(str + *j, "<", 1))
 			matrix[*a] = ft_strdup("<");
 		else
