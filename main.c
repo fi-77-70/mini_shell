@@ -74,7 +74,6 @@ void	init_struct(t_menu **menu, char **envp)
 	dup_arrr(envp, &temp);
 	temp->fd_in = dup(STDIN_FILENO);
 	temp->fd_out = dup(STDOUT_FILENO);
-	temp->fd_error = dup(STDOUT_FILENO);
 	temp->mshh = NULL;
 	temp->return_code = 0;
 	temp->pid_arr = NULL;
@@ -130,18 +129,21 @@ void	free_all(t_menu *menu)
 int	main(int ac, char **av, char **envp)
 {
 	char	*str;
+	int		exit_code;
 	t_menu	*menu;
 	t_args	*temp;
 	(void)ac;
 	(void)av;
 
 	menu = NULL;
+	exit_code = 0;
 	init_struct(&menu, envp);
 	while(1)
 	{
+		exit_code = menu->return_code;
 		str = readline("minishell: ");
 		if(!str)
-			return (printf("exit\n"),free_line(menu->env), free(menu), menu->return_code);
+			return (printf("exit\n"),free_line(menu->env), free(menu), exit_code);
 		add_history(str);
 		menu->mshh = (t_args **)malloc(sizeof(t_args *));
 		menu->line = ft_splot(str);

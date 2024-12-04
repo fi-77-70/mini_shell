@@ -40,7 +40,7 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 		if (cmds == *(menu->cmds))
 			exit(2);
 		else
-			return ;
+			exit(2);
 	}
 	code = ft_atoi(cmds->args[i]);
 	if (code > 256)

@@ -41,7 +41,6 @@ typedef struct s_menu
 {
 	int		fd_out;
 	int		fd_in;
-	int		fd_error;
 	int		*pid_arr;
 	int		return_code;
 	char	*til;
