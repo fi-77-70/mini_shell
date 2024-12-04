@@ -164,9 +164,9 @@ void	process_handler(t_menu *menu)
 	fd = 0;
 	first_node = *(menu->cmds);
 	cmds = *(menu->cmds);
-	create_pid_arr(menu);
 	if(handle_builts(cmds, menu))
 		return ;
+	create_pid_arr(menu);
 	if (handle_pipes(&cmds, menu))
 		return ;
 	if(cmds->redir)
@@ -178,7 +178,6 @@ void	process_handler(t_menu *menu)
 			path = ft_strdup(cmds->cmd);
 		else
 			path = ft_strjoin("/usr/bin/", cmds->cmd);
-		// printf("badjeras\n");
 		result = execve(path, cmds->args, menu->env);
 		free(path);
 	}

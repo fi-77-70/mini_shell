@@ -65,6 +65,8 @@ void	wait_for_process(t_menu *menu)
 
 	i = 0;
 	j = 0;
+	if (!menu->pid_arr)
+		return ;
 	while(menu->pid_arr[i] != 0)
 	{
 		// printf("wait pid -----> [%d]\n", menu->pid_arr[i]);
