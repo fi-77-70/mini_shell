@@ -41,6 +41,7 @@ typedef struct s_menu
 {
 	int		fd_out;
 	int		fd_in;
+	int		is_child;
 	int		*pid_arr;
 	int		return_code;
 	char	*til;
@@ -59,7 +60,6 @@ char	*ft_expander(char *str, int i, t_menu *menu);
 char	*get_var_name(char *env_var);
 char	*ft_final_expand(char *str, char *var, char *var_name, int n);
 int 	ft_input_check(t_args **mshh);
-void	get_pwd(void);
 void	free_all(t_menu *menu);
 int		pid_get(t_menu *menu);
 void	process_handler(t_menu *menu);
@@ -69,13 +69,16 @@ void	free_line(char **line);
 void	free_list(t_args **mshh);
 void	wait_for_process(t_menu *menu);
 int		handle_pipes(t_cmds **cmds, t_menu *menu);
-int		handle_builts(t_cmds *cmds, t_menu *menu);
-int		ft_change_dir(char **path, t_menu *menu);
+void	handle_builts(t_cmds *cmds, t_menu *menu);
+int		ft_change_dir(t_cmds *cmds, t_menu *menu);
 void	write_error_message(char *str);
 int		is_white_space(char c);
 int		check_dir(char *str);
 int		check_acess_file(char *str, int	per, t_menu *menu);
 void	built_exit(t_cmds *cmds, t_menu *menu);
 void	free_mid_process(t_menu *menu);
+int		ft_is_built(t_cmds *cmds);
+
+
 
 #endif

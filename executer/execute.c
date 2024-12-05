@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
 
-void	create_pid_arr(t_menu *menu)
+int	create_pid_arr(t_menu *menu)
 {
 	int		i;
 	t_cmds *cmds;
@@ -18,6 +18,7 @@ void	create_pid_arr(t_menu *menu)
 	else
 		menu->pid_arr = (int *)malloc(sizeof(int) * (i + 1));
 	menu->pid_arr[i] = 0;
+	return (i);
 }
 
 int	handle_pipes(t_cmds **cmds, t_menu *menu)
@@ -46,6 +47,7 @@ int	handle_pipes(t_cmds **cmds, t_menu *menu)
 		}
 		else
 		{
+			menu->is_child = 1;
 			*cmds = cmd;
 			if(!cmd->next)
 				break ;
@@ -164,14 +166,14 @@ void	process_handler(t_menu *menu)
 	fd = 0;
 	first_node = *(menu->cmds);
 	cmds = *(menu->cmds);
-	if(handle_builts(cmds, menu))
-		return ;
-	create_pid_arr(menu);
+	if(create_pid_arr(menu) == 1 && ft_is_built(cmds))
+		return (free(menu->pid_arr), menu->pid_arr = NULL, handle_builts(cmds, menu));
 	if (handle_pipes(&cmds, menu))
 		return ;
 	if(cmds->redir)
 		handle_redirs(cmds, menu);
 	result = 0;
+	handle_builts(cmds, menu);
 	if(cmds->cmd)
 	{
 		if(!ft_strncmp(cmds->cmd, "./", 2))
