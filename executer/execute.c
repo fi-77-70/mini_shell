@@ -151,6 +151,11 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 			dup2(fd_in, STDIN_FILENO);
 			close(fd_in);
 		}
+		else if (cmd->redir->type == HERE_DOC)
+		{
+			dup2(cmd->here_fds[0], STDIN_FILENO);
+			close(cmd->here_fds[0]);
+		}
 		cmd->redir = cmd->redir->next;
 	}
 }
@@ -170,8 +175,7 @@ void	process_handler(t_menu *menu)
 		return (free(menu->pid_arr), menu->pid_arr = NULL, handle_builts(cmds, menu));
 	if (handle_pipes(&cmds, menu))
 		return ;
-	if(cmds->redir)
-		handle_redirs(cmds, menu);
+	handle_redirs(cmds, menu);
 	result = 0;
 	handle_builts(cmds, menu);
 	if(cmds->cmd)

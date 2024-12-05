@@ -35,7 +35,6 @@ int	ft_change_dir(t_cmds *cmds, t_menu *menu)
 		;
 	if (a > 2)
 		return (write_error_message(" too many arguments\n"), menu->return_code = 1, 1);
-	printf("=======> %d\n", i);
 	if ((check = opendir(cmds->args[i])))
 	{
 		chdir(cmds->args[i]);
