@@ -76,6 +76,7 @@ void	init_struct(t_menu **menu, char **envp)
 	temp->fd_out = dup(STDOUT_FILENO);
 	temp->mshh = NULL;
 	temp->return_code = 0;
+	temp->is_child = 0;
 	temp->pid_arr = NULL;
 	temp->cmds = NULL;
 	temp->til = getenv("HOME");
