@@ -20,8 +20,9 @@ int		ft_str_is_nr(char *str)
 
 void	built_exit(t_cmds *cmds, t_menu *menu)
 {
-	int	code;
-	int	i;
+	unsigned long long	code;
+	int					i;
+	int						len;
 
 	i = 0;
 	while (cmds->args[i])
@@ -34,7 +35,8 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 		exit (1);
 	}
 	i--;
-	if (!ft_str_is_nr(cmds->args[i]))
+	len = ft_strlen(cmds->args[i]);
+	if (!ft_str_is_nr(cmds->args[i]) || len > 20 || (code = ft_atoll(cmds->args[i])) > LLONG_MAX)
 	{
 		write_error_message(" numeric argument required\n");
 		if (cmds == *(menu->cmds))
@@ -42,16 +44,15 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 		else
 			exit(2);
 	}
-	code = ft_atoi(cmds->args[i]);
 	if (code > 256)
 		code = code % 256;
 	else if (code < 0)
 		while (code < 0)
 			code = 256 + code; 
-	free_all(menu);
 	if (menu->pid_arr)
 		free(menu->pid_arr);
-	if (cmds == *(menu->cmds))
+	free_all(menu);
+	if (menu->is_child == 0)
 	{
 		free_line(menu->env);
 		free(menu);
