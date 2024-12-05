@@ -167,6 +167,7 @@ int	main(int ac, char **av, char **envp)
 			// 	temp = temp->next;
 			// }
 			menu->cmds = ft_cmd_div(*(menu->mshh));
+			ft_here_doc(menu);
 			process_handler(menu);
 			if(menu->pid_arr)
 				wait_for_process(menu);

@@ -61,7 +61,6 @@ void	init_cmds(t_cmds **cmds)
 	(*cmds)->cmd = NULL;
 	(*cmds)->args = NULL;
 	(*cmds)->redir = NULL;
-	(*cmds)->here_doc = NULL;
 	(*cmds)->next = NULL;
 }
 
@@ -79,7 +78,7 @@ void	ft_div(t_cmds **cmds, t_args *msh)
 		cmd->cmd = ft_strdup(cmd->args[0]);
 	while (msh && msh->type != PIPE)
 	{
-		if (msh->type == RED_IN || msh->type == RED_OUT || msh->type == APP_OUT)
+		if (msh->type == RED_IN || msh->type == RED_OUT || msh->type == APP_OUT || msh->type == HERE_DOC)
 		{
 			if (temp)
 			{
@@ -96,12 +95,6 @@ void	ft_div(t_cmds **cmds, t_args *msh)
 				cmd->redir = temp;
 			}
 			msh = msh->next->next;
-		}
-		else if (msh && msh->type == HERE_DOC)
-		{
-			msh = msh->next;
-			cmd->here_doc = msh->token;
-			msh = msh->next;
 		}
 		else if (msh && msh->type == ARG)
 			while (msh && msh->type == ARG)
@@ -146,7 +139,7 @@ t_cmds	**ft_cmd_div(t_args *msh)
 		printf("process cmd: %s\n", test->cmd);
 		while (test->args && test->args[i])
 			printf("process args: %s\n", test->args[i++]);
-		printf("process here_doc: %s\n", test->here_doc);
+		i = 0;
 		while (re_test)
 		{
 			printf("process redir: type-> %d, file-> %s\n", re_test->type, re_test->token);

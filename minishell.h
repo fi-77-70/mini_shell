@@ -33,7 +33,7 @@ typedef	struct s_cmds{
 	char			*cmd;
 	char			**args;
 	t_args			*redir;
-	char			*here_doc;
+	int				here_fds[2];
 	struct	s_cmds	*next;
 } t_cmds;
 
@@ -78,7 +78,7 @@ int		check_acess_file(char *str, int	per, t_menu *menu);
 void	built_exit(t_cmds *cmds, t_menu *menu);
 void	free_mid_process(t_menu *menu);
 int		ft_is_built(t_cmds *cmds);
-
+void 	ft_here_doc(t_menu *menu);
 
 
 #endif
