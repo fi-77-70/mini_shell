@@ -13,9 +13,9 @@ void	handle_builts(t_cmds *cmds, t_menu *menu)
 	if (!ft_strcmp(cmds->cmd, "unset"))
 		ft_unset(cmds, menu);
 	if (!ft_strcmp(cmds->cmd, "env"))
-		ft_env(cmds, menu);
+		ft_env(cmds, menu); */
 	if (!ft_strcmp(cmds->cmd, "pwd"))
-		ft_pwd(cmds, menu); */
+		ft_pwd(cmds, menu);
 	return ;
 }
 

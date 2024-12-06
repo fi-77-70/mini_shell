@@ -169,13 +169,15 @@ void	process_handler(t_menu *menu)
 
 	first_node = *(menu->cmds);
 	cmds = *(menu->cmds);
+
 	if(create_pid_arr(menu) == 1 && ft_is_built(cmds))
 		return (free(menu->pid_arr), menu->pid_arr = NULL, handle_builts(cmds, menu));
 	if (handle_pipes(&cmds, menu))
 		return ;
 	handle_redirs(cmds, menu);
-	result = 0;
 	handle_builts(cmds, menu);
+
+	result = 0;
 	if(cmds->cmd)
 	{
 		if(!ft_strncmp(cmds->cmd, "./", 2))
