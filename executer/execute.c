@@ -48,6 +48,7 @@ int	handle_pipes(t_cmds **cmds, t_menu *menu)
 		else
 		{
 			menu->is_child = 1;
+			signal(SIGINT, SIG_DFL);
 			*cmds = cmd;
 			if(!cmd->next)
 				break ;

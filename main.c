@@ -127,6 +127,22 @@ void	free_all(t_menu *menu)
 	free_cmds(menu->cmds);
 }
 
+void handle_sigint(int signum) 
+{
+	(void)signum;
+    printf("\n");
+	rl_replace_line("", 0);
+    rl_on_new_line();
+	rl_redisplay();
+}
+
+void sig_2(int signal)
+{
+	(void)signal;
+
+	printf("\n");
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*str;
@@ -139,8 +155,10 @@ int	main(int ac, char **av, char **envp)
 	menu = NULL;
 	exit_code = 0;
 	init_struct(&menu, envp);
+	signal(SIGQUIT, SIG_IGN);
 	while(1)
 	{
+		signal(SIGINT, handle_sigint);
 		exit_code = menu->return_code;
 		str = readline("minishell: ");
 		if(!str)
@@ -169,6 +187,7 @@ int	main(int ac, char **av, char **envp)
 			menu->cmds = ft_cmd_div(*(menu->mshh));
 			ft_here_doc(menu);
 			process_handler(menu);
+			signal(SIGINT, sig_2);
 			if(menu->pid_arr)
 				wait_for_process(menu);
 		}
