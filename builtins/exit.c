@@ -20,7 +20,7 @@ int		ft_str_is_nr(char *str)
 
 void	built_exit(t_cmds *cmds, t_menu *menu)
 {
-	unsigned long long	code;
+	long long	code;
 	int					i;
 	int						len;
 

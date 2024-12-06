@@ -22,13 +22,9 @@ void	handle_builts(t_cmds *cmds, t_menu *menu)
 int	ft_change_dir(t_cmds *cmds, t_menu *menu)
 {
 	DIR	*check;
-	char **path;
 	int	i;
 	int	a;
 
-	path = NULL;
-	if (cmds->args)
-		path = cmds->args;
 	i = 1;
 	a = -1;
 	while (cmds->args[++a])
