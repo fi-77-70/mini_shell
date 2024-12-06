@@ -132,7 +132,7 @@ int	main(int ac, char **av, char **envp)
 	char	*str;
 	int		exit_code;
 	t_menu	*menu;
-	t_args	*temp;
+//	t_args	*temp;
 	(void)ac;
 	(void)av;
 
@@ -157,7 +157,7 @@ int	main(int ac, char **av, char **envp)
 		*(menu->mshh) = lexer(menu->mshh, menu->line, menu);
 		free_line(menu->line);
 		expand(menu->mshh, menu);
-		temp = *(menu->mshh);
+//		temp = *(menu->mshh);
 		if (ft_input_check(menu->mshh))
 		{
 			// while (temp)

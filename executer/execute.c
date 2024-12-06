@@ -163,12 +163,10 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 void	process_handler(t_menu *menu)
 {
 	int	result;
-	int	fd;
 	char *path;
 	t_cmds	*first_node;
 	t_cmds	*cmds;
 
-	fd = 0;
 	first_node = *(menu->cmds);
 	cmds = *(menu->cmds);
 	if(create_pid_arr(menu) == 1 && ft_is_built(cmds))
