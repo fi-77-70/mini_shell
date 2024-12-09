@@ -177,7 +177,6 @@ void	process_handler(t_menu *menu)
 		return ;
 	handle_redirs(cmds, menu);
 	handle_builts(cmds, menu);
-
 	result = 0;
 	if(cmds->cmd)
 	{

@@ -50,6 +50,8 @@ void ft_here_loop(t_cmds *cmds)
 			while(1)
 			{
 				input = readline("> ");
+				if (!input)
+					input = cmd->redir->token;
 				if (!ft_strcmp(input, cmd->redir->token))
 				{
 					cmd->redir = cmd->redir->next;

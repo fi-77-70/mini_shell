@@ -43,8 +43,11 @@ char	*env_get(char *name, t_menu *menu)
 	temp = menu->env;
 	while(temp[++i])
 	{
-		bytes = ft_strclen(temp[i], '=');
-		if (!ft_strncmp(temp[i], name, bytes -1))
+		if (ft_strclen(temp[i], '=') == (int)ft_strlen(name))
+			bytes = ft_strclen(temp[i], '=');
+		else
+			bytes = ft_strlen(name);
+		if (!ft_strncmp(temp[i], name, bytes) && temp[i][bytes] == '=')
 			return (get_env_value(temp[i]));
 	}
 	return (NULL);

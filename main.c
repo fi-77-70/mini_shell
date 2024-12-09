@@ -192,7 +192,11 @@ int	main(int ac, char **av, char **envp)
 				wait_for_process(menu);
 		}
 		else
+		{
+			free_list(menu->mshh);
 			printf("ERROR IN PARSING\n");
+			continue;
+		}
 		if(!menu->cmds)
 			menu->cmds = ft_cmd_div(*(menu->mshh));
 		free_all(menu);
