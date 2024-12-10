@@ -11,13 +11,13 @@ int	ft_echo(t_cmds *cmds, t_menu *menu)
 	arg_nbr = 0;
 	i = 1;
 	j = 1;
-
+	(void)menu;
 	while(cmds->args[arg_nbr])
 		arg_nbr++;
 
 	if(!arg_nbr)
 	{
-		ft_putstr_fd("\n", menu->fd_out);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		return(0);
 	}
 	if (cmds->args[i] && cmds->args[i][0] == '-' && cmds->args[i][1] == 'n')
@@ -32,13 +32,13 @@ int	ft_echo(t_cmds *cmds, t_menu *menu)
 	}
 	while(cmds->args[i])
 	{
-		ft_putstr_fd(cmds->args[i], menu->fd_out);
+		ft_putstr_fd(cmds->args[i], STDOUT_FILENO);
 		if(cmds->args[i+1])
-			ft_putstr_fd(" ", menu->fd_out);
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
 	}
 	if(new_line)
-		ft_putstr_fd("\n", menu->fd_out);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 
 	return(0);
 }

@@ -164,6 +164,7 @@ int	main(int ac, char **av, char **envp)
 		if(!str)
 			return (printf("exit\n"),free_line(menu->env), free(menu), exit_code);
 		add_history(str);
+		str = ft_expand(str, menu);
 		menu->mshh = (t_args **)malloc(sizeof(t_args *));
 		menu->line = ft_splot(str);
 		if (!menu->line[0])
@@ -174,7 +175,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		*(menu->mshh) = lexer(menu->mshh, menu->line, menu);
 		free_line(menu->line);
-		expand(menu->mshh, menu);
+//		expand(menu->mshh, menu);
 //		temp = *(menu->mshh);
 		if (ft_input_check(menu->mshh))
 		{

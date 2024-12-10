@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:38:58 by filferna          #+#    #+#             */
-/*   Updated: 2024/11/30 18:05:01 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/10 12:22:12 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	cut_count(char *str)
 			word = 0;
 		i++;
 	}
-	// printf("token number ----->>> [%d]\n", j);
 	return (j);
 }
 

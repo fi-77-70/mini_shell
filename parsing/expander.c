@@ -26,14 +26,12 @@ char	*ft_final_expand(char *str, char *var, char *var_name, int n)
 		if (str[i] == '$' && expanded == 0)
 		{
 			i++;
-			while (!is_white_space(str[i]) && str[i] != '"' && str[i - 1] != '?' && str[i] != '$' && str[i] != 39 && str[i])
+			while (ft_isalnum(str[i]))
 				i++;
-			if (str[i] == '$')
-				i++;
+			// if (str[i] == '$')
+			// 	i++;
 			expanded = 1;
-			if(!var)
-				break;
-			while (var[a])
+			while (var && var[a])
 				final[j++] = var[a++];
 		}
 		if (str[i])
@@ -53,7 +51,7 @@ char	*get_var_name(char *env_var)
 	if(!env_var)
 		return(NULL);
 	i = 0;
-	while(env_var[i] != ' ' && env_var[i] != '"' && env_var[i] != 39 && env_var[i] != '$' && env_var[i])
+	while(ft_isalnum(env_var[i]))
 		i++;
 	var = (char *)malloc(sizeof(char) * i + 1);
 	if (!var)
@@ -93,50 +91,50 @@ char	*ft_expander(char *str, int i, t_menu *menu)
 	return (ft_final_expand(str, expanded, var_name, i));
 }
 
-void	expand(t_args **args, t_menu *menu)
-{
-	int		i;
-	int		quoted;
-	t_args	*temp;
+// void	expand(t_args **args, t_menu *menu)
+// {
+// 	int		i;
+// 	int		quoted;
+// 	t_args	*temp;
 
-	temp = NULL;
-	temp = *args;
-	quoted = -1;
-	while(temp)
-	{
-		i = -1;
-		while(temp->token[++i])
-		{
-			if(temp->token[i] == '"')
-				quoted *= -1;
-			if (temp->token[i] == 39 && quoted == -1)
-			{
-				i++;
-				while (temp->token[i] != 39 && temp->token[i])
-					i++;
-			}
-			if (temp->token[i] == '$' && temp->token[i + 1] && temp->token[i + 1] != '~' && temp->token[i + 1] != '"' && !is_white_space(temp->token[i + 1]))
-				temp->token = ft_expander(temp->token, i, menu);
-			if (!temp->token[i] && i == 0)
-			{
-				if (temp->next && temp->prev)
-				{
-					temp->prev->next = temp->next;
-					temp->next->prev = temp->prev;
-				}
-				else if (temp->next)
-				{
-					*(menu->mshh) = temp->next;
-					temp->next->prev = NULL;
-				}
-				else if (temp->prev)
-					temp->prev->next = NULL;
-				free(temp);
-				temp = NULL;
-				break;
-			}
-		}
-		if (temp)
-			temp = temp->next;
-	}
-}
+// 	temp = NULL;
+// 	temp = *args;
+// 	quoted = -1;
+// 	while(temp)
+// 	{
+// 		i = -1;
+// 		while(temp->token[++i])
+// 		{
+// 			if(temp->token[i] == '"')
+// 				quoted *= -1;
+// 			if (temp->token[i] == 39 && quoted == -1)
+// 			{
+// 				i++;
+// 				while (temp->token[i] != 39 && temp->token[i])
+// 					i++;
+// 			}
+// 			if (temp->token[i] == '$' && temp->token[i + 1] && temp->token[i + 1] != '~' && temp->token[i + 1] != '"' && !is_white_space(temp->token[i + 1]))
+// 				temp->token = ft_expander(temp->token, i, menu);
+// 			if (!temp->token[i] && i == 0)
+// 			{
+// 				if (temp->next && temp->prev)
+// 				{
+// 					temp->prev->next = temp->next;
+// 					temp->next->prev = temp->prev;
+// 				}
+// 				else if (temp->next)
+// 				{
+// 					*(menu->mshh) = temp->next;
+// 					temp->next->prev = NULL;
+// 				}
+// 				else if (temp->prev)
+// 					temp->prev->next = NULL;
+// 				free(temp);
+// 				temp = NULL;
+// 				break;
+// 			}
+// 		}
+// 		if (temp)
+// 			temp = temp->next;
+// 	}
+// }
