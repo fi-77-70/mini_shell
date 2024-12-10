@@ -1,5 +1,34 @@
 #include "../minishell.h"
 
+char *ft_take_out_back(char *str, char out)
+{
+	int		i;
+	int		len;
+	char	*new;
+
+	i = -1;
+	len = ft_strlen(str);
+	while (str[++i])
+	{
+		if(str[i] == out)
+			len = len - 1;
+	}
+	new = (char *)malloc(sizeof(char) * len + 1);
+	i = 0;
+	len = 0;
+	while (str[len])
+	{
+		if(str[len] == out)
+			len++;
+		if(str[len])
+			new[i++] = str[len];
+		if(str[len])
+			len++;
+	}
+	new[i] = 0;
+	return (free(str), new);
+}
+
 unsigned long long ft_atoll(char *str)
 {
 	long long	result;

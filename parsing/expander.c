@@ -12,7 +12,7 @@ char	*ft_final_expand(char *str, char *var, char *var_name, int n)
 	expanded = 0;
 	if(var)
 		i = ft_strlen(var);
-	final = (char *)malloc(sizeof(char) * (ft_strlen(str) + i - ft_strlen(var_name)) + 1);
+	final = (char *)malloc(sizeof(char) * (ft_strlen(str) + (i * 2) - ft_strlen(var_name)) + 1);
 	i = -1;
 	j = 0;
 	a = 0;
@@ -32,7 +32,12 @@ char	*ft_final_expand(char *str, char *var, char *var_name, int n)
 			// 	i++;
 			expanded = 1;
 			while (var && var[a])
+			{
+				final[j++] = 92;
 				final[j++] = var[a++];
+				// if(!var[a])
+				// 	final[j++] = 92;
+			}
 		}
 		if (str[i])
 			final[j++] = str[i];
@@ -57,7 +62,7 @@ char	*get_var_name(char *env_var)
 	if (!var)
 		return (NULL);
 	i = 0;
-	while(env_var[i] != ' ' && env_var[i] != '"' && env_var[i] != 39 && env_var[i] != '$' && env_var[i])
+	while(env_var[i] && ft_isalnum(env_var[i]))
 	{
 		var[i] = env_var[i];
 		i++;

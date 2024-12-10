@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 20:59:48 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/10 18:27:14 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:50:35 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,7 @@ int		ft_strcmp(char *s1, char *s2);
 void	ft_free_matrix(char **matrix);
 
 char 	**ft_splot(char *str);
+
+char 	*ft_take_out_back(char *str, char out);
 
 #endif
