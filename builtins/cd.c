@@ -16,6 +16,12 @@ void	handle_builts(t_cmds *cmds, t_menu *menu)
 		ft_env(cmds, menu); */
 	if (!ft_strcmp(cmds->cmd, "pwd"))
 		ft_pwd(cmds, menu);
+	if (!menu->is_child)
+	{
+		// ft_putstr_fd("ENTREI\n", menu->fd_out);
+		dup2(menu->fd_in, STDIN_FILENO);
+		dup2(menu->fd_out, STDOUT_FILENO);
+	}
 	return ;
 }
 

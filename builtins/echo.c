@@ -18,6 +18,11 @@ int	ft_echo(t_cmds *cmds, t_menu *menu)
 	}
 	if (new_line)
 		ft_putstr_fd("\n", STDOUT_FILENO);
+	if (menu->is_child)
+	{
+		free_mid_process(menu);
+		exit(0);
+	}
 	return (0);
 }
 

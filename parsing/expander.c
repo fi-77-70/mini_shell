@@ -28,15 +28,13 @@ char	*ft_final_expand(char *str, char *var, char *var_name, int n)
 			i++;
 			while (ft_isalnum(str[i]))
 				i++;
-			// if (str[i] == '$')
-			// 	i++;
+			if (str[i] == '?')
+				i++;
 			expanded = 1;
 			while (var && var[a])
 			{
 				final[j++] = 92;
 				final[j++] = var[a++];
-				// if(!var[a])
-				// 	final[j++] = 92;
 			}
 		}
 		if (str[i])

@@ -107,8 +107,8 @@ t_cmds	**ft_cmd_div(t_args *msh)
 {
 	t_cmds	**cmds;
 	t_cmds	*test;
-	t_args	*re_test;
-	int		i;
+	// t_args	*re_test;
+//	int		i;
 
 	cmds = (t_cmds **)malloc(sizeof(t_cmds *));
 	*cmds = NULL;
@@ -131,7 +131,7 @@ t_cmds	**ft_cmd_div(t_args *msh)
 	}
 
 	test = *cmds;
-	while (test)
+/* 	while (test)
 	{
 		i = 0;
 		re_test = test->redir;
@@ -147,6 +147,6 @@ t_cmds	**ft_cmd_div(t_args *msh)
 		}
 		printf("=====================================================\n");
 		test = test->next;
-	}
+	} */
 	return (cmds);
 }
