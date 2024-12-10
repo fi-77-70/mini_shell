@@ -2,8 +2,8 @@
 
 void	handle_builts(t_cmds *cmds, t_menu *menu)
 {
-/* 	if (!ft_strcmp(cmds->cmd, "echo"))
-		ft_echo(cmds, menu); */
+	if (!ft_strcmp(cmds->cmd, "echo"))
+		ft_echo(cmds, menu);
 	if (!ft_strcmp(cmds->cmd, "cd"))
 		ft_change_dir(cmds, menu);
 	if (!ft_strcmp(cmds->cmd, "exit"))
