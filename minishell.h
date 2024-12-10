@@ -54,6 +54,7 @@ typedef struct s_menu
 t_cmds		**ft_cmd_div(t_args *msh);
 t_args		*lexer(t_args **mshh, char **line, t_menu *menu);
 void		echo_shell(t_args *args);
+int			check_n_opt(t_cmds *cmds, int *new_line);
 int			is_cmd(char *str);
 void		expand(t_args **args, t_menu *menu);
 char		*ft_expander(char *str, int i, t_menu *menu);
