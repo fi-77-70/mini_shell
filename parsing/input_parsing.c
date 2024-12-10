@@ -22,8 +22,11 @@ void  ft_unquote_two(t_args **msh, int length)
 			a++;
       		i++;
 		}
-		quote = temp->token[i];
-		i++;
+		if(temp->token[i] && (i == 0 || (temp->token[i - 1] && temp->token[i - 1] != 92)))
+		{
+			quote = temp->token[i];
+			i++;
+		}
 		while (temp->token[i] != quote && temp->token[i])
 		{
       		final[a] = temp->token[i];
@@ -51,7 +54,7 @@ int ft_unquote(t_args **msh)
 	n = 0;
 	while (temp->token[++i])
 	{
-		if(temp->token[i] == 39 || temp->token[i] == '"')
+		if((temp->token[i] == 39 || temp->token[i] == '"') && (i == 0 || (temp->token[i - 1] && temp->token[i - 1] != 92)))
 		{
 			quote = temp->token[i];
 			n += 2;
@@ -76,22 +79,23 @@ int ft_check_quotes(t_args **mshh)
 	zero = -1;
 	check = 1;
 	msh = *mshh;
-	while (msh)
+	while ((*mshh))
 	{
-		while (msh->token[++zero])
+		while ((*mshh)->token[++zero])
 		{
-			if (msh->token[zero] == '"' || msh->token[zero] == 39)
-				check = ft_unquote(&msh);
+			if ((*mshh)->token[zero] == '"' || (*mshh)->token[zero] == 39)
+				check = ft_unquote(&(*mshh));
 			if(!check)
-				return (0);
+				return ((*mshh) = msh, 0);
 			else if (check == 2)
 				break ;
 		}
 		check = 1;
 		zero = -1;
-		msh = msh->next;
+		(*mshh)->token = ft_take_out_back((*mshh)->token, 92);
+		(*mshh) = (*mshh)->next;
 	}
-	return (1);
+	return ((*mshh) = msh, 1);
 }
 
 int  check_multiple_here_doc(t_args *msh)

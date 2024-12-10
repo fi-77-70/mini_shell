@@ -148,7 +148,7 @@ int	main(int ac, char **av, char **envp)
 	char	*str;
 	int		exit_code;
 	t_menu	*menu;
-//	t_args	*temp;
+	t_args	*temp;
 	(void)ac;
 	(void)av;
 
@@ -175,16 +175,15 @@ int	main(int ac, char **av, char **envp)
 		}
 		*(menu->mshh) = lexer(menu->mshh, menu->line, menu);
 		free_line(menu->line);
-//		expand(menu->mshh, menu);
-//		temp = *(menu->mshh);
+		temp = *(menu->mshh);
 		if (ft_input_check(menu->mshh))
 		{
-			// while (temp)
-			// {
-			// 	printf("token --> [%s]\n", temp->token);
-			// 	printf("type  --> [%d]\n", temp->type);
-			// 	temp = temp->next;
-			// }
+			while (temp)
+			{
+				printf("token --> [%s]\n", temp->token);
+				printf("type  --> [%d]\n", temp->type);
+				temp = temp->next;
+			}
 			menu->cmds = ft_cmd_div(*(menu->mshh));
 			ft_here_doc(menu);
 			process_handler(menu);
