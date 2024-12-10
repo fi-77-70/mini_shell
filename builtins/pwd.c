@@ -1,7 +1,5 @@
 #include "../minishell.h"
 
-//#define PATH_MAX	xxxx (pdemos usar a const q esta no header <limits.h>, defini-la manualmente ou alocar dinamicamente)
-
 int	ft_pwd(t_cmds *cmds, t_menu *menu)
 {
 
@@ -11,12 +9,12 @@ int	ft_pwd(t_cmds *cmds, t_menu *menu)
 	arg_nbr = 0;
 	while(cmds->args[arg_nbr])
 		arg_nbr++;
-	if(arg_nbr > 1) // se houver algo dps do proprio comando
+	if(arg_nbr > 1)
 	{
-		if(ft_strcmp(cmds->args[1],"-") == 0) // vemos se estamos a tentar incluir options
+		if((ft_strcmp(cmds->args[1],"-") == 0) || (cmds->args[1][0] == '-'))
 		{
 			ft_putstr_fd("Error: no options allowed for pwd\n", STDERR_FILENO);
-			menu->return_code = 1; //isto conta como general error ou vai haver algum codigo de erro especifico?
+			menu->return_code = 1;
 			return(1);
 		}
 	}

@@ -82,6 +82,7 @@ void		ft_here_doc(t_menu *menu);
 unsigned long long	ft_atoll(char *str);
 
 int			ft_pwd(t_cmds *cmds, t_menu *menu);
+int			ft_echo(t_cmds *cmds, t_menu *menu);
 
 
 #endif
