@@ -79,6 +79,7 @@ void	init_struct(t_menu **menu, char **envp)
 	temp->is_child = 0;
 	temp->pid_arr = NULL;
 	temp->cmds = NULL;
+	temp->first_cmd = NULL;
 	temp->til = getenv("HOME");
 	*menu = temp;
 }
@@ -167,6 +168,7 @@ int	main(int ac, char **av, char **envp)
 		str = ft_expand(str, menu);
 		menu->mshh = (t_args **)malloc(sizeof(t_args *));
 		menu->line = ft_splot(str);
+		free(str);
 		if (!menu->line[0])
 		{
 			free(menu->mshh);
@@ -185,6 +187,7 @@ int	main(int ac, char **av, char **envp)
 				temp = temp->next;
 			} */
 			menu->cmds = ft_cmd_div(*(menu->mshh));
+			menu->first_cmd = menu->cmds;
 			ft_here_doc(menu);
 			process_handler(menu);
 			signal(SIGINT, sig_2);

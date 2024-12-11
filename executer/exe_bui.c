@@ -2,6 +2,7 @@
 
 void	free_mid_process(t_menu *menu)
 {
+	menu->cmds = menu->first_cmd;
 	free_all(menu);
 	if (menu->pid_arr)
 		free(menu->pid_arr);

@@ -49,6 +49,7 @@ typedef struct s_menu
 	char	**env;
 	t_args	**mshh;
 	t_cmds	**cmds;
+	t_cmds	**first_cmd;
 }	t_menu;
 
 t_cmds		**ft_cmd_div(t_args *msh);

@@ -7,6 +7,8 @@ char *ft_expand(char *line, t_menu *menu)
 
 	i = 0;
 	quote = -1;
+	if (!line)
+		return (NULL);
 	while(line[i])
 	{
 		if (line[i] == '"')
@@ -21,7 +23,8 @@ char *ft_expand(char *line, t_menu *menu)
 			line = ft_expander(line, i, menu);
 		if (line[i] == 92 && line[i + 1])
 			i++;
-		i++;
+		if(line[i])
+			i++;
 	}
 	return (line);
 }
