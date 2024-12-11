@@ -36,7 +36,9 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 	}
 	i--;
 	len = ft_strlen(cmds->args[i]);
-	if (!ft_str_is_nr(cmds->args[i]) || len > 20 || (code = ft_atoll(cmds->args[i])) > LLONG_MAX)
+	if (*(cmds->args[i]) == '+')
+		len = len - 1;
+	if (!ft_str_is_nr(cmds->args[i]) || len > 20 || (size_t)len != ft_strlen(ft_itoa((code = ft_atoll(cmds->args[i])))))
 	{
 		write_error_message(" numeric argument required\n");
 		if (cmds == *(menu->cmds))

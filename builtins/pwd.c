@@ -21,8 +21,8 @@ int	ft_pwd(t_cmds *cmds, t_menu *menu)
 	cwd = getcwd(NULL, 0);
 	if (cwd)
 	{
-		ft_putstr_fd(cwd, menu->fd_out);
-		ft_putstr_fd("\n", menu->fd_out);
+		ft_putstr_fd(cwd, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		free(cwd);
 		return(0);
 	}

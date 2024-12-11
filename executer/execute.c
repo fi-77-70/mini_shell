@@ -83,34 +83,34 @@ void	handle_acess_file_er(t_menu *menu)
 	exit(1);	
 }
 
-void	handle_red_out(t_menu *menu, t_cmds *cmd, int fd_out)
+void	handle_red_out(t_menu *menu, t_args *temp, int fd_out)
 {
-	fd_out = open(cmd->redir->token, O_RDWR | O_CREAT, 0777);
-	if(check_dir(cmd->redir->token) == 2)
+	fd_out = open(temp->token, O_RDWR | O_CREAT, 0777);
+	if(check_dir(temp->token) == 2)
 		handle_is_dir_er(menu);
-	if(!check_acess_file(cmd->redir->token, 2, menu))
+	if(!check_acess_file(temp->token, 2, menu))
 		handle_acess_file_er(menu);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);	
 }
 
-void	handle_red_app(t_menu *menu, t_cmds *cmd, int fd_out)
+void	handle_red_app(t_menu *menu, t_args *temp, int fd_out)
 {
-	fd_out = open(cmd->redir->token, O_CREAT| O_APPEND | O_RDWR, 0777);
-	if(check_dir(cmd->redir->token) == 2)
+	fd_out = open(temp->token, O_CREAT| O_APPEND | O_RDWR, 0777);
+	if(check_dir(temp->token) == 2)
 		handle_is_dir_er(menu);
-	if(!check_acess_file(cmd->redir->token, 2, menu))
+	if(!check_acess_file(temp->token, 2, menu))
 		handle_acess_file_er(menu);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
 }
 
-void handle_red_in(t_menu *menu, t_cmds *cmd, int fd_in)
+void handle_red_in(t_menu *menu, t_args *temp, int fd_in)
 {
-	fd_in = open(cmd->redir->token, O_RDWR , 0777);
-	if(check_dir(cmd->redir->token) == 2)
+	fd_in = open(temp->token, O_RDWR , 0777);
+	if(check_dir(temp->token) == 2)
 		handle_is_dir_er(menu);
-	if(!check_acess_file(cmd->redir->token, 1, menu))
+	if(!check_acess_file(temp->token, 1, menu))
 		handle_acess_file_er(menu);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
@@ -128,13 +128,13 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 	temp = cmd->redir;
 	while(temp)
 	{
-		if(cmd->redir->type == RED_OUT)
-			handle_red_out(menu, cmd, fd_out);
-		else if	(cmd->redir->type == APP_OUT)
-			handle_red_app(menu, cmd, fd_out);
-		else if (cmd->redir->type == RED_IN)
-			handle_red_in(menu, cmd, fd_in);
-		else if (cmd->redir->type == HERE_DOC)
+		if(temp->type == RED_OUT)
+			handle_red_out(menu, temp, fd_out);
+		else if	(temp->type == APP_OUT)
+			handle_red_app(menu, temp, fd_out);
+		else if (temp->type == RED_IN)
+			handle_red_in(menu, temp, fd_in);
+		else if (temp->type == HERE_DOC)
 		{
 			dup2(cmd->here_fds[0], STDIN_FILENO);
 			close(cmd->here_fds[0]);
@@ -143,14 +143,51 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 	}
 }
 
+void	exe_3(t_menu *menu, t_cmds *cmds, int *result)
+{
+	char	*path;
+
+	if(!ft_strncmp(cmds->cmd, "./", 2))
+		path = ft_strdup(cmds->cmd);
+	else
+		path = ft_strjoin("/usr/bin/", cmds->cmd);
+	*result = execve(path, cmds->args, menu->env);
+	free(path);
+}
+
+void	exe_2(t_menu *menu, t_cmds *cmds)
+{
+	int		result;
+
+	result = 0;
+	if(cmds->cmd)
+		exe_3(menu, cmds, &result);
+	if(errno == EACCES)
+		result = 126;
+	else if(errno == ENOENT)
+	{
+		if (!ft_strncmp(cmds->cmd, "/", 1) || !ft_strncmp(cmds->cmd, "./", 2))
+		{
+			result = 127;
+			if(check_dir(cmds->cmd) == 2)
+				result = 126;
+		}
+		else
+		{
+			write_error_message(cmds->cmd);
+			write_error_message(": command not found\n");
+			result = 127;
+		}
+	}
+	else
+		result = 1;
+	free_mid_process(menu);
+	exit (result);
+}
 void	process_handler(t_menu *menu)
 {
-	int	result;
-	char *path;
-	t_cmds	*first_node;
 	t_cmds	*cmds;
 
-	first_node = *(menu->cmds);
 	cmds = *(menu->cmds);
 
 	if(create_pid_arr(menu) == 1 && ft_is_built(cmds))
@@ -159,32 +196,5 @@ void	process_handler(t_menu *menu)
 		return ;
 	handle_redirs(cmds, menu);
 	handle_builts(cmds, menu);
-	result = 0;
-	if(cmds->cmd)
-	{
-		if(!ft_strncmp(cmds->cmd, "./", 2))
-			path = ft_strdup(cmds->cmd);
-		else
-			path = ft_strjoin("/usr/bin/", cmds->cmd);
-		result = execve(path, cmds->args, menu->env);
-		free(path);
-	}
-	if(errno == EACCES)
-	{
-		result = 126;
-	}
-	else if(errno == ENOENT)
-	{
-		if (cmds->cmd && !ft_strncmp(cmds->cmd, "/", 1))
-			result = 126;
-		else
-		{
-			write_error_message(" command not found\n");
-			result = 127;
-		}
-	}
-	else
-		result = 1;
-	free_mid_process(menu);
-	exit (result);
+	exe_2(menu, cmds);
 }

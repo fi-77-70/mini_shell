@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:38:58 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/10 14:54:58 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:29:13 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ char	**ft_splot(char *str)
 	int		i;
 	int		j;
 	int		a;
+	int 	yes;
 
 	matrix = (char **)malloc(sizeof(char *) * (cut_count(str) + 2));
 	if (!matrix)
@@ -144,10 +145,14 @@ char	**ft_splot(char *str)
 	i = 0;
 	j = 0;
 	a = 0;
+	yes = 0;
 	while(str[i++])
 	{
-		if(i == 1)
+		if(i == 1 && !yes)
+		{
+			yes = 1;
 			i = 0;
+		}
 		if (str[j] == ' ')
 			jump(str, &j, &i);
 		if (str[i] == 39)
@@ -167,8 +172,6 @@ char	**ft_splot(char *str)
 		}
 		if (str[i] == 0)
 			break ;
-		if (i == 0)
-			i = 1;
 	}
 	matrix[a] = NULL;
 	return (matrix);

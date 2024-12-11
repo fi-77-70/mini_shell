@@ -41,7 +41,7 @@ unsigned long long ft_atoll(char *str)
 	if (*str == '-' || *str == '+')
 	{
 		if (*str == '-')
-			sign = 1;
+			sign = -1;
 		str++;
 	}
 	while (*str >= '0' && *str <= '9')
