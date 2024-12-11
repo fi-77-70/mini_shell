@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 15:19:31 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/10 15:21:27 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/11 16:35:15 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_free_matrix(char **matrix)
 	i = -1;
 	if (!matrix)
 		return ;
-	while(matrix[++i])
+	while (matrix[++i])
 		free(matrix[i]);
 	free(matrix);
 }

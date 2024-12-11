@@ -27,8 +27,8 @@ void	ft_get_type(t_args **mshh, t_menu *menu, char *token)
 
 void	create_tokens(t_args **mshh, char **mtr)
 {
-	int	j;
-	t_args *temp;
+	int		j;
+	t_args	*temp;
 	t_args	*msh;
 
 	j = -1;
@@ -42,7 +42,7 @@ void	create_tokens(t_args **mshh, char **mtr)
 	{
 		temp->token = ft_strdup(mtr[j]);
 		temp->type = 0;
-		if(mtr[j + 1])
+		if (mtr[j + 1])
 		{
 			temp->next = (t_args *)malloc(sizeof(t_args));
 			if (!temp->next)
@@ -61,14 +61,14 @@ t_args	*lexer(t_args **mshh, char **line, t_menu *menu)
 	int		j;
 	t_args	*msh;
 	t_args	*temp;
-	
+
 	j = -1;
 	create_tokens(mshh, line);
 	if (!*mshh)
 		return (NULL);
 	msh = *mshh;
 	temp = msh;
-	while(line[++j])
+	while (line[++j])
 	{
 		*mshh = temp;
 		if (!msh->type)

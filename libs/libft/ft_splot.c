@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_splot.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 16:38:58 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/11 15:29:13 by filferna         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 #include <stdio.h>
 
@@ -23,7 +11,7 @@ void	jump(char *str, int *j, int *i)
 void	ft_quote(char *str, int *i, char sep)
 {
 	*i += 1;
-	while(str[*i] && str[*i] != sep)
+	while (str[*i] && str[*i] != sep)
 		*i += 1;
 }
 
@@ -32,11 +20,11 @@ int	cut_count(char *str)
 	int	i;
 	int	j;
 	int	word;
-	
+
 	i = 0;
 	j = 1;
 	word = 0;
-// While to count symbols
+	// While to count symbols
 	while (str[i])
 	{
 		if (str[i] == '"')
@@ -45,20 +33,22 @@ int	cut_count(char *str)
 			ft_quote(str, &i, 39);
 		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
 			j++;
-		if ((str[i + 1] == '<' && str[i] == '<') || (str[i + 1] == '>' && str[i] == '>'))
-	 	 	i += 2;
+		if ((str[i + 1] == '<' && str[i] == '<') || (str[i + 1] == '>'
+				&& str[i] == '>'))
+			i += 2;
 		else
 			i++;
 	}
 	i = 0;
-// while to count words
+	// while to count words
 	while (str[i])
 	{
 		if (str[i] == '"')
 			ft_quote(str, &i, '"');
 		if (str[i] == 39)
 			ft_quote(str, &i, 39);
-		if (str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>' && word == 0)
+		if (str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>'
+			&& word == 0)
 		{
 			j++;
 			word = 1;
@@ -78,10 +68,11 @@ char	*ft_space(char *str, int *j, int *i, char *previous)
 	a = 0;
 	if ((*j >= *i || str[*j] == 0))
 		return (previous);
-	if (str[*i] && (str[*i + 1] == 0 && str[*i] != ' ') && str[*i] != '>' && str[*i] != '<' && str[*i] != '|')
+	if (str[*i] && (str[*i + 1] == 0 && str[*i] != ' ') && str[*i] != '>'
+		&& str[*i] != '<' && str[*i] != '|')
 		*i += 1;
 	matrix = (char *)malloc(sizeof(char) * (*i - *j) + 1);
-	if(!matrix)
+	if (!matrix)
 		return (NULL);
 	while (*j < *i)
 	{
@@ -92,11 +83,12 @@ char	*ft_space(char *str, int *j, int *i, char *previous)
 	matrix[a] = 0;
 	return (matrix);
 }
-void		check_symbol(char *str, int *j, int *i, char **matrix, int *a)
+void	check_symbol(char *str, int *j, int *i, char **matrix, int *a)
 {
 	if (str[*i] == ' ' || (str[*i] != '|' && str[*i] != '<' && str[*i] != '>'))
 		return ;
-	if (*(str + *j + 1) && (!ft_strncmp(str + *j, ">>", 2) || !ft_strncmp(str + *j, "<<", 2)))
+	if (*(str + *j + 1) && (!ft_strncmp(str + *j, ">>", 2) || !ft_strncmp(str
+				+ *j, "<<", 2)))
 	{
 		if (*i != *j)
 			*i = *j;
@@ -137,7 +129,7 @@ char	**ft_splot(char *str)
 	int		i;
 	int		j;
 	int		a;
-	int 	yes;
+	int		yes;
 
 	matrix = (char **)malloc(sizeof(char *) * (cut_count(str) + 2));
 	if (!matrix)
@@ -146,9 +138,9 @@ char	**ft_splot(char *str)
 	j = 0;
 	a = 0;
 	yes = 0;
-	while(str[i++])
+	while (str[i++])
 	{
-		if(i == 1 && !yes)
+		if (i == 1 && !yes)
 		{
 			yes = 1;
 			i = 0;
@@ -159,9 +151,11 @@ char	**ft_splot(char *str)
 			ft_quote(str, &i, 39);
 		if (str[i] == '"')
 			ft_quote(str, &i, '"');
-		if (str[i] == ' ' || str[i] == '|' || str[i] == 0 || str[i] == '<' || str[i] == '>')
+		if (str[i] == ' ' || str[i] == '|' || str[i] == 0 || str[i] == '<'
+			|| str[i] == '>')
 		{
-			if((i == 0 || i != j) && str[j] != '|' && str[j] != '>' && str[j] != '<')
+			if ((i == 0 || i != j) && str[j] != '|' && str[j] != '>'
+				&& str[j] != '<')
 			{
 				if (i == 0)
 					i++;

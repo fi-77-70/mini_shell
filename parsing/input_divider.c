@@ -13,10 +13,11 @@ char	**get_args(t_args *msh, t_cmds *cmd)
 	temp = msh;
 	while (msh)
 	{
-		if (msh->type == RED_IN || msh->type == HERE_DOC || msh->type == APP_OUT || msh->type == RED_OUT)
+		if (msh->type == RED_IN || msh->type == HERE_DOC || msh->type == APP_OUT
+			|| msh->type == RED_OUT)
 			msh = msh->next->next;
 		if (msh && msh->type == PIPE)
-			break;
+			break ;
 		if (msh && msh->type == ARG)
 			size++;
 		if (msh)
@@ -30,12 +31,16 @@ char	**get_args(t_args *msh, t_cmds *cmd)
 	while (temp)
 	{
 		if (temp && temp->type == PIPE)
-			break;
-		if (temp->type == RED_IN || temp->type == HERE_DOC || temp->type == APP_OUT || temp->type == RED_OUT)
+			break ;
+		if (temp->type == RED_IN || temp->type == HERE_DOC
+			|| temp->type == APP_OUT || temp->type == RED_OUT)
 			temp = temp->next;
-		if (temp && temp->type == ARG && (!temp->prev || (temp->prev->type != RED_IN && temp->prev->type != RED_OUT && temp->prev->type != APP_OUT && temp->prev->type != HERE_DOC)))
+		if (temp && temp->type == ARG && (!temp->prev
+				|| (temp->prev->type != RED_IN && temp->prev->type != RED_OUT
+					&& temp->prev->type != APP_OUT
+					&& temp->prev->type != HERE_DOC)))
 			args[i++] = ft_strdup(temp->token);
-		if(temp)
+		if (temp)
 			temp = temp->next;
 	}
 	args[i] = NULL;
@@ -53,7 +58,6 @@ t_args	*get_redir(t_args *msh)
 	redir->next = NULL;
 	return (redir);
 }
-
 
 void	init_cmds(t_cmds **cmds)
 {
@@ -74,15 +78,16 @@ void	ft_div(t_cmds **cmds, t_args *msh)
 	temp = NULL;
 	redir_begin = NULL;
 	cmd->args = get_args(msh, cmd);
-	if(cmd->args && cmd->args[0] && !cmd->cmd)
+	if (cmd->args && cmd->args[0] && !cmd->cmd)
 		cmd->cmd = ft_strdup(cmd->args[0]);
 	while (msh && msh->type != PIPE)
 	{
-		if (msh->type == RED_IN || msh->type == RED_OUT || msh->type == APP_OUT || msh->type == HERE_DOC)
+		if (msh->type == RED_IN || msh->type == RED_OUT || msh->type == APP_OUT
+			|| msh->type == HERE_DOC)
 		{
 			if (temp)
 			{
-				while(temp->next)
+				while (temp->next)
 					temp = temp->next;
 				temp->next = get_redir(msh);
 				cmd->redir = temp;
@@ -100,16 +105,16 @@ void	ft_div(t_cmds **cmds, t_args *msh)
 			while (msh && msh->type == ARG)
 				msh = msh->next;
 	}
-		cmd->redir = redir_begin;
+	cmd->redir = redir_begin;
 }
 
 t_cmds	**ft_cmd_div(t_args *msh)
 {
 	t_cmds	**cmds;
 	t_cmds	*test;
-	// t_args	*re_test;
-//	int		i;
 
+	// t_args	*re_test;
+	//	int		i;
 	cmds = (t_cmds **)malloc(sizeof(t_cmds *));
 	*cmds = NULL;
 	if (!cmds)
@@ -126,12 +131,11 @@ t_cmds	**ft_cmd_div(t_args *msh)
 			init_cmds(&test->next);
 			test = test->next;
 		}
-		if(msh)
+		if (msh)
 			msh = msh->next;
 	}
-
 	test = *cmds;
-/* 	while (test)
+	/* 	while (test)
 	{
 		i = 0;
 		re_test = test->redir;
@@ -142,7 +146,8 @@ t_cmds	**ft_cmd_div(t_args *msh)
 		i = 0;
 		while (re_test)
 		{
-			printf("process redir: type-> %d, file-> %s\n", re_test->type, re_test->token);
+			printf("process redir: type-> %d, file-> %s\n", re_test->type,
+					re_test->token);
 			re_test = re_test->next;
 		}
 		printf("=====================================================\n");

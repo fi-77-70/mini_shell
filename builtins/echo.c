@@ -2,13 +2,13 @@
 
 int	ft_echo(t_cmds *cmds, t_menu *menu)
 {
-	int		new_line;
-	int		i;
+	int	new_line;
+	int	i;
 
 	new_line = 1;
 	i = 1;
 	(void)menu;
-	i = check_n_opt (cmds, &new_line);
+	i = check_n_opt(cmds, &new_line);
 	while (cmds->args[i])
 	{
 		ft_putstr_fd(cmds->args[i], STDOUT_FILENO);

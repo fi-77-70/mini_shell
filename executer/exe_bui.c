@@ -10,23 +10,27 @@ void	free_mid_process(t_menu *menu)
 	free(menu);
 }
 
-int		check_acess_file(char *str, int	per, t_menu *menu)
+int	check_acess_file(char *str, int per, t_menu *menu)
 {
 	if (access(str, F_OK))
-		return (write_error_message(" No such file or directory\n"), free_mid_process(menu), exit(1), 1);
+		return (write_error_message(" No such file or directory\n"),
+			free_mid_process(menu), exit(1), 1);
 	if (per == 1 && access(str, R_OK))
-		return (write_error_message(" Permission denied\n"), free_mid_process(menu), exit(1), 1);
+		return (write_error_message(" Permission denied\n"),
+			free_mid_process(menu), exit(1), 1);
 	if (per == 2 && access(str, W_OK))
-		return (write_error_message(" Permission denied\n"), free_mid_process(menu), exit(1), 1);
+		return (write_error_message(" Permission denied\n"),
+			free_mid_process(menu), exit(1), 1);
 	if (per == 3 && access(str, X_OK))
-		return (write_error_message(" Permission denied\n"), free_mid_process(menu), exit(1), 1);
+		return (write_error_message(" Permission denied\n"),
+			free_mid_process(menu), exit(1), 1);
 	else
 		return (1);
 }
 
-int		check_dir(char *str)
+int	check_dir(char *str)
 {
-	struct stat buffer;
+	struct stat	buffer;
 
 	if (stat(str, &buffer) == -1)
 	{
@@ -41,7 +45,7 @@ int		check_dir(char *str)
 		return (1);
 }
 
-int		is_white_space(char c)
+int	is_white_space(char c)
 {
 	if (c >= 9 && c <= 13)
 		return (1);
@@ -68,7 +72,7 @@ void	wait_for_process(t_menu *menu)
 	j = 0;
 	if (!menu->pid_arr)
 		return ;
-	while(menu->pid_arr[i] != 0)
+	while (menu->pid_arr[i] != 0)
 	{
 		// printf("wait pid -----> [%d]\n", menu->pid_arr[i]);
 		waitpid(menu->pid_arr[i++], &j, 0);
@@ -78,11 +82,11 @@ void	wait_for_process(t_menu *menu)
 	menu->pid_arr = NULL;
 }
 
-void dup_arrr(char **map, t_menu **menu)
+void	dup_arrr(char **map, t_menu **menu)
 {
 	t_menu	*temp;
 	int		y;
-	
+
 	temp = *menu;
 	temp->env = NULL;
 	y = 0;
@@ -100,7 +104,7 @@ void dup_arrr(char **map, t_menu **menu)
 int	pid_get(t_menu *menu)
 {
 	int	i;
-	
+
 	i = fork();
 	if (i == 0)
 	{
@@ -129,7 +133,7 @@ int	ft_is_built(t_cmds *cmds)
 		return (1);
 	if (!ft_strcmp(str, "pwd"))
 		return (1);
-/* 	if (!ft_strcmp(str, "export"))
+	/* 	if (!ft_strcmp(str, "export"))
 		return (1);
 	if (!ft_strcmp(str, "unset"))
 		return (1);

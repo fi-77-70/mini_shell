@@ -7,28 +7,28 @@ int	is_cmd(char *str)
 
 	cmd = str;
 	result = 0;
-	if(!strncmp(cmd, "echo", 4))
+	if (!strncmp(cmd, "echo", 4))
 		result = 1;
-	if(!strncmp(cmd, "cd", 2))
+	if (!strncmp(cmd, "cd", 2))
 		result = 1;
-	if(!strncmp(cmd, "pwd", 3))
+	if (!strncmp(cmd, "pwd", 3))
 		result = 1;
-	if(!strncmp(cmd, "export", 6))
+	if (!strncmp(cmd, "export", 6))
 		result = 1;
-	if(!strncmp(cmd, "unset", 5))
+	if (!strncmp(cmd, "unset", 5))
 		result = 1;
-	if(!strncmp(cmd, "env", 3))
+	if (!strncmp(cmd, "env", 3))
 		result = 1;
-	if(!strncmp(cmd, "exit", 4))
+	if (!strncmp(cmd, "exit", 4))
 		result = 1;
 	return (result);
 }
 void	free_line(char **line)
 {
 	int	j;
-	
+
 	j = -1;
-	while(line[++j])
+	while (line[++j])
 	{
 		if (line[j])
 			free(line[j]);
@@ -56,7 +56,7 @@ void	free_list(t_args **mshh)
 		*mshh = NULL;
 		*mshh = temp;
 	}
-	if(*mshh)
+	if (*mshh)
 	{
 		free(*mshh);
 		*mshh = NULL;
@@ -67,7 +67,7 @@ void	free_list(t_args **mshh)
 
 void	init_struct(t_menu **menu, char **envp)
 {
-	t_menu *temp;
+	t_menu	*temp;
 
 	temp = *menu;
 	temp = (t_menu *)malloc(sizeof(t_menu));
@@ -93,14 +93,14 @@ void	free_cmds(t_cmds **cmds)
 	if (!cmds || !*cmds)
 		return ;
 	temp = *cmds;
-	while(temp)
+	while (temp)
 	{
 		i = -1;
 		if (temp->cmd)
 			free(temp->cmd);
 		if (temp->args)
 		{
-			while(temp->args[++i])
+			while (temp->args[++i])
 				free(temp->args[i]);
 			free(temp->args);
 		}
@@ -114,7 +114,7 @@ void	free_cmds(t_cmds **cmds)
 			}
 		}
 		*cmds = temp->next;
-		free (temp);
+		free(temp);
 		temp = NULL;
 		temp = *cmds;
 	}
@@ -128,19 +128,18 @@ void	free_all(t_menu *menu)
 	free_cmds(menu->cmds);
 }
 
-void handle_sigint(int signum) 
+void	handle_sigint(int signum)
 {
 	(void)signum;
-    printf("\n");
+	printf("\n");
 	rl_replace_line("", 0);
-    rl_on_new_line();
+	rl_on_new_line();
 	rl_redisplay();
 }
 
-void sig_2(int signal)
+void	sig_2(int signal)
 {
 	(void)signal;
-
 	printf("\n");
 }
 
@@ -149,21 +148,22 @@ int	main(int ac, char **av, char **envp)
 	char	*str;
 	int		exit_code;
 	t_menu	*menu;
-/* 	t_args	*temp; */
+
+	/* 	t_args	*temp; */
 	(void)ac;
 	(void)av;
-
 	menu = NULL;
 	exit_code = 0;
 	init_struct(&menu, envp);
 	signal(SIGQUIT, SIG_IGN);
-	while(1)
+	while (1)
 	{
 		signal(SIGINT, handle_sigint);
 		exit_code = menu->return_code;
 		str = readline("minishell: ");
-		if(!str)
-			return (printf("exit\n"),free_line(menu->env), free(menu), exit_code);
+		if (!str)
+			return (printf("exit\n"), free_line(menu->env), free(menu),
+				exit_code);
 		add_history(str);
 		str = ft_expand(str, menu);
 		menu->mshh = (t_args **)malloc(sizeof(t_args *));
@@ -177,10 +177,10 @@ int	main(int ac, char **av, char **envp)
 		}
 		*(menu->mshh) = lexer(menu->mshh, menu->line, menu);
 		free_line(menu->line);
-/* 		temp = *(menu->mshh); */
+		/* 		temp = *(menu->mshh); */
 		if (ft_input_check(menu->mshh))
 		{
-/* 			while (temp)
+			/* 			while (temp)
 			{
 				printf("token --> [%s]\n", temp->token);
 				printf("type  --> [%d]\n", temp->type);
@@ -191,16 +191,16 @@ int	main(int ac, char **av, char **envp)
 			ft_here_doc(menu);
 			process_handler(menu);
 			signal(SIGINT, sig_2);
-			if(menu->pid_arr)
+			if (menu->pid_arr)
 				wait_for_process(menu);
 		}
 		else
 		{
 			free_list(menu->mshh);
 			printf("ERROR IN PARSING\n");
-			continue;
+			continue ;
 		}
-		if(!menu->cmds)
+		if (!menu->cmds)
 			menu->cmds = ft_cmd_div(*(menu->mshh));
 		free_all(menu);
 	}

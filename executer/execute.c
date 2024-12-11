@@ -1,14 +1,13 @@
 #include "../minishell.h"
 
-
 int	create_pid_arr(t_menu *menu)
 {
 	int		i;
-	t_cmds *cmds;
+	t_cmds	*cmds;
 
 	i = 0;
 	cmds = *(menu->cmds);
-	while(cmds)
+	while (cmds)
 	{
 		i++;
 		cmds = cmds->next;
@@ -21,19 +20,19 @@ int	create_pid_arr(t_menu *menu)
 	return (i);
 }
 
-void pipe_utils_parent(int *fds)
+void	pipe_utils_parent(int *fds)
 {
 	dup2(fds[0], STDIN_FILENO);
 	close(fds[0]);
 	close(fds[1]);
 }
 
-int pipe_utils_child(t_menu *menu, t_cmds *cmd, int *fds, t_cmds **cmds)
+int	pipe_utils_child(t_menu *menu, t_cmds *cmd, int *fds, t_cmds **cmds)
 {
 	menu->is_child = 1;
 	signal(SIGINT, SIG_DFL);
 	*cmds = cmd;
-	if(!cmd->next)
+	if (!cmd->next)
 	{
 		dup2(menu->fd_out, STDOUT_FILENO);
 		close(menu->fd_out);
@@ -47,16 +46,16 @@ int pipe_utils_child(t_menu *menu, t_cmds *cmd, int *fds, t_cmds **cmds)
 
 int	handle_pipes(t_cmds **cmds, t_menu *menu)
 {
-	int	i;
-	int	fds[2];
-	t_cmds *cmd;
+	int		i;
+	int		fds[2];
+	t_cmds	*cmd;
 
 	i = 0;
 	cmd = *cmds;
 	while (cmd)
 	{
 		pipe(fds);
-		if((menu->pid_arr[i++] = fork()) != 0)
+		if ((menu->pid_arr[i++] = fork()) != 0)
 		{
 			pipe_utils_parent(fds);
 			cmd = cmd->next;
@@ -80,37 +79,37 @@ void	handle_acess_file_er(t_menu *menu)
 {
 	free_mid_process(menu);
 	write_error_message(" Permission denied\n");
-	exit(1);	
+	exit(1);
 }
 
 void	handle_red_out(t_menu *menu, t_args *temp, int fd_out)
 {
 	fd_out = open(temp->token, O_RDWR | O_CREAT, 0777);
-	if(check_dir(temp->token) == 2)
+	if (check_dir(temp->token) == 2)
 		handle_is_dir_er(menu);
-	if(!check_acess_file(temp->token, 2, menu))
-		handle_acess_file_er(menu);
-	dup2(fd_out, STDOUT_FILENO);
-	close(fd_out);	
-}
-
-void	handle_red_app(t_menu *menu, t_args *temp, int fd_out)
-{
-	fd_out = open(temp->token, O_CREAT| O_APPEND | O_RDWR, 0777);
-	if(check_dir(temp->token) == 2)
-		handle_is_dir_er(menu);
-	if(!check_acess_file(temp->token, 2, menu))
+	if (!check_acess_file(temp->token, 2, menu))
 		handle_acess_file_er(menu);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
 }
 
-void handle_red_in(t_menu *menu, t_args *temp, int fd_in)
+void	handle_red_app(t_menu *menu, t_args *temp, int fd_out)
 {
-	fd_in = open(temp->token, O_RDWR , 0777);
-	if(check_dir(temp->token) == 2)
+	fd_out = open(temp->token, O_CREAT | O_APPEND | O_RDWR, 0777);
+	if (check_dir(temp->token) == 2)
 		handle_is_dir_er(menu);
-	if(!check_acess_file(temp->token, 1, menu))
+	if (!check_acess_file(temp->token, 2, menu))
+		handle_acess_file_er(menu);
+	dup2(fd_out, STDOUT_FILENO);
+	close(fd_out);
+}
+
+void	handle_red_in(t_menu *menu, t_args *temp, int fd_in)
+{
+	fd_in = open(temp->token, O_RDWR, 0777);
+	if (check_dir(temp->token) == 2)
+		handle_is_dir_er(menu);
+	if (!check_acess_file(temp->token, 1, menu))
 		handle_acess_file_er(menu);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
@@ -118,19 +117,18 @@ void handle_red_in(t_menu *menu, t_args *temp, int fd_in)
 
 void	handle_redirs(t_cmds *cmd, t_menu *menu)
 {
-	int	fd_out;
-	int	fd_in;
-	t_args *temp;
-
+	int		fd_out;
+	int		fd_in;
+	t_args	*temp;
 
 	fd_out = STDOUT_FILENO;
 	fd_in = STDIN_FILENO;
 	temp = cmd->redir;
-	while(temp)
+	while (temp)
 	{
-		if(temp->type == RED_OUT)
+		if (temp->type == RED_OUT)
 			handle_red_out(menu, temp, fd_out);
-		else if	(temp->type == APP_OUT)
+		else if (temp->type == APP_OUT)
 			handle_red_app(menu, temp, fd_out);
 		else if (temp->type == RED_IN)
 			handle_red_in(menu, temp, fd_in);
@@ -147,7 +145,7 @@ void	exe_3(t_menu *menu, t_cmds *cmds, int *result)
 {
 	char	*path;
 
-	if(!ft_strncmp(cmds->cmd, "./", 2))
+	if (!ft_strncmp(cmds->cmd, "./", 2))
 		path = ft_strdup(cmds->cmd);
 	else
 		path = ft_strjoin("/usr/bin/", cmds->cmd);
@@ -157,19 +155,19 @@ void	exe_3(t_menu *menu, t_cmds *cmds, int *result)
 
 void	exe_2(t_menu *menu, t_cmds *cmds)
 {
-	int		result;
+	int	result;
 
 	result = 0;
-	if(cmds->cmd)
+	if (cmds->cmd)
 		exe_3(menu, cmds, &result);
-	if(errno == EACCES)
+	if (errno == EACCES)
 		result = 126;
-	else if(errno == ENOENT)
+	else if (errno == ENOENT)
 	{
 		if (!ft_strncmp(cmds->cmd, "/", 1) || !ft_strncmp(cmds->cmd, "./", 2))
 		{
 			result = 127;
-			if(check_dir(cmds->cmd) == 2)
+			if (check_dir(cmds->cmd) == 2)
 				result = 126;
 		}
 		else
@@ -182,16 +180,17 @@ void	exe_2(t_menu *menu, t_cmds *cmds)
 	else
 		result = 1;
 	free_mid_process(menu);
-	exit (result);
+	exit(result);
 }
 void	process_handler(t_menu *menu)
 {
-	t_cmds	*cmds;
+	t_cmds *cmds;
 
 	cmds = *(menu->cmds);
 
-	if(create_pid_arr(menu) == 1 && ft_is_built(cmds))
-		return (free(menu->pid_arr), menu->pid_arr = NULL, handle_redirs(cmds, menu), handle_builts(cmds, menu));
+	if (create_pid_arr(menu) == 1 && ft_is_built(cmds))
+		return (free(menu->pid_arr), menu->pid_arr = NULL, handle_redirs(cmds,
+				menu), handle_builts(cmds, menu));
 	if (handle_pipes(&cmds, menu))
 		return ;
 	handle_redirs(cmds, menu);

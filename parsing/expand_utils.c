@@ -31,9 +31,9 @@ int	strclen(char *str, char c)
 
 char	*env_get(char *name, t_menu *menu)
 {
-	int		i;
-	int		bytes;
-	char	**temp;
+	int i;
+	int bytes;
+	char **temp;
 
 	if (!name)
 		return (NULL);
@@ -41,7 +41,7 @@ char	*env_get(char *name, t_menu *menu)
 		return (ft_itoa(pid_get(menu)));
 	i = -1;
 	temp = menu->env;
-	while(temp[++i])
+	while (temp[++i])
 	{
 		if (ft_strclen(temp[i], '=') == (int)ft_strlen(name))
 			bytes = ft_strclen(temp[i], '=');

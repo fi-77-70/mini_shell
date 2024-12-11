@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int		ft_str_is_nr(char *str)
+int	ft_str_is_nr(char *str)
 {
 	int	i;
 
@@ -21,24 +21,25 @@ int		ft_str_is_nr(char *str)
 void	built_exit(t_cmds *cmds, t_menu *menu)
 {
 	long long	code;
-	int					i;
-	int						len;
+	int			i;
+	int			len;
 
 	i = 0;
 	while (cmds->args[i])
 		i++;
 	if (i == 1)
-		exit (0);
+		exit(0);
 	if (i > 2)
 	{
 		write_error_message(" too many arguments\n");
-		exit (1);
+		exit(1);
 	}
 	i--;
 	len = ft_strlen(cmds->args[i]);
 	if (*(cmds->args[i]) == '+')
 		len = len - 1;
-	if (!ft_str_is_nr(cmds->args[i]) || len > 20 || (size_t)len != ft_strlen(ft_itoa((code = ft_atoll(cmds->args[i])))))
+	if (!ft_str_is_nr(cmds->args[i]) || len > 20
+		|| (size_t)len != ft_strlen(ft_itoa((code = ft_atoll(cmds->args[i])))))
 	{
 		write_error_message(" numeric argument required\n");
 		if (cmds == *(menu->cmds))
@@ -50,7 +51,7 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 		code = code % 256;
 	else if (code < 0)
 		while (code < 0)
-			code = 256 + code; 
+			code = 256 + code;
 	if (menu->pid_arr)
 		free(menu->pid_arr);
 	free_all(menu);

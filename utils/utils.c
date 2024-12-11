@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-char *ft_take_out_back(char *str, char out)
+char	*ft_take_out_back(char *str, char out)
 {
 	int		i;
 	int		len;
@@ -10,7 +10,7 @@ char *ft_take_out_back(char *str, char out)
 	len = ft_strlen(str);
 	while (str[++i])
 	{
-		if(str[i] == out)
+		if (str[i] == out)
 			len = len - 1;
 	}
 	new = (char *)malloc(sizeof(char) * len + 1);
@@ -18,21 +18,21 @@ char *ft_take_out_back(char *str, char out)
 	len = 0;
 	while (str[len])
 	{
-		if(str[len] == out)
+		if (str[len] == out)
 			len++;
-		if(str[len])
+		if (str[len])
 			new[i++] = str[len];
-		if(str[len])
+		if (str[len])
 			len++;
 	}
 	new[i] = 0;
 	return (free(str), new);
 }
 
-unsigned long long ft_atoll(char *str)
+unsigned long long	ft_atoll(char *str)
 {
 	long long	result;
-	int		sign;
+	int			sign;
 
 	result = 0;
 	sign = 1;
@@ -52,7 +52,7 @@ unsigned long long ft_atoll(char *str)
 	return (result * sign);
 }
 
-void put_str_fd(char *str, int fd)
+void	put_str_fd(char *str, int fd)
 {
 	int	i;
 
@@ -62,10 +62,10 @@ void put_str_fd(char *str, int fd)
 	write(fd, "\n", 1);
 }
 
-void ft_here_loop(t_cmds *cmds)
+void	ft_here_loop(t_cmds *cmds)
 {
 	char	*input;
-	t_cmds *cmd;
+	t_cmds	*cmd;
 	t_args	*first_redir;
 
 	cmd = cmds;
@@ -76,7 +76,7 @@ void ft_here_loop(t_cmds *cmds)
 		while (cmd->redir && cmd->redir->type == HERE_DOC)
 		{
 			pipe(cmd->here_fds);
-			while(1)
+			while (1)
 			{
 				input = readline("> ");
 				if (!input)
@@ -93,24 +93,24 @@ void ft_here_loop(t_cmds *cmds)
 			}
 			close(cmd->here_fds[1]);
 		}
-		if(cmd->redir && cmd->redir->type != HERE_DOC)
+		if (cmd->redir && cmd->redir->type != HERE_DOC)
 			cmd->redir = cmd->redir->next;
 	}
 	cmd->redir = first_redir;
 }
 
-void ft_here_doc(t_menu *menu)
+void	ft_here_doc(t_menu *menu)
 {
-	t_cmds	*cmds;
-	t_cmds	*first_node;
+	t_cmds *cmds;
+	t_cmds *first_node;
 
 	cmds = NULL;
-	if(menu->cmds)
+	if (menu->cmds)
 	{
 		cmds = *menu->cmds;
 		first_node = *menu->cmds;
 	}
-	while(cmds)
+	while (cmds)
 	{
 		if (cmds->redir)
 			ft_here_loop(cmds);

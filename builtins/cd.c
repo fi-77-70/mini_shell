@@ -8,7 +8,7 @@ void	handle_builts(t_cmds *cmds, t_menu *menu)
 		ft_change_dir(cmds, menu);
 	if (!ft_strcmp(cmds->cmd, "exit"))
 		built_exit(cmds, menu);
-/* 	if (!ft_strcmp(cmds->cmd, "export"))
+	/* 	if (!ft_strcmp(cmds->cmd, "export"))
 		ft_export(cmds, menu);
 	if (!ft_strcmp(cmds->cmd, "unset"))
 		ft_unset(cmds, menu);
@@ -27,16 +27,17 @@ void	handle_builts(t_cmds *cmds, t_menu *menu)
 
 int	ft_change_dir(t_cmds *cmds, t_menu *menu)
 {
-	DIR	*check;
-	int	i;
-	int	a;
+	DIR *check;
+	int i;
+	int a;
 
 	i = 1;
 	a = -1;
 	while (cmds->args[++a])
 		;
 	if (a > 2)
-		return (write_error_message(" too many arguments\n"), menu->return_code = 1, 1);
+		return (write_error_message(" too many arguments\n"),
+			menu->return_code = 1, 1);
 	if ((check = opendir(cmds->args[i])))
 	{
 		chdir(cmds->args[i]);
