@@ -141,15 +141,44 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 	}
 }
 
+char	*get_command_path(t_cmds *cmds, t_menu *menu)
+{
+	char	**possible_paths;
+	char	*path;
+	int		i;
+
+	path = NULL;
+	i = 0;
+	possible_paths = NULL;
+	possible_paths = ft_split(env_get("PATH", menu), ':');
+	while (possible_paths[i])
+	{
+		path = ft_strjoin(possible_paths[i], "/");
+		path = ft_strjoin_free(path, cmds->cmd);
+		if (!access(path, F_OK))
+		{
+			ft_free_matrix(possible_paths);
+			return (path);
+		}
+		free(path);
+		i++;
+	}
+	ft_free_matrix(possible_paths);
+	write_error_message(cmds->cmd);
+	write_error_message(": command not found\n");
+	free_mid_process(menu);
+	exit(127);
+}
+
 void	exe_3(t_menu *menu, t_cmds *cmds, int *result)
 {
 	char	*path;
 
-	if (!ft_strncmp(cmds->cmd, "./", 2))
+	if (!ft_strncmp(cmds->cmd, "/", 1) || !ft_strncmp(cmds->cmd, "./", 2))
 		path = ft_strdup(cmds->cmd);
 	else
-		path = ft_strjoin("/usr/bin/", cmds->cmd);
-	*result = execve(path, cmds->args, menu->env);
+		path = get_command_path(cmds, menu);
+	*result = execve(path, cmds->args , menu->env);
 	free(path);
 }
 
@@ -161,20 +190,36 @@ void	exe_2(t_menu *menu, t_cmds *cmds)
 	if (cmds->cmd)
 		exe_3(menu, cmds, &result);
 	if (errno == EACCES)
-		result = 126;
+	{
+		if (check_dir(cmds->cmd) == 2)
+			{
+				result = 126;
+				write_error_message(cmds->cmd);
+				write_error_message(": Is a directory\n");
+			}
+		else
+		{
+			result = 126;
+			write_error_message(cmds->cmd);
+			write_error_message(": Permission denied\n");
+		}
+	}
 	else if (errno == ENOENT)
 	{
 		if (!ft_strncmp(cmds->cmd, "/", 1) || !ft_strncmp(cmds->cmd, "./", 2))
 		{
-			result = 127;
 			if (check_dir(cmds->cmd) == 2)
+			{
 				result = 126;
-		}
-		else
-		{
-			write_error_message(cmds->cmd);
-			write_error_message(": command not found\n");
-			result = 127;
+				write_error_message(cmds->cmd);
+				write_error_message(": Is a directory\n");
+			}
+			else
+			{
+				result = 127;
+				write_error_message(cmds->cmd);
+				write_error_message(": No such file or directory\n");
+			}
 		}
 	}
 	else

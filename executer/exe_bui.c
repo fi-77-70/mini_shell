@@ -33,10 +33,7 @@ int	check_dir(char *str)
 	struct stat	buffer;
 
 	if (stat(str, &buffer) == -1)
-	{
-		perror("");
 		return (1);
-	}
 	else if (S_ISDIR(buffer.st_mode))
 		return (2);
 	else if (S_ISREG(buffer.st_mode))

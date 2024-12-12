@@ -90,5 +90,6 @@ int					ft_pwd(t_cmds *cmds, t_menu *menu);
 int					ft_echo(t_cmds *cmds, t_menu *menu);
 char				*ft_expand(char *line, t_menu *menu);
 char				*ft_take_out_back(char *str, char out);
+char				*get_command_path(t_cmds *cmds, t_menu *menu);
 
 #endif
