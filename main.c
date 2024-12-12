@@ -131,16 +131,10 @@ void	free_all(t_menu *menu)
 void	handle_sigint(int signum)
 {
 	(void)signum;
-	printf("\n");
+	printf("^C\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-void	sig_2(int signal)
-{
-	(void)signal;
-	printf("\n");
 }
 
 int	main(int ac, char **av, char **envp)
@@ -156,6 +150,7 @@ int	main(int ac, char **av, char **envp)
 	exit_code = 0;
 	init_struct(&menu, envp);
 	signal(SIGQUIT, SIG_IGN);
+	rl_catch_signals = 0;
 	while (1)
 	{
 		signal(SIGINT, handle_sigint);
@@ -188,9 +183,13 @@ int	main(int ac, char **av, char **envp)
 			} */
 			menu->cmds = ft_cmd_div(*(menu->mshh));
 			menu->first_cmd = menu->cmds;
-			ft_here_doc(menu);
+			if (!ft_here_doc(menu))
+			{
+				//write_error_message("SKIPPING LOOP\n");
+				free_all(menu);
+				continue ;
+			}
 			process_handler(menu);
-			signal(SIGINT, sig_2);
 			if (menu->pid_arr)
 				wait_for_process(menu);
 		}
