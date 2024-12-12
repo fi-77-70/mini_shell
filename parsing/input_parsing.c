@@ -159,6 +159,8 @@ int	check_multiple_pipes(t_args *msh)
 {
 	int	check;
 
+	if (msh->type == PIPE)
+		return (0);
 	while (msh->next)
 	{
 		check = msh->type;
