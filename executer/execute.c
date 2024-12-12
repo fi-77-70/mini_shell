@@ -147,10 +147,10 @@ char	*get_command_path(t_cmds *cmds, t_menu *menu)
 	char	*path;
 	int		i;
 
-	path = NULL;
 	i = 0;
 	possible_paths = NULL;
-	possible_paths = ft_split(env_get("PATH", menu), ':');
+	possible_paths = ft_split(path = env_get("PATH", menu), ':');
+	free(path);
 	while (possible_paths && possible_paths[i])
 	{
 		path = ft_strjoin(possible_paths[i], "/");

@@ -6,14 +6,19 @@ char	*ft_take_out_back(char *str, char out)
 	int		len;
 	char	*new;
 
-	i = -1;
+	i = 0;
 	len = ft_strlen(str);
-	while (str[++i])
+	while (str[i])
 	{
 		if (str[i] == out)
+		{
 			len = len - 1;
+			i++;
+		}
+		if (str[i])
+			i++;
 	}
-	new = (char *)malloc(sizeof(char) * len + 1);
+	new = (char *)malloc((sizeof(char) * len) + 1);
 	i = 0;
 	len = 0;
 	while (str[len])
