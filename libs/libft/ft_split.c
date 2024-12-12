@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:03:15 by filferna          #+#    #+#             */
-/*   Updated: 2024/04/29 17:31:31 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:23:22 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ char	**ft_split(const char *str, char c)
 	int		a;
 	char	**split;
 
+	if (!str)
+		return (NULL);
 	split = NULL;
 	words = ft_word_count(str, c);
 	split = ft_sub_matrix(split, str, words, c);
@@ -92,8 +94,7 @@ char	**ft_split(const char *str, char c)
 			split[j][a++] = str[i++];
 		split[j++][a] = '\0';
 	}
-	split[j] = NULL;
-	return (split);
+	return (split[j] = NULL, split);
 }
 // int main(int ac, char **av)
 // {

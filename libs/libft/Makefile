@@ -6,7 +6,7 @@
 #    By: filferna <filferna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/29 19:58:05 by filferna          #+#    #+#              #
-#    Updated: 2024/12/12 13:49:04 by filferna         ###   ########.fr        #
+#    Updated: 2024/12/12 14:17:46 by filferna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,20 +29,22 @@ BONUS_OBJ = $(BONUS_SRC:.c=.o)
 FLAG = -Wall -Wextra -Werror
 COMPILER = cc -g
 
+$(VERBOSE).SILENT:
+
 all: $(NAME)
 
 $(NAME):
-		$(COMPILER) $(FLAG) -c $(SOURCE)
-		ar rc $(NAME) $(OBJ)
+		@$(COMPILER) $(FLAG) -c $(SOURCE)
+		@ar rc $(NAME) $(OBJ)
 
 bonus: $(NAME)
-		$(COMPILER) $(FLAG) -c $(BONUS_SRC)
-		ar rc $(NAME) $(BONUS_OBJ)
+		@$(COMPILER) $(FLAG) -c $(BONUS_SRC)
+		@ar rc $(NAME) $(BONUS_OBJ)
 
 re:	fclean $(NAME)
 
 clean:	
-	rm -f $(OBJ) $(BONUS_OBJ)
+	@rm -f $(OBJ) $(BONUS_OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)

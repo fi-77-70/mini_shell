@@ -151,7 +151,7 @@ char	*get_command_path(t_cmds *cmds, t_menu *menu)
 	i = 0;
 	possible_paths = NULL;
 	possible_paths = ft_split(env_get("PATH", menu), ':');
-	while (possible_paths[i])
+	while (possible_paths && possible_paths[i])
 	{
 		path = ft_strjoin(possible_paths[i], "/");
 		path = ft_strjoin_free(path, cmds->cmd);

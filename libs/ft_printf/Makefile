@@ -6,7 +6,7 @@
 #    By: filferna <filferna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/30 19:11:35 by filferna          #+#    #+#              #
-#    Updated: 2024/10/10 15:49:04 by filferna         ###   ########.fr        #
+#    Updated: 2024/12/12 14:19:01 by filferna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,18 +21,19 @@ OBJS = $(SRC:.c=.o)
 COMPILER = cc
 FLAGS = -Wall -Werror -Wextra
 
+$(VERBOSE).SILENT:
 
 all: $(NAME)
 
 $(NAME): 
-		$(COMPILER) $(FLAGS) -c $(SRC)
-		ar rc $(NAME) $(OBJS)
+		@$(COMPILER) $(FLAGS) -c $(SRC)
+		@ar rc $(NAME) $(OBJS)
 #		$(COMPILER) $(FLAGS) ft_printf.c $(NAME) -g
 
 re:		fclean $(NAME)
 
 clean: 
-		rm -f $(OBJS)
+		@rm -f $(OBJS)
 
 fclean: clean
-		rm -f $(NAME)
+		@rm -f $(NAME)
