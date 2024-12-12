@@ -189,18 +189,18 @@ int	ft_input_check(t_args **mshh)
 
 	msh = *mshh;
 	if (!check_multiple_pipes(msh))
-		return (0);
-	if (!check_multiple_red_in(msh))
-		return (0);
-	if (!check_multiple_red_out(msh))
-		return (0);
-	if (!check_multiple_here_doc(msh))
-		return (0);
-	if (!check_multiple_app(msh))
-		return (0);
+		return (write_error_message("Error in parsing : sequential pipes\n"), 0);
 	if (!check_red_file_name(msh))
-		return (0);
+		return (write_error_message("Error in parsing : redirect file name missing\n"), 0);
+	if (!check_multiple_red_in(msh))
+		return (write_error_message("Error in parsing : sequential redirections\n"), 0);
+	if (!check_multiple_red_out(msh))
+		return (write_error_message("Error in parsing : sequential redirections\n"), 0);
+	if (!check_multiple_here_doc(msh))
+		return (write_error_message("Error in parsing : sequential here docs\n"), 0);
+	if (!check_multiple_app(msh))
+		return (write_error_message("Error in parsing : sequential redirections\n"), 0);
 	if (!ft_check_quotes(mshh))
-		return (0);
+		return (write_error_message("Error in parsing : unclosed quotes\n"), 0);
 	return (1);
 }

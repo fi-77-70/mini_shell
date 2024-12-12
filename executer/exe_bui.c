@@ -34,7 +34,7 @@ int	check_dir(char *str)
 
 	if (stat(str, &buffer) == -1)
 	{
-		perror("stat");
+		perror("");
 		return (1);
 	}
 	else if (S_ISDIR(buffer.st_mode))

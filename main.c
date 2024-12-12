@@ -197,7 +197,6 @@ int	main(int ac, char **av, char **envp)
 		else
 		{
 			free_list(menu->mshh);
-			printf("ERROR IN PARSING\n");
 			continue ;
 		}
 		if (!menu->cmds)

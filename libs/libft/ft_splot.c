@@ -33,10 +33,10 @@ int	cut_count(char *str)
 			ft_quote(str, &i, 39);
 		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
 			j++;
-		if ((str[i + 1] == '<' && str[i] == '<') || (str[i + 1] == '>'
-				&& str[i] == '>'))
+		if (str[i] && str[i + 1] && ((str[i + 1] == '<' && str[i] == '<') || (str[i + 1] == '>'
+				&& str[i] == '>')))
 			i += 2;
-		else
+		if(str[i])
 			i++;
 	}
 	i = 0;
@@ -45,17 +45,18 @@ int	cut_count(char *str)
 	{
 		if (str[i] == '"')
 			ft_quote(str, &i, '"');
-		if (str[i] == 39)
+		else if (str[i] == 39)
 			ft_quote(str, &i, 39);
-		if (str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>'
+		else if (str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>'
 			&& word == 0)
 		{
 			j++;
 			word = 1;
 		}
-		if (str[i] == ' ' || str[i] == '|' || str[i] == '<' || str[i] == '>')
+		else if (str[i] == ' ' || str[i] == '|' || str[i] == '<' || str[i] == '>')
 			word = 0;
-		i++;
+		if (str[i])
+			i++;
 	}
 	return (j);
 }
@@ -87,7 +88,7 @@ void	check_symbol(char *str, int *j, int *i, char **matrix, int *a)
 {
 	if (str[*i] == ' ' || (str[*i] != '|' && str[*i] != '<' && str[*i] != '>'))
 		return ;
-	if (*(str + *j + 1) && (!ft_strncmp(str + *j, ">>", 2) || !ft_strncmp(str
+	if (str[*j] && str[*j + 1] && str[*j + 2] && (!ft_strncmp(str + *j, ">>", 2) || !ft_strncmp(str
 				+ *j, "<<", 2)))
 	{
 		if (*i != *j)
