@@ -132,7 +132,7 @@ char	**ft_splot(char *str)
 	int		a;
 	int		yes;
 
-	matrix = (char **)malloc(sizeof(char *) * (cut_count(str) + 2));
+	matrix = (char **)malloc(sizeof(char *) * (cut_count(str) + 3));
 	if (!matrix)
 		return (NULL);
 	i = 0;
