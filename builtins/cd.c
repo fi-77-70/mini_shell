@@ -1,49 +1,117 @@
 #include "../minishell.h"
 
-void	handle_builts(t_cmds *cmds, t_menu *menu)
+int	ft_cd(t_cmds *cmds, t_menu *menu)
 {
-	if (!ft_strcmp(cmds->cmd, "echo"))
-		ft_echo(cmds, menu);
-	if (!ft_strcmp(cmds->cmd, "cd"))
-		ft_change_dir(cmds, menu);
-	if (!ft_strcmp(cmds->cmd, "exit"))
-		built_exit(cmds, menu);
-	/* 	if (!ft_strcmp(cmds->cmd, "export"))
-		ft_export(cmds, menu);
-	if (!ft_strcmp(cmds->cmd, "unset"))
-		ft_unset(cmds, menu);
-	if (!ft_strcmp(cmds->cmd, "env"))
-		ft_env(cmds, menu); */
-	if (!ft_strcmp(cmds->cmd, "pwd"))
-		ft_pwd(cmds, menu);
-	if (!menu->is_child)
-	{
-		// ft_putstr_fd("ENTREI\n", menu->fd_out);
-		dup2(menu->fd_in, STDIN_FILENO);
-		dup2(menu->fd_out, STDOUT_FILENO);
-	}
-	return ;
-}
+	char	*path;
+	int		arg_nbr;
 
-int	ft_change_dir(t_cmds *cmds, t_menu *menu)
-{
-	DIR *check;
-	int i;
-	int a;
-
-	i = 1;
-	a = -1;
-	while (cmds->args[++a])
-		;
-	if (a > 2)
-		return (write_error_message(" too many arguments\n"),
-			menu->return_code = 1, 1);
-	if ((check = opendir(cmds->args[i])))
+	ft_putstr_fd("TESTE", STDOUT_FILENO);
+	arg_nbr = verify_nbr_args(cmds, menu);
+	if (arg_nbr == 1 || (cmds->args[1] && cmds->args[1][0] == '~'))
 	{
-		chdir(cmds->args[i]);
-		closedir(check);
-		return (1);
+		path = menu->til;
+		if (!path)
+		{
+			ft_putstr_fd("cd: no HOME var \n", STDERR_FILENO);
+			menu->return_code = 1;
+			return (1);
+		}
 	}
 	else
+		path = cmds->args[1];
+	change_dir(menu, path);
+	return (0);
+}
+
+int	verify_nbr_args(t_cmds *cmds, t_menu *menu)
+{
+	int	arg_nbr;
+
+	arg_nbr = 0;
+	while (cmds->args[arg_nbr])
+		arg_nbr++;
+	if (arg_nbr > 2)
+	{
+		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
+		menu->return_code = 1;
+		return (1);
+	}
+	return (arg_nbr);
+}
+
+int	change_dir(t_menu *menu, char *path)
+{
+	char	buffer[1024];
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		ft_putstr_fd("cd: Failure obtaining cdw\n", STDERR_FILENO);
 		return (menu->return_code = 1, 1);
+	}
+	if (chdir(path) != 0)
+	{
+		ft_putstr_fd("cd: Failure changing directory\n", STDERR_FILENO);
+		free(cwd);
+		return (menu->return_code = 1, 1);
+	}
+	update_env_var(menu, "OLDPWD", cwd);
+	free(cwd);
+	if (getcwd(buffer, 1024) != NULL)
+		update_env_var(menu, "PWD", buffer);
+	return (menu->return_code = 0, 0);
+}
+
+void	update_env_var(t_menu *menu, const char *key, const char *value)
+{
+	int		i;
+	char	*new_var;
+
+	i = 0;
+	if (!key || !value)
+		return ;
+	new_var = ft_strjoin3(key, '=', value);
+	if (!new_var)
+		return ;
+	while (menu->env[i])
+	{
+		if (ft_strncmp(menu->env[i], key, ft_strlen(key)) == 0
+			&& menu->env[i][ft_strlen(key)] == '=')
+		{
+			free(menu->env[i]);
+			menu->env[i] = new_var;
+			return ;
+		}
+		i++;
+	}
+	menu->env = create_env(menu->env, new_var);
+}
+
+char	**create_env(char **env, char *new_var)
+{
+	int		i;
+	int		length;
+	char	**new_env;
+
+	i = 0;
+	length = 0;
+	if (env)
+	{
+		while (env[length])
+			length++;
+	}
+	new_env = malloc(sizeof(char *) * (length + 2));
+	if (!new_env)
+		return (NULL);
+	while (i < length)
+	{
+		new_env[i] = env[i];
+		i++;
+	}
+	new_env[length] = new_var;
+	new_env[length + 1] = NULL;
+	if (env)
+		free(env);
+	return (new_env);
 }

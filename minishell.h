@@ -75,7 +75,6 @@ void				free_list(t_args **mshh);
 void				wait_for_process(t_menu *menu);
 int					handle_pipes(t_cmds **cmds, t_menu *menu);
 void				handle_builts(t_cmds *cmds, t_menu *menu);
-int					ft_change_dir(t_cmds *cmds, t_menu *menu);
 void				write_error_message(char *str);
 int					is_white_space(char c);
 int					check_dir(char *str);
@@ -88,6 +87,15 @@ unsigned long long	ft_atoll(char *str);
 
 int					ft_pwd(t_cmds *cmds, t_menu *menu);
 int					ft_echo(t_cmds *cmds, t_menu *menu);
+int					ft_cd(t_cmds *cmds, t_menu *menu);
+int					verify_nbr_args(t_cmds *cmds, t_menu *menu);
+int					change_dir(t_menu *menu, char *path);
+void				update_env_var(t_menu *menu, const char *key, const char *value);
+void				handle_builts(t_cmds *cmds, t_menu *menu);
+char				**create_env(char **env, char *new_var);
+char				*ft_strjoin3(const char *s1, char c, const char *s2);
+
+
 char				*ft_expand(char *line, t_menu *menu);
 char				*ft_take_out_back(char *str, char out);
 char				*get_command_path(t_cmds *cmds, t_menu *menu);
