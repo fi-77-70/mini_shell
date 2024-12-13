@@ -161,10 +161,10 @@ int	check_multiple_pipes(t_args *msh)
 
 	if (msh->type == PIPE)
 		return (0);
-	while (msh->next)
+	while (msh)
 	{
 		check = msh->type;
-		if (check == msh->next->type && check == PIPE)
+		if ((!msh->next || check == msh->next->type) && check == PIPE )
 			return (0);
 		msh = msh->next;
 	}
