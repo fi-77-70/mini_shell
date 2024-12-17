@@ -88,6 +88,7 @@ unsigned long long	ft_atoll(char *str);
 int					ft_pwd(t_cmds *cmds, t_menu *menu);
 int					ft_echo(t_cmds *cmds, t_menu *menu);
 int					ft_cd(t_cmds *cmds, t_menu *menu);
+int					ft_env(t_menu *menu, t_cmds *cmds)
 int					verify_nbr_args(t_cmds *cmds, t_menu *menu);
 int					change_dir(t_menu *menu, char *path);
 void				update_env_var(t_menu *menu, const char *key, const char *value);
