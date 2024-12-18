@@ -9,10 +9,7 @@ void	reset_ouput(t_menu *menu)
 void	handle_builts(t_cmds *cmds, t_menu *menu)
 {
 	if (handle_redirs(cmds, menu))
-	{
-		menu->return_code = 1;
 		return ;
-	}
 	if (!ft_strcmp(cmds->cmd, "echo"))
 		ft_echo(cmds, menu);
 	if (!ft_strcmp(cmds->cmd, "cd"))

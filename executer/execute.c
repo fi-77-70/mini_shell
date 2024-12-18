@@ -76,18 +76,18 @@ int	handle_is_dir_er(t_menu *menu)
 		free_mid_process(menu);
 		exit(127);
 	}
-	return (1);
+	return (menu->return_code = 127, 1);
 }
 
 int	handle_acess_file_er(t_menu *menu)
 {
-	write_error_message(" Permission denied\n");
+	//write_error_message(" Permission denied\n");
 	if (menu->is_child)
 	{
 		free_mid_process(menu);
 		exit(1);
 	}
-	return (1);
+	return (menu->return_code = 1, 1);
 }
 
 int	handle_red_out(t_menu *menu, t_args *temp, int fd_out)

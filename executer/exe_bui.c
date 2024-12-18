@@ -15,32 +15,28 @@ int	check_acess_file(char *str, int per, t_menu *menu)
 	if (access(str, F_OK))
 	{
 		if (!menu->is_child)
-			return (write_error_message(" No such file or directory\n"),
-			free_mid_process(menu), 1);
+			return (write_error_message(" No such file or directory\n"), menu->return_code = 1, 0);
 		return (write_error_message(" No such file or directory\n"),
 			free_mid_process(menu), exit(1), 0);
 	}
 	if (per == 1 && access(str, R_OK))
 	{
 		if (!menu->is_child)
-			return (write_error_message(" Permission denied\n"),
-			free_mid_process(menu), 1);
+			return (write_error_message(" Permission denied\n"), menu->return_code = 1, 0);
 		return (write_error_message(" Permission denied\n"),
 			free_mid_process(menu), exit(1), 0);
 	}
 	if (per == 2 && access(str, W_OK))
 	{
 		if (!menu->is_child)
-			return (write_error_message(" Permission denied\n"),
-			free_mid_process(menu), 1);
+			return (write_error_message(" Permission denied\n"), menu->return_code = 1, 0);
 		return (write_error_message(" Permission denied\n"),
 			free_mid_process(menu), exit(1), 0);
 	}
 	if (per == 3 && access(str, X_OK))
 	{
 		if (!menu->is_child)
-			return (write_error_message(" Permission denied\n"),
-			free_mid_process(menu), 0);
+			return (write_error_message(" Permission denied\n"), menu->return_code = 1, 0);
 		return (write_error_message(" Permission denied\n"),
 			free_mid_process(menu), exit(1), 1);
 	}
