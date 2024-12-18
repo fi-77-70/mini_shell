@@ -138,8 +138,8 @@ int	ft_is_built(t_cmds *cmds)
 	str = NULL;
 	if (cmds->cmd)
 		str = cmds->cmd;
-	if (!ft_strcmp(str, "echo"))
-		return (1);
+	// if (!ft_strcmp(str, "echo"))
+	// 	return (1);
 	if (!ft_strcmp(str, "cd"))
 		return (1);
 	if (!ft_strcmp(str, "exit"))
