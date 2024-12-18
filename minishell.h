@@ -108,5 +108,8 @@ char				*ft_strjoin3(const char *s1, char c, const char *s2);
 char				*ft_expand(char *line, t_menu *menu);
 char				*ft_take_out_back(char *str, char out);
 char				*get_command_path(t_cmds *cmds, t_menu *menu);
+void				reset_ouput(t_menu *menu);
+
+int					handle_redirs(t_cmds *cmd, t_menu *menu);
 
 #endif

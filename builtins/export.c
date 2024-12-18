@@ -27,7 +27,7 @@ int	handle_export_arg(char *arg, t_menu *menu)
 	char	*new_entry;
 
 	if (!parse_export_input(arg))
-		return (menu->return_code = 1, printf("export: not valid\n"), 1);
+		return (menu->return_code = 1, write_error_message("export: not valid\n"), 1);
 	find_key_value(arg, &key, &value);
 	if (!value)
 		new_entry = ft_strjoin(key, "=");
@@ -53,17 +53,13 @@ void	print_env(t_menu *menu)
 	i = 0;
 	if (!menu || !menu->env)
 	{
-		ft_putstr_fd("export: Failed to obtain vars\n", STDERR_FILENO);
+		write_error_message("export: Failed to obtain vars\n");
 		return ;
 	}
 	while (menu->env[i])
 	{
 		if (ft_strchr(menu->env[i], '='))
-		{
-			ft_putstr("declare -x ");
-			ft_putstr_fd(menu->env[i], STDOUT_FILENO);
-			ft_putstr_fd("\n", STDOUT_FILENO);
-		}
+			printf("declare -x %s\n", menu->env[i]);
 		i++;
 	}
 	menu->return_code = 0;

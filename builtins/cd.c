@@ -5,7 +5,6 @@ int	ft_cd(t_cmds *cmds, t_menu *menu)
 	char	*path;
 	int		arg_nbr;
 
-	ft_putstr_fd("TESTE", STDOUT_FILENO);
 	arg_nbr = verify_nbr_args(cmds, menu);
 	if (arg_nbr == 1 || (cmds->args[1] && cmds->args[1][0] == '~'))
 	{

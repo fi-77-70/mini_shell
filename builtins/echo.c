@@ -11,13 +11,13 @@ int	ft_echo(t_cmds *cmds, t_menu *menu)
 	i = check_n_opt(cmds, &new_line);
 	while (cmds->args[i])
 	{
-		ft_putstr_fd(cmds->args[i], STDOUT_FILENO);
+		printf("%s", cmds->args[i]);
 		if (cmds->args[i + 1])
-			ft_putstr_fd(" ", STDOUT_FILENO);
+			printf(" ");
 		i++;
 	}
 	if (new_line)
-		ft_putstr_fd("\n", STDOUT_FILENO);
+		printf("\n");
 	if (menu->is_child)
 	{
 		free_mid_process(menu);

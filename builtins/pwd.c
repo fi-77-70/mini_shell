@@ -12,7 +12,7 @@ int	ft_pwd(t_cmds *cmds, t_menu *menu)
 	{
 		if ((ft_strcmp(cmds->args[1], "-") == 0) || (cmds->args[1][0] == '-'))
 		{
-			ft_putstr_fd("Error: no options allowed for pwd\n", STDERR_FILENO);
+			write_error_message("Error: no options allowed for pwd\n");
 			menu->return_code = 1;
 			return (1);
 		}
@@ -27,7 +27,7 @@ int	ft_pwd(t_cmds *cmds, t_menu *menu)
 	}
 	else
 	{
-		ft_putstr_fd("Issue finding current directory\n", STDERR_FILENO);
+		write_error_message("Issue finding current directory\n");
 		menu->return_code = 1;
 		return (1);
 	}

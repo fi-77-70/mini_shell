@@ -68,54 +68,71 @@ int	handle_pipes(t_cmds **cmds, t_menu *menu)
 	return (0);
 }
 
-void	handle_is_dir_er(t_menu *menu)
+int	handle_is_dir_er(t_menu *menu)
 {
-	free_mid_process(menu);
 	write_error_message("Is a directory\n");
-	exit(127);
+	if (menu->is_child)
+	{
+		free_mid_process(menu);
+		exit(127);
+	}
+	return (1);
 }
 
-void	handle_acess_file_er(t_menu *menu)
+int	handle_acess_file_er(t_menu *menu)
 {
-	free_mid_process(menu);
 	write_error_message(" Permission denied\n");
-	exit(1);
+	if (menu->is_child)
+	{
+		free_mid_process(menu);
+		exit(1);
+	}
+	return (1);
 }
 
-void	handle_red_out(t_menu *menu, t_args *temp, int fd_out)
+int	handle_red_out(t_menu *menu, t_args *temp, int fd_out)
 {
 	fd_out = open(temp->token, O_RDWR | O_CREAT, 0777);
 	if (check_dir(temp->token) == 2)
-		handle_is_dir_er(menu);
+		if (handle_is_dir_er(menu))
+			return (1);
 	if (!check_acess_file(temp->token, 2, menu))
-		handle_acess_file_er(menu);
+		if (handle_acess_file_er(menu))
+			return (1);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
+	return (0);
 }
 
-void	handle_red_app(t_menu *menu, t_args *temp, int fd_out)
+int	handle_red_app(t_menu *menu, t_args *temp, int fd_out)
 {
 	fd_out = open(temp->token, O_CREAT | O_APPEND | O_RDWR, 0777);
 	if (check_dir(temp->token) == 2)
-		handle_is_dir_er(menu);
+		if (handle_is_dir_er(menu))
+			return (1);
 	if (!check_acess_file(temp->token, 2, menu))
-		handle_acess_file_er(menu);
+		if (handle_acess_file_er(menu))
+			return (1);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
+	return (0);
 }
 
-void	handle_red_in(t_menu *menu, t_args *temp, int fd_in)
+int	handle_red_in(t_menu *menu, t_args *temp, int fd_in)
 {
 	fd_in = open(temp->token, O_RDWR, 0777);
 	if (check_dir(temp->token) == 2)
-		handle_is_dir_er(menu);
+		if (handle_is_dir_er(menu))
+			return (1);
 	if (!check_acess_file(temp->token, 1, menu))
-		handle_acess_file_er(menu);
+		if (handle_acess_file_er(menu))
+			return (1);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
+	return (0);
 }
 
-void	handle_redirs(t_cmds *cmd, t_menu *menu)
+int	handle_redirs(t_cmds *cmd, t_menu *menu)
 {
 	int		fd_out;
 	int		fd_in;
@@ -127,11 +144,20 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 	while (temp)
 	{
 		if (temp->type == RED_OUT)
-			handle_red_out(menu, temp, fd_out);
+		{
+			if (handle_red_out(menu, temp, fd_out))
+				return (1);
+		}
 		else if (temp->type == APP_OUT)
-			handle_red_app(menu, temp, fd_out);
+		{
+			if (handle_red_app(menu, temp, fd_out))
+				return (1);
+		}
 		else if (temp->type == RED_IN)
-			handle_red_in(menu, temp, fd_in);
+		{
+			if (handle_red_in(menu, temp, fd_in))
+				return (1);
+		}
 		else if (temp->type == HERE_DOC)
 		{
 			dup2(cmd->here_fds[0], STDIN_FILENO);
@@ -139,6 +165,7 @@ void	handle_redirs(t_cmds *cmd, t_menu *menu)
 		}
 		temp = temp->next;
 	}
+	return (0);
 }
 
 char	*get_command_path(t_cmds *cmds, t_menu *menu)
@@ -232,13 +259,11 @@ void	process_handler(t_menu *menu)
 	t_cmds *cmds;
 
 	cmds = *(menu->cmds);
-
+	
 	if (create_pid_arr(menu) == 1 && ft_is_built(cmds))
-		return (free(menu->pid_arr), menu->pid_arr = NULL, handle_redirs(cmds,
-				menu), handle_builts(cmds, menu));
+		return (free(menu->pid_arr), menu->pid_arr = NULL, handle_builts(cmds, menu), reset_ouput(menu));
 	if (handle_pipes(&cmds, menu))
 		return ;
-	handle_redirs(cmds, menu);
 	handle_builts(cmds, menu);
 	exe_2(menu, cmds);
 }
