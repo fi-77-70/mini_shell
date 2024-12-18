@@ -105,7 +105,7 @@ int	parse_export_input(const char *input)
 	i++;
 	while (input[i] && input[i] != '=')
 	{
-		if (input[i] == ' ' || input[i] == '\t')
+		if (!(ft_isalnum(input[i]) || input[i] == '_'))
 			return (0);
 		i++;
 	}
