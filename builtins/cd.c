@@ -5,7 +5,8 @@ int	ft_cd(t_cmds *cmds, t_menu *menu)
 	char	*path;
 	int		arg_nbr;
 
-	arg_nbr = verify_nbr_args(cmds, menu);
+	if((arg_nbr = verify_nbr_args(cmds, menu)) > 2)
+		return (0);
 	if (arg_nbr == 1 || (cmds->args[1] && cmds->args[1][0] == '~'))
 	{
 		path = menu->til;
@@ -33,7 +34,7 @@ int	verify_nbr_args(t_cmds *cmds, t_menu *menu)
 	{
 		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
 		menu->return_code = 1;
-		return (1);
+		return (arg_nbr);
 	}
 	return (arg_nbr);
 }
