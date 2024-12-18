@@ -6,7 +6,7 @@
 #    By: filferna <filferna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/29 19:58:05 by filferna          #+#    #+#              #
-#    Updated: 2024/12/12 14:17:46 by filferna         ###   ########.fr        #
+#    Updated: 2024/12/13 17:00:37 by filferna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SOURCE =  ft_memcmp.c	  ft_strdup.c	 ft_strtrim.c\
 			ft_isascii.c  ft_putnbr_fd.c   ft_strmapi.c	ft_free_matrix.c\
 			ft_isdigit.c  ft_putstr_fd.c   ft_strncmp.c	ft_splot.c\
 			ft_isprint.c  ft_split.c	  ft_strnstr.c	ft_strjoin_free.c\
-			ft_itoa.c     ft_memchr.c	 ft_strchr.c ft_strrchr.c\
+			ft_itoa.c     ft_memchr.c	 ft_strchr.c ft_strrchr.c	ft_itol.c\
 
 BONUS_SRC = ft_lstclear.c ft_lstsize.c ft_lstiter.c ft_lstmap.c ft_lstlast.c ft_lstnew.c ft_lstadd_back.c ft_lstadd_front.c ft_lstdelone.c\
 

@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 20:59:48 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/12 13:40:44 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:00:23 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,7 @@ char 	**ft_splot(char *str);
 char 	*ft_take_out_back(char *str, char out);
 
 char	*ft_strjoin_free(char *str1, char *str2);
+
+char	*ft_itol(long long n);
 
 #endif

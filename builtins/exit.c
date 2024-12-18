@@ -23,6 +23,7 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 	long long	code;
 	int			i;
 	int			len;
+	char		*itoa;
 
 	i = 0;
 	while (cmds->args[i])
@@ -31,34 +32,41 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 		exit(0);
 	if (i > 2)
 	{
-		write_error_message(" too many arguments\n");
-		exit(1);
+		write_error_message("exit :too many arguments\n");
+		if (menu->is_child)
+		{
+			free_mid_process(menu);
+			exit(1);
+		}
+		else
+			menu->return_code = 1;
+		return ;
 	}
 	i--;
 	len = ft_strlen(cmds->args[i]);
 	if (*(cmds->args[i]) == '+')
 		len = len - 1;
+	itoa = ft_itol(code = ft_atoll(cmds->args[i]));
 	if (!ft_str_is_nr(cmds->args[i]) || len > 20
-		|| (size_t)len != ft_strlen(ft_itoa((code = ft_atoll(cmds->args[i])))))
+		|| (size_t)len != ft_strlen(itoa))
 	{
-		write_error_message(" numeric argument required\n");
+		free(itoa);
+		write_error_message("exit :numeric argument required\n");
 		if (cmds == *(menu->cmds))
+		{
+			free_mid_process(menu);
 			exit(2);
+		}
 		else
-			exit(2);
+			free_mid_process(menu);
+		exit(2);
 	}
+	free(itoa);
 	if (code > 256)
 		code = code % 256;
 	else if (code < 0)
 		while (code < 0)
 			code = 256 + code;
-	if (menu->pid_arr)
-		free(menu->pid_arr);
-	free_all(menu);
-	if (menu->is_child == 0)
-	{
-		free_line(menu->env);
-		free(menu);
-	}
+	free_mid_process(menu);
 	exit(code);
 }
