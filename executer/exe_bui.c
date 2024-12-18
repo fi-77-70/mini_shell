@@ -130,11 +130,11 @@ int	ft_is_built(t_cmds *cmds)
 		return (1);
 	if (!ft_strcmp(str, "pwd"))
 		return (1);
-	/* 	if (!ft_strcmp(str, "export"))
-		return (1);
-	if (!ft_strcmp(str, "unset"))
-		return (1);
 	if (!ft_strcmp(str, "env"))
+		return (1);
+	if (!ft_strcmp(str, "export"))
+		return (1);
+	/* if (!ft_strcmp(str, "unset"))
 		return (1); */
 	return (0);
 }
