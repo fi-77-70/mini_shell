@@ -65,7 +65,7 @@ void	print_env(t_menu *menu)
 	menu->return_code = 0;
 }
 
-int	parse_export_input(const char *input)
+/* int	parse_export_input(const char *input)
 {
 	int	i;
 	int	equal_sign;
@@ -85,6 +85,27 @@ int	parse_export_input(const char *input)
 				return (0);
 		}
 		else if (!ft_isalnum(input[i]) && input[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+} */
+
+int	parse_export_input(const char *input)
+{
+	int	i;
+	int	equal_sign;
+
+	i = 0;
+	equal_sign = 0;
+
+	if (!input || input[0] == '\0'
+		|| (!(ft_isalpha(input[i])) && input[i] != '_'))
+		return (0);
+	i++;
+	while (input[i] && input[i] != '=')
+	{
+		if (input[i] == ' ' || input[i] == '\t')
 			return (0);
 		i++;
 	}
