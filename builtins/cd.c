@@ -53,7 +53,7 @@ int	change_dir(t_menu *menu, char *path)
 	}
 	if (chdir(path) != 0)
 	{
-		ft_putstr_fd("cd: Failure changing directory\n", STDERR_FILENO);
+		ft_putstr_fd("cd: No such file or directory\n", STDERR_FILENO);
 		free(cwd);
 		return (menu->return_code = 1, 1);
 	}

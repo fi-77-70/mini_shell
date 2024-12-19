@@ -7,14 +7,31 @@ int	ft_export(t_cmds *cmds, t_menu *menu)
 	i = 1;
 	if (!cmds->args[1])
 	{
+		if (menu->is_child)
+		{
+			free_mid_process(menu);
+			exit (1);
+		}
 		print_env(menu);
 		return (menu->return_code = 0, 0);
 	}
 	while (cmds->args[i])
 	{
 		if (handle_export_arg(cmds->args[i], menu))
+		{
+			if (menu->is_child)
+			{
+				free_mid_process(menu);
+				exit (1);
+			}
 			return (menu->return_code = 1, 1);
+		}
 		i++;
+	}
+	if (menu->is_child)
+	{
+		free_mid_process(menu);
+		exit (0);
 	}
 	return (menu->return_code = 0, 0);
 }
@@ -28,7 +45,7 @@ int	handle_export_arg(char *arg, t_menu *menu)
 
 	if (!parse_export_input(arg))
 		return (menu->return_code = 1,
-			write_error_message("export: not valid\n"), 1);
+			write_error_message("export: not a valid identifier\n"), 1);
 	find_key_value(arg, &key, &value);
 	if (!value)
 		new_entry = ft_strjoin(key, "=");

@@ -28,9 +28,15 @@ int	cut_count(char *str)
 	while (str[i])
 	{
 		if (str[i] == '"')
+		{
 			ft_quote(str, &i, '"');
+			j++;
+		}
 		if (str[i] == 39)
+		{
 			ft_quote(str, &i, 39);
+			j++;
+		}
 		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
 			j++;
 		if (str[i] && str[i + 1] && ((str[i + 1] == '<' && str[i] == '<') || (str[i + 1] == '>'
@@ -132,7 +138,8 @@ char	**ft_splot(char *str)
 	int		a;
 	int		yes;
 
-	matrix = (char **)malloc(sizeof(char *) * (cut_count(str) + 3));
+	//printf("cut count ------------------->>>> [%d]\n", cut_count(str));
+	matrix = (char **)malloc(sizeof(char *) * (cut_count(str)));
 	if (!matrix)
 		return (NULL);
 	i = 0;

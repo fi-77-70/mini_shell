@@ -32,7 +32,7 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 		exit(0);
 	if (i > 2)
 	{
-		write_error_message("exit :too many arguments\n");
+		write_error_message("exit: too many arguments\n");
 		if (menu->is_child)
 		{
 			free_mid_process(menu);
@@ -51,7 +51,7 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 		|| (size_t)len != ft_strlen(itoa))
 	{
 		free(itoa);
-		write_error_message("exit :numeric argument required\n");
+		write_error_message("exit: numeric argument required\n");
 		if (cmds == *(menu->cmds))
 		{
 			free_mid_process(menu);
