@@ -4,13 +4,21 @@ int	ft_cd(t_cmds *cmds, t_menu *menu)
 {
 	char	*path;
 	int		arg_nbr;
+	int		alloc;
 
+	alloc = 0;
 	arg_nbr = verify_nbr_args(cmds, menu);
 	if (arg_nbr > 2)
 		return (1);
-	if (arg_nbr == 1 || (cmds->args[1] && cmds->args[1][0] == '~'))
+	if (arg_nbr == 1 || (cmds->args[1] && (cmds->args[1][0] == '~' || cmds->args[1][0] == '-')))
 	{
-		path = menu->til;
+		if (cmds->args[1] && cmds->args[1][0] == '-')
+		{
+			path = env_get("OLDPWD", menu);
+			alloc = 1;
+		}
+		else
+			path = menu->til;
 		if (!path)
 		{
 			ft_putstr_fd("cd: no HOME var \n", STDERR_FILENO);
@@ -21,6 +29,8 @@ int	ft_cd(t_cmds *cmds, t_menu *menu)
 	else
 		path = cmds->args[1];
 	change_dir(menu, path);
+	if (alloc)
+		free(path);
 	return (0);
 }
 
