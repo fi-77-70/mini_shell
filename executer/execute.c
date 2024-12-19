@@ -265,5 +265,10 @@ void	process_handler(t_menu *menu)
 	if (handle_pipes(&cmds, menu))
 		return ;
 	handle_builts(cmds, menu);
+	if (cmds->cmd && !cmds->cmd[0])
+	{
+		free_mid_process(menu);
+		exit(0);
+	}
 	exe_2(menu, cmds);
 }
