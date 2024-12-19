@@ -22,9 +22,9 @@ void	handle_builts(t_cmds *cmds, t_menu *menu)
 		ft_pwd(cmds, menu);
 	if (!ft_strcmp(cmds->cmd, "export"))
 		ft_export(cmds, menu);
-/* 	if (!ft_strcmp(cmds->cmd, "unset"))
+	if (!ft_strcmp(cmds->cmd, "unset"))
 		ft_unset(cmds, menu);
-	if (!menu->is_child)
+	/* if (!menu->is_child)
 	{
 		ft_putstr_fd("ENTREI\n", menu->fd_out);
 		dup2(menu->fd_in, STDIN_FILENO);

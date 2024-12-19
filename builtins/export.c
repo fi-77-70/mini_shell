@@ -27,7 +27,8 @@ int	handle_export_arg(char *arg, t_menu *menu)
 	char	*new_entry;
 
 	if (!parse_export_input(arg))
-		return (menu->return_code = 1, write_error_message("export: not valid\n"), 1);
+		return (menu->return_code = 1,
+			write_error_message("export: not valid\n"), 1);
 	find_key_value(arg, &key, &value);
 	if (!value)
 		new_entry = ft_strjoin(key, "=");
@@ -94,11 +95,8 @@ void	print_env(t_menu *menu)
 int	parse_export_input(const char *input)
 {
 	int	i;
-	int	equal_sign;
 
 	i = 0;
-	equal_sign = 0;
-
 	if (!input || input[0] == '\0'
 		|| (!(ft_isalpha(input[i])) && input[i] != '_'))
 		return (0);

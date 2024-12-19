@@ -5,8 +5,9 @@ int	ft_cd(t_cmds *cmds, t_menu *menu)
 	char	*path;
 	int		arg_nbr;
 
-	if((arg_nbr = verify_nbr_args(cmds, menu)) > 2)
-		return (0);
+	arg_nbr = verify_nbr_args(cmds, menu);
+	if (arg_nbr > 2)
+		return (1);
 	if (arg_nbr == 1 || (cmds->args[1] && cmds->args[1][0] == '~'))
 	{
 		path = menu->til;
