@@ -62,8 +62,11 @@ char	*ft_final_expand(char *str, char *var, char *var_name, int n)
 		if (str[i] == '$' && expanded == 0)
 		{
 			i++;
-			while (ft_isalnum(str[i]))
+			if (ft_isdigit(str[i]))
 				i++;
+			else
+				while (ft_isalnum(str[i]))
+					i++;
 			if (str[i] == '?')
 				i++;
 			expanded = 1;
@@ -79,7 +82,9 @@ char	*ft_final_expand(char *str, char *var, char *var_name, int n)
 			break ;
 	}
 	final[j] = 0;
-	return (free(var_name), free(str), free(var), final);
+	if (var_name)
+		free(var_name);
+	return (free(str), free(var), final);
 }
 
 char	*get_var_name(char *env_var)
@@ -92,6 +97,8 @@ char	*get_var_name(char *env_var)
 	i = 0;
 	while (ft_isalnum(env_var[i]))
 		i++;
+	if (ft_isdigit(env_var[0]))
+		return (NULL);
 	var = (char *)malloc(sizeof(char) * i + 1);
 	if (!var)
 		return (NULL);

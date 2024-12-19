@@ -171,6 +171,8 @@ char	**ft_splot(char *str)
 				a++;
 			}
 			check_symbol(str, &j, &i, matrix, &a);
+			if (str[i] && i > 0 && (str[i] == '"' || str[i] == 39))
+				i--;
 		}
 		if (str[i] == 0)
 			break ;

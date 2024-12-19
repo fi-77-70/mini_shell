@@ -20,7 +20,7 @@ char	*ft_expand(char *line, t_menu *menu)
 				i++;
 		}
 		if (line[i] && line[i + 1] && line[i] == '$' && (ft_isalnum(line[i + 1])
-				|| line[i + 1] == '?'))
+				|| line[i + 1] == '?' || ((line[i + 1] == '"' || line[i + 1] == 39) && quote < 0)))
 			line = ft_expander(line, i, menu);
 		if (line[i] == 92 && line[i + 1])
 			i++;
