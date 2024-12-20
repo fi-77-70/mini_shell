@@ -17,6 +17,8 @@ int	ft_pwd(t_cmds *cmds, t_menu *menu)
 		return (menu->return_code = 1, 1);
 	}
 	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		cwd = env_get("PWD", menu);
 	if (cwd)
 	{
 		printf("%s\n", cwd);

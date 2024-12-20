@@ -57,6 +57,8 @@ int	change_dir(t_menu *menu, char *path)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
+		cwd = env_get("PWD", menu);
+	if (!cwd)
 	{
 		ft_putstr_fd("cd: Failure obtaining cdw\n", STDERR_FILENO);
 		return (menu->return_code = 1, 1);
