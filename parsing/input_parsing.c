@@ -1,5 +1,34 @@
 #include "../minishell.h"
 
+void	ft_unquote_3(t_args *temp, char *final, int *a, char *quote)
+{
+	int	i;
+
+	i = 0;
+	while (temp->token[i])
+	{
+		while (temp->token[i] && temp->token[i] != 39 && temp->token[i] != '"')
+		{
+			final[*a] = temp->token[i];
+			a += 1;
+			i++;
+		}
+		if (temp->token[i] && (i == 0 || (temp->token[i - 1] && temp->token[i
+						- 1] != 92)))
+		{
+			*quote = temp->token[i];
+			i++;
+		}
+		while (temp->token[i] != *quote && temp->token[i])
+		{
+			final[*a] = temp->token[i++];
+			*a += 1;
+		}
+		if (temp->token[i])
+			i++;
+	}
+}
+
 void	ft_unquote_two(t_args **msh, int length)
 {
 	char	*final;
@@ -13,29 +42,7 @@ void	ft_unquote_two(t_args **msh, int length)
 	temp = *msh;
 	final = (char *)malloc(sizeof(char) * length + 1);
 	quote = temp->token[i];
-	while (temp->token[i])
-	{
-		while (temp->token[i] && temp->token[i] != 39 && temp->token[i] != '"')
-		{
-			final[a] = temp->token[i];
-			a++;
-			i++;
-		}
-		if (temp->token[i] && (i == 0 || (temp->token[i - 1] && temp->token[i
-						- 1] != 92)))
-		{
-			quote = temp->token[i];
-			i++;
-		}
-		while (temp->token[i] != quote && temp->token[i])
-		{
-			final[a] = temp->token[i];
-			a++;
-			i++;
-		}
-		if (temp->token[i])
-			i++;
-	}
+	ft_unquote_3(temp, final, &a, &quote);
 	final[a] = 0;
 	free((*msh)->token);
 	(*msh)->token = final;
@@ -67,8 +74,7 @@ int	ft_unquote(t_args **msh)
 		}
 	}
 	length = ft_strlen(temp->token) - n;
-	ft_unquote_two(msh, length);
-	return (2);
+	return (ft_unquote_two(msh, length), 2);
 }
 
 int	ft_check_quotes(t_args **mshh)
@@ -99,111 +105,24 @@ int	ft_check_quotes(t_args **mshh)
 	return ((*mshh) = msh, 1);
 }
 
-int	check_multiple_here_doc(t_args *msh)
-{
-	int	check;
-
-	while (msh->next)
-	{
-		check = msh->type;
-		if (check == msh->next->type && check == HERE_DOC)
-			return (0);
-		msh = msh->next;
-	}
-	return (1);
-}
-
-int	check_multiple_app(t_args *msh)
-{
-	int	check;
-
-	while (msh->next)
-	{
-		check = msh->type;
-		if (check == msh->next->type && check == APP_OUT)
-			return (0);
-		msh = msh->next;
-	}
-	return (1);
-}
-
-int	check_multiple_red_out(t_args *msh)
-{
-	int	check;
-
-	while (msh->next)
-	{
-		check = msh->type;
-		if (check == msh->next->type && check == RED_OUT)
-			return (0);
-		msh = msh->next;
-	}
-	return (1);
-}
-
-int	check_multiple_red_in(t_args *msh)
-{
-	int	check;
-
-	while (msh->next)
-	{
-		check = msh->type;
-		if (check == msh->next->type && check == RED_IN)
-			return (0);
-		msh = msh->next;
-	}
-	return (1);
-}
-
-int	check_multiple_pipes(t_args *msh)
-{
-	int	check;
-
-	if (msh->type == PIPE)
-		return (0);
-	while (msh)
-	{
-		check = msh->type;
-		if ((!msh->next || check == msh->next->type) && check == PIPE)
-			return (0);
-		msh = msh->next;
-	}
-	return (1);
-}
-
-int	check_red_file_name(t_args *msh)
-{
-	int	check;
-
-	while (msh)
-	{
-		check = msh->type;
-		if ((check == RED_IN || check == RED_OUT || check == APP_OUT
-				|| check == HERE_DOC) && (!msh->next || msh->next->type != ARG))
-			return (0);
-		msh = msh->next;
-	}
-	return (1);
-}
-
 int	ft_input_check(t_args **mshh)
 {
 	t_args	*msh;
 
 	msh = *mshh;
 	if (!check_multiple_pipes(msh))
-		return (write_error_message("Error in parsing : sequential pipes\n"), 0);
+		return (write_error_message("Error: sequential pipes\n"), 0);
 	if (!check_red_file_name(msh))
-		return (write_error_message("Error in parsing : redirect file name missing\n"), 0);
+		return (write_error_message("Error: redirect file name missing\n"), 0);
 	if (!check_multiple_red_in(msh))
-		return (write_error_message("Error in parsing : sequential redirections\n"), 0);
+		return (write_error_message("Error: sequential redirections\n"), 0);
 	if (!check_multiple_red_out(msh))
-		return (write_error_message("Error in parsing : sequential redirections\n"), 0);
+		return (write_error_message("Error: sequential redirections\n"), 0);
 	if (!check_multiple_here_doc(msh))
-		return (write_error_message("Error in parsing : sequential here docs\n"), 0);
+		return (write_error_message("Error: sequential here docs\n"), 0);
 	if (!check_multiple_app(msh))
-		return (write_error_message("Error in parsing : sequential redirections\n"), 0);
+		return (write_error_message("Error: sequential redirections\n"), 0);
 	if (!ft_check_quotes(mshh))
-		return (write_error_message("Error in parsing : unclosed quotes\n"), 0);
+		return (write_error_message("Error: unclosed quotes\n"), 0);
 	return (1);
 }

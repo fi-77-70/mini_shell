@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:58:32 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 16:02:15 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 22:08:02 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ char				*ft_final_expand(char *str, char *var, char *var_name,
 						int n);
 int					ft_input_check(t_args **mshh);
 void				free_all(t_menu *menu);
-int					pid_get(t_menu *menu);
 void				process_handler(t_menu *menu);
 void				dup_arrr(char **map, t_menu **menu);
 char				*env_get(char *name, t_menu *menu);
@@ -126,5 +125,16 @@ char				*get_command_path(t_cmds *cmds, t_menu *menu);
 void				reset_ouput(t_menu *menu);
 
 int					handle_redirs(t_cmds *cmd, t_menu *menu);
+int					check_multiple_pipes(t_args *msh);
+int					check_multiple_red_in(t_args *msh);
+int					check_multiple_red_out(t_args *msh);
+int					check_multiple_app(t_args *msh);
+int					check_multiple_here_doc(t_args *msh);
+int					check_red_file_name(t_args *msh);
+int					check_other_word(char *str, int *i, int direction);
+int					check_pipe_exist(char *str, int i);
+int					checker_ex(char *line, int i, int quote);
+void				ex_utils(char **line, int *i);
+void				ex_utils_2(char *line, int *i, int *quote);
 
 #endif

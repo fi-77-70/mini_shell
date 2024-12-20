@@ -1,91 +1,58 @@
 #include "../minishell.h"
 
-int	check_pipe_exist(char *str, int i)
+char	*expand_variable(char *str, char *var, int *j)
 {
-	int	other_word;
-	int	j;
+	int	a;
 
-	other_word = 0;
-	j = i;
-	while (str[i] && str[i] != '|')
+	a = 0;
+	while (var && var[a])
 	{
-		if (str[i] == ' ')
-			other_word = 1;
-		if (other_word == 1 && ft_isalnum(str[i]))
-			other_word = 2;
-		if (other_word == 2)
-			break ;
-		i++;
+		str[*j] = '\\';
+		(*j)++;
+		str[*j] = var[a++];
+		(*j)++;
 	}
-	if (str[i] && str[i] == '|')
-		return (1);
-	i = j;
-	other_word = 0;
-	while (i >= 0 && str[i] && str[i] != '|')
-	{
-		if (str[i] == ' ')
-			other_word = 1;
-		if (other_word == 1 && ft_isalnum(str[i]))
-			other_word = 2;
-		if (other_word == 2)
-			break ;
-		i--;
-	}
-	if (i >= 0 && str[i] && str[i] == '|')
-		return (1);
-	return (0);
+	return (str);
+}
+
+void	final_1(char *str, int *i, int *expanded)
+{
+	*i += 1;
+	if (ft_isdigit(str[*i]) || str[*i] == '$')
+		*i += 1;
+	else
+		while (ft_isalnum(str[*i]))
+			*i += 1;
+	if (str[*i] == '?')
+		*i += 1;
+	*expanded = 1;
 }
 
 char	*ft_final_expand(char *str, char *var, char *var_name, int n)
 {
 	int		i;
 	int		j;
-	int		a;
 	int		expanded;
 	char	*final;
 
 	i = 0;
-	expanded = 0;
-	if (var)
-		i = ft_strlen(var);
-	final = (char *)malloc(sizeof(char) * (ft_strlen(str) + (i * 2)
-				- ft_strlen(var_name)) + 1);
-	i = -1;
 	j = 0;
-	a = 0;
-	while (str[++i])
+	expanded = 0;
+	final = (char *)malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(var) * 2
+				- ft_strlen(var_name)) + 1);
+	while (str[i])
 	{
-		while (i < n)
+		if (i < n)
+			final[j++] = str[i++];
+		else if (str[i] == '$' && !expanded)
 		{
-			final[j++] = str[i];
-			i++;
+			final_1(str, &i, &expanded);
+			final = expand_variable(final, var, &j);
 		}
-		if (str[i] == '$' && expanded == 0)
-		{
-			i++;
-			if (ft_isdigit(str[i]))
-				i++;
-			else
-				while (ft_isalnum(str[i]))
-					i++;
-			if (str[i] == '?')
-				i++;
-			expanded = 1;
-			while (var && var[a])
-			{
-				final[j++] = 92;
-				final[j++] = var[a++];
-			}
-		}
-		if (str[i])
-			final[j++] = str[i];
-		if (!str[i])
-			break ;
+		else
+			final[j++] = str[i++];
 	}
-	final[j] = 0;
-	if (var_name)
-		free(var_name);
-	return (free(str), free(var), final);
+	return (free(str), free(var), free(var_name), final[j] = 0, final);
 }
 
 char	*get_var_name(char *env_var)
@@ -128,7 +95,7 @@ char	*ft_expander(char *str, int i, t_menu *menu)
 	else if (str[i] == '$')
 	{
 		var_name = ft_strdup("$");
-		expanded = ft_itoa(pid_get(menu));
+		expanded = ft_itoa(424242);
 	}
 	else
 	{

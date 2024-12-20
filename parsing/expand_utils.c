@@ -40,7 +40,7 @@ char	*env_get(char *name, t_menu *menu)
 	if (!ft_strcmp(name, "~"))
 		return (ft_strdup(menu->til));
 	if (!ft_strcmp(name, "$"))
-		return (ft_itoa(pid_get(menu)));
+		return (ft_itoa(349262));
 	i = -1;
 	temp = menu->env;
 	while (temp[++i])

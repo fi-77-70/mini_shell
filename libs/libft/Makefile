@@ -6,13 +6,13 @@
 #    By: filferna <filferna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/29 19:58:05 by filferna          #+#    #+#              #
-#    Updated: 2024/12/13 17:00:37 by filferna         ###   ########.fr        #
+#    Updated: 2024/12/20 17:46:15 by filferna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-SOURCE =  ft_memcmp.c	  ft_strdup.c	 ft_strtrim.c\
-			ft_atoi.c     ft_memcpy.c	  ft_striteri.c  ft_substr.c\
+SOURCE =  ft_memcmp.c	  ft_strdup.c	 ft_strtrim.c ft_splot_utils.c\
+			ft_atoi.c     ft_memcpy.c	  ft_striteri.c  ft_substr.c ft_splot_utils_2.c\
 			ft_bzero.c  ft_memmove.c	  ft_strjoin.c	 ft_tolower.c\
 			ft_calloc.c   ft_memset.c	  ft_strlcat.c	 ft_toupper.c\
 			ft_isalnum.c  ft_putchar_fd.c  ft_strlcpy.c get_arr.c get_arr_utils.c\

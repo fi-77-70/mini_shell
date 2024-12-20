@@ -93,6 +93,35 @@ void	signal_handle(int sig)
 		return ;
 }
 
+int ft_here_loop_2(t_cmds *cmd, t_menu *menu)
+{
+	char	*input;
+
+	while (1)
+	{
+		input = readline("> ");
+		if (!input && !ft_static(1))
+			input = cmd->redir->token;
+		if (!input && ft_static(1))
+		{
+			ft_static(3);
+			close(cmd->here_fds[1]);
+			close(cmd->here_fds[0]);
+			return (dup2(menu->fd_in, STDIN_FILENO), 0);
+		}
+		if (!ft_strcmp(input, cmd->redir->token))
+		{
+			cmd->redir = cmd->redir->next;
+			break ;
+		}
+		else
+		{
+			put_str_fd(input, cmd->here_fds[1]);
+		}
+	}
+	return (1);
+}
+
 int	ft_here_loop(t_cmds *cmds, t_menu *menu)
 {
 	char	*input;
@@ -108,28 +137,8 @@ int	ft_here_loop(t_cmds *cmds, t_menu *menu)
 		while (cmd->redir && cmd->redir->type == HERE_DOC)
 		{
 			pipe(cmd->here_fds);
-			while (1)
-			{
-				input = readline("> ");
-				if (!input && !ft_static(1))
-					input = cmd->redir->token;
-				if (!input && ft_static(1))
-				{
-					ft_static(3);
-					close(cmd->here_fds[1]);
-					close(cmd->here_fds[0]);
-					return (dup2(menu->fd_in, STDIN_FILENO), 0);
-				}
-				if (!ft_strcmp(input, cmd->redir->token))
-				{
-					cmd->redir = cmd->redir->next;
-					break ;
-				}
-				else
-				{
-					put_str_fd(input, cmd->here_fds[1]);
-				}
-			}
+			if (!ft_here_loop_2(cmd, menu))
+				return (0);
 			close(cmd->here_fds[1]);
 		}
 		if (cmd->redir && cmd->redir->type != HERE_DOC)

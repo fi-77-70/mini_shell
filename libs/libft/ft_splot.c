@@ -3,138 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splot.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:42:36 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 15:53:46 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:50:44 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-void	jump(char *str, int *j, int *i)
+void	symbol_utils_2(char *str, t_counter *ct, char **matrix, int *a)
 {
-	while (str[*j] && str[*j] == ' ')
-		*j += 1;
-	*i = *j;
+	int	*i;
+	int	*j;
+
+	i = &ct->i;
+	j = &ct->j;
+	if (*i != *j)
+		*i = *j;
+	if (!ft_strncmp(str + *j, "<", 1))
+		matrix[*a] = ft_strdup("<");
+	else
+		matrix[*a] = ft_strdup(">");
+	*j += 1;
+	*a += 1;
+	check_symbol(str, ct, matrix, a);
 }
 
-void	ft_quote(char *str, int *i, char sep)
+void	symbol_utils(char *str, t_counter *ct, char **matrix, int *a)
 {
-	*i += 1;
-	while (str[*i] && str[*i] != sep)
-		*i += 1;
+	int	*i;
+	int	*j;
+
+	i = &ct->i;
+	j = &ct->j;
+	if (*i != *j)
+		*i = *j;
+	*i += 2;
+	if (!ft_strncmp(str + *j, ">>", 2))
+		matrix[*a] = ft_strdup(">>");
+	else
+		matrix[*a] = ft_strdup("<<");
+	*j += 2;
+	*a += 1;
+	check_symbol(str, ct, matrix, a);
 }
 
-int	cut_count(char *str)
+void	check_symbol(char *str, t_counter *ct, char **matrix, int *a)
 {
-	int	i;
-	int	j;
-	int	word;
+	int	*i;
+	int	*j;
 
-	i = 0;
-	j = 1;
-	word = 0;
-	while (str[i])
-	{
-		if (str[i] == '"')
-		{
-			ft_quote(str, &i, '"');
-			j++;
-		}
-		if (str[i] == 39)
-		{
-			ft_quote(str, &i, 39);
-			j++;
-		}
-		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
-			j++;
-		if (str[i] && str[i + 1] && ((str[i + 1] == '<'
-					&& str[i] == '<') || (str[i + 1] == '>'
-					&& str[i] == '>')))
-			i += 2;
-		if (str[i])
-			i++;
-	}
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '"')
-			ft_quote(str, &i, '"');
-		else if (str[i] == 39)
-			ft_quote(str, &i, 39);
-		else if (str[i] != ' ' && str[i] != '|'
-			&& str[i] != '<' && str[i] != '>'
-			&& word == 0)
-		{
-			j++;
-			word = 1;
-		}
-		else if (str[i] == ' ' || str[i] == '|'
-			|| str[i] == '<' || str[i] == '>')
-			word = 0;
-		if (str[i])
-			i++;
-	}
-	return (j);
-}
-
-char	*ft_space(char *str, int *j, int *i, char *previous)
-{
-	int		a;
-	char	*matrix;
-
-	a = 0;
-	if ((*j >= *i || str[*j] == 0))
-		return (previous);
-	if (str[*i] && (str[*i + 1] == 0 && str[*i] != ' ') && str[*i] != '>'
-		&& str[*i] != '<' && str[*i] != '|')
-		*i += 1;
-	matrix = (char *)malloc(sizeof(char) * (*i - *j) + 1);
-	if (!matrix)
-		return (NULL);
-	while (*j < *i)
-	{
-		matrix[a] = str[*j];
-		*j += 1;
-		a++;
-	}
-	matrix[a] = 0;
-	return (matrix);
-}
-
-void	check_symbol(char *str, int *j, int *i, char **matrix, int *a)
-{
+	i = &ct->i;
+	j = &ct->j;
 	if (str[*i] == ' ' || (str[*i] != '|' && str[*i] != '<' && str[*i] != '>'))
 		return ;
 	if (str[*j] && str[*j + 1] && str[*j + 2]
 		&& (!ft_strncmp(str + *j, ">>", 2) || !ft_strncmp(str
 				+ *j, "<<", 2)))
-	{
-		if (*i != *j)
-			*i = *j;
-		*i += 2;
-		if (!ft_strncmp(str + *j, ">>", 2))
-			matrix[*a] = ft_strdup(">>");
-		else
-			matrix[*a] = ft_strdup("<<");
-		*j += 2;
-		*a += 1;
-		check_symbol(str, j, i, matrix, a);
-	}
+		symbol_utils(str, ct, matrix, a);
 	else if (!ft_strncmp(str + *j, "<", 1) || !ft_strncmp(str + *j, ">", 1))
-	{
-		if (*i != *j)
-			*i = *j;
-		if (!ft_strncmp(str + *j, "<", 1))
-			matrix[*a] = ft_strdup("<");
-		else
-			matrix[*a] = ft_strdup(">");
-		*j += 1;
-		*a += 1;
-		check_symbol(str, j, i, matrix, a);
-	}
+		symbol_utils_2(str, ct, matrix, a);
 	else if (str[*i] == '|')
 	{
 		while (str[*i] == '|')
@@ -147,52 +77,56 @@ void	check_symbol(char *str, int *j, int *i, char **matrix, int *a)
 	}
 }
 
+void	ft_splot_2(t_counter *ct, char **matrix, char *str)
+{
+	if (str[ct->j] == ' ')
+		jump(str, &ct->j, &ct->i);
+	if (str[ct->i] == 39)
+		ft_quote(str, &ct->i, 39);
+	if (str[ct->i] == '"')
+		ft_quote(str, &ct->i, '"');
+	if (str[ct->i] == ' ' || str[ct->i] == '|' || str[ct->i] == 0
+		|| str[ct->i] == '<' || str[ct->i] == '>')
+	{
+		if ((ct->i == 0 || ct->i != ct->j) && str[ct->j] != '|'
+			&& str[ct->j] != '>' && str[ct->j] != '<')
+		{
+			if (ct->i == 0)
+				ct->i++;
+			matrix[ct->a] = ft_space(str, &ct->j, &ct->i, matrix[ct->a]);
+			ct->a++;
+		}
+		check_symbol(str, ct, matrix, &ct->a);
+		if (str[ct->i] && ct->i > 0 && (str[ct->i] == '"' || str[ct->i] == 39))
+			ct->i--;
+	}
+}
+
 char	**ft_splot(char *str)
 {
-	char	**matrix;
-	int		i;
-	int		j;
-	int		a;
-	int		yes;
+	char		**matrix;
+	t_counter	*ct;
+	int			yes;
 
+	ct = (t_counter *)malloc(sizeof(t_counter));
+	ct->i = 0;
+	ct->j = 0;
+	ct->a = 0;
 	matrix = (char **)malloc(sizeof(char *) * (cut_count(str)));
 	if (!matrix)
 		return (NULL);
-	i = 0;
-	j = 0;
-	a = 0;
 	yes = 0;
-	while (str[i++])
+	while (str[ct->i++])
 	{
-		if (i == 1 && !yes)
+		if (ct->i == 1 && !yes)
 		{
 			yes = 1;
-			i = 0;
+			ct->i = 0;
 		}
-		if (str[j] == ' ')
-			jump(str, &j, &i);
-		if (str[i] == 39)
-			ft_quote(str, &i, 39);
-		if (str[i] == '"')
-			ft_quote(str, &i, '"');
-		if (str[i] == ' ' || str[i] == '|' || str[i] == 0 || str[i] == '<'
-			|| str[i] == '>')
-		{
-			if ((i == 0 || i != j) && str[j] != '|' && str[j] != '>'
-				&& str[j] != '<')
-			{
-				if (i == 0)
-					i++;
-				matrix[a] = ft_space(str, &j, &i, matrix[a]);
-				a++;
-			}
-			check_symbol(str, &j, &i, matrix, &a);
-			if (str[i] && i > 0 && (str[i] == '"' || str[i] == 39))
-				i--;
-		}
-		if (str[i] == 0)
+		ft_splot_2(ct, matrix, str);
+		if (str[ct->i] == 0)
 			break ;
 	}
-	matrix[a] = NULL;
-	return (matrix);
+	matrix[ct->a] = NULL;
+	return (free(ct), matrix);
 }

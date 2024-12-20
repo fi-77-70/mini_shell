@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 20:59:48 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/20 15:42:16 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:51:10 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct s_counter
+{
+	int	i;
+	int	j;
+	int	a;
+}	t_counter;
 
 void	ft_striteri(char *s, void (*f)(unsigned int i, char *c));
 
@@ -134,5 +141,19 @@ char	*ft_take_out_back(char *str, char out);
 char	*ft_strjoin_free(char *str1, char *str2);
 
 char	*ft_itol(long long n);
+
+void	check_symbol(char *str, t_counter *ct, char **matrix, int *a);
+
+int		cut_count(char *str);
+
+void	cut_symbols(char *str, int *i, int *j);
+
+void	cut_words(char *str, int *i, int *j, int *word);
+
+void	ft_quote(char *str, int *i, char sep);
+
+void	jump(char *str, int *j, int *i);
+
+char	*ft_space(char *str, int *j, int *i, char *previous);
 
 #endif

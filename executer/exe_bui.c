@@ -114,15 +114,15 @@ void	dup_arrr(char **map, t_menu **menu)
 	temp->env[y] = NULL;
 }
 
-int	pid_get(t_menu *menu)
+int	pid_get(t_menu *menu, char *var_name)
 {
 	int	i;
 
 	i = fork();
 	if (i == 0)
 	{
-		free_list(menu->mshh);
-		free_line(menu->line);
+		if (var_name)
+			free(var_name);
 		free_line(menu->env);
 		free(menu);
 		exit(0);

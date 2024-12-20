@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:55:53 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 15:57:22 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:25:38 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	init_struct(t_menu **menu, char **envp)
 	temp->fd_in = dup(STDIN_FILENO);
 	temp->fd_out = dup(STDOUT_FILENO);
 	temp->mshh = NULL;
+	temp->line = NULL;
 	temp->return_code = 0;
 	temp->is_child = 0;
 	temp->pid_arr = NULL;

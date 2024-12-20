@@ -262,10 +262,12 @@ void	process_handler(t_menu *menu)
 
 	cmds = *(menu->cmds);
 	if (create_pid_arr(menu) == 1 && ft_is_built(cmds))
-		return (free(menu->pid_arr), menu->pid_arr = NULL, handle_builts(cmds, menu), reset_ouput(menu));
+		return (free(menu->pid_arr), menu->pid_arr = NULL, handle_builts(cmds,
+				menu), reset_ouput(menu));
 	if (handle_pipes(&cmds, menu))
 		return ;
 	handle_builts(cmds, menu);
+	write_error_message(cmds->cmd);
 	if (cmds->cmd && !cmds->cmd[0])
 	{
 		free_mid_process(menu);

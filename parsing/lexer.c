@@ -7,7 +7,7 @@ void	ft_get_type(t_args **mshh, t_menu *menu, char *token)
 	msh = *mshh;
 	if (!ft_strcmp(token, "|"))
 		msh->type = PIPE;
-	else if (!ft_strcmp(token, "~"))
+	else if (!ft_strcmp(token, "~") || !ft_strcmp(token, "\\~"))
 	{
 		free((*mshh)->token);
 		(*mshh)->token = ft_strdup(menu->til);
@@ -34,8 +34,6 @@ void	create_tokens(t_args **mshh, char **mtr)
 	j = -1;
 	temp = *mshh;
 	temp = (t_args *)malloc(sizeof(t_args));
-	if (!temp)
-		return ;
 	temp->prev = NULL;
 	msh = temp;
 	while (mtr[++j])
