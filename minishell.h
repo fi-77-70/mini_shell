@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:58:32 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 22:08:02 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/20 22:14:55 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int					ft_export(t_cmds *cmds, t_menu *menu);
 int					ft_unset(t_cmds *cmds, t_menu *menu);
 void				del_variable(t_menu *menu, const char *key);
 
+int					handle_checks_cd(char *arg, t_menu *menu, char **path);
 int					handle_export_arg(char *arg, t_menu *menu);
 void				print_env(t_menu *menu);
 int					parse_export_input(const char *input);
@@ -115,9 +116,17 @@ int					verify_nbr_args(t_cmds *cmds, t_menu *menu);
 int					change_dir(t_menu *menu, char *path);
 void				update_env_var(t_menu *menu, const char *key,
 						const char *value);
+
 void				handle_builts(t_cmds *cmds, t_menu *menu);
 char				**create_env(char **env, char *new_var);
 char				*ft_strjoin3(const char *s1, char c, const char *s2);
+void				handle_too_many_args(t_menu *menu);
+void				handle_invalid_arg(t_menu *menu, char *itoa);
+int					handle_pwd_err(t_menu *menu, char *message, int err_code);
+int					key_exists(t_menu *menu, char *key);
+void				sub_key_value(t_menu *menu, char *key, char *value);
+char				**dup_rrr(char **map);
+void				sort_alpha(char **array);
 
 char				*ft_expand(char *line, t_menu *menu);
 char				*ft_take_out_back(char *str, char out);

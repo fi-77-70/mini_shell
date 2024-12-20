@@ -6,7 +6,7 @@
 /*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:02:51 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 16:02:55 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 16:55:43 by pmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,17 @@ int	ft_cd(t_cmds *cmds, t_menu *menu)
 	int		arg_nbr;
 	int		alloc;
 
+	path = NULL;
 	alloc = 0;
 	arg_nbr = verify_nbr_args(cmds, menu);
 	if (arg_nbr > 2)
 		return (1);
-	if (arg_nbr == 1 || (cmds->args[1] && (cmds->args[1][0] == '~' || cmds->args[1][0] == '-')))
+	if (arg_nbr == 1 || (cmds->args[1]
+			&& (cmds->args[1][0] == '~' || cmds->args[1][0] == '-')))
 	{
-		if (cmds->args[1] && cmds->args[1][0] == '-')
-		{
-			path = env_get("OLDPWD", menu);
-			alloc = 1;
-		}
-		else
-			path = menu->til;
-		if (!path)
-		{
-			ft_putstr_fd("cd: no HOME var \n", STDERR_FILENO);
-			menu->return_code = 1;
+		alloc = handle_checks_cd(cmds->args[1], menu, &path);
+		if (alloc == -1)
 			return (1);
-		}
 	}
 	else
 		path = cmds->args[1];
@@ -46,20 +38,21 @@ int	ft_cd(t_cmds *cmds, t_menu *menu)
 	return (0);
 }
 
-int	verify_nbr_args(t_cmds *cmds, t_menu *menu)
+int	handle_checks_cd(char *arg, t_menu *menu, char **path)
 {
-	int	arg_nbr;
-
-	arg_nbr = 0;
-	while (cmds->args[arg_nbr])
-		arg_nbr++;
-	if (arg_nbr > 2)
+	if (arg && arg[0] == '-')
 	{
-		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
-		menu->return_code = 1;
-		return (arg_nbr);
+		*path = env_get("OLDPWD", menu);
+		return (1);
 	}
-	return (arg_nbr);
+	*path = menu->til;
+	if (!*path)
+	{
+		ft_putstr_fd("cd: no HOME var \n", STDERR_FILENO);
+		menu->return_code = 1;
+		return (-1);
+	}
+	return (0);
 }
 
 int	change_dir(t_menu *menu, char *path)
