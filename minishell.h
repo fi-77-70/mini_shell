@@ -83,7 +83,7 @@ void				built_exit(t_cmds *cmds, t_menu *menu);
 void				free_mid_process(t_menu *menu);
 int					ft_is_built(t_cmds *cmds);
 int					ft_here_doc(t_menu *menu);
-unsigned long long	ft_atoll(char *str);
+long long			ft_atoll(char *str);
 
 int					ft_pwd(t_cmds *cmds, t_menu *menu);
 int					ft_echo(t_cmds *cmds, t_menu *menu);

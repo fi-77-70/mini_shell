@@ -62,11 +62,7 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 		exit(2);
 	}
 	free(itoa);
-	if (code > 256)
-		code = code % 256;
-	else if (code < 0)
-		while (code < 0)
-			code = 256 + code;
+	code = code % 256;
 	free_mid_process(menu);
 	exit(code);
 }

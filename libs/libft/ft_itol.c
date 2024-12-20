@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <limits.h>
 #include <stdlib.h>
 
 static long long	ft_len(long long n)
@@ -26,7 +27,7 @@ static long long	ft_len(long long n)
 	return (len);
 }
 
-static void	ft_translate(char *str, long n, long long len)
+static void	ft_translate(char *str, long long n, long long len)
 {
 	long long	i;
 
@@ -54,6 +55,8 @@ char	*ft_itol(long long n)
 
 	i = n;
 	len = ft_len(n);
+	if (n == LLONG_MIN)
+		return (ft_strdup("-9223372036854775808"));
 	if (n < 0)
 	{
 		result = (char *)malloc(len * sizeof(char) + 2);

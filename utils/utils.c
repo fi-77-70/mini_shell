@@ -34,11 +34,13 @@ char	*ft_take_out_back(char *str, char out)
 	return (free(str), new);
 }
 
-unsigned long long	ft_atoll(char *str)
+long long	ft_atoll(char *str)
 {
 	long long	result;
 	int			sign;
 
+	if (!ft_strcmp(str, "-9223372036854775808"))
+		return (LLONG_MIN);
 	result = 0;
 	sign = 1;
 	while (*str == 32 || (*str >= 9 && *str <= 13))
