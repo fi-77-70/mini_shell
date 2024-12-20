@@ -14,7 +14,7 @@ int	check_pipe_exist(char *str, int i)
 		if (other_word == 1 && ft_isalnum(str[i]))
 			other_word = 2;
 		if (other_word == 2)
-			break;
+			break ;
 		i++;
 	}
 	if (str[i] && str[i] == '|')
@@ -28,13 +28,14 @@ int	check_pipe_exist(char *str, int i)
 		if (other_word == 1 && ft_isalnum(str[i]))
 			other_word = 2;
 		if (other_word == 2)
-			break;
+			break ;
 		i--;
 	}
 	if (i >= 0 && str[i] && str[i] == '|')
 		return (1);
 	return (0);
 }
+
 char	*ft_final_expand(char *str, char *var, char *var_name, int n)
 {
 	int		i;
@@ -133,7 +134,7 @@ char	*ft_expander(char *str, int i, t_menu *menu)
 	{
 		var_name = get_var_name(str + i);
 		expanded = env_get(var_name, menu);
-		if(!expanded)
+		if (!expanded)
 			if (check_pipe_exist(str, i))
 				expanded = ft_strdup(" ");
 	}

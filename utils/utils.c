@@ -68,9 +68,10 @@ void	put_str_fd(char *str, int fd)
 		write(fd, &str[i++], 1);
 	write(fd, "\n", 1);
 }
+
 int	ft_static(int sig)
 {
-	static	int	i;
+	static int	i;
 
 	if (sig == SIGINT)
 		i = 1;
@@ -78,6 +79,7 @@ int	ft_static(int sig)
 		i = 0;
 	return (i);
 }
+
 void	signal_handle(int sig)
 {
 	if (sig == SIGINT)
@@ -90,7 +92,6 @@ void	signal_handle(int sig)
 	else
 		return ;
 }
-
 
 int	ft_here_loop(t_cmds *cmds, t_menu *menu)
 {
@@ -141,8 +142,8 @@ int	ft_here_loop(t_cmds *cmds, t_menu *menu)
 int	ft_here_doc(t_menu *menu)
 {
 	int		result;
-	t_cmds *cmds;
-	t_cmds *first_node;
+	t_cmds	*cmds;
+	t_cmds	*first_node;
 
 	cmds = NULL;
 	result = 1;

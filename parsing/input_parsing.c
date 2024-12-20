@@ -22,7 +22,7 @@ void	ft_unquote_two(t_args **msh, int length)
 			i++;
 		}
 		if (temp->token[i] && (i == 0 || (temp->token[i - 1] && temp->token[i
-					- 1] != 92)))
+						- 1] != 92)))
 		{
 			quote = temp->token[i];
 			i++;
@@ -164,12 +164,13 @@ int	check_multiple_pipes(t_args *msh)
 	while (msh)
 	{
 		check = msh->type;
-		if ((!msh->next || check == msh->next->type) && check == PIPE )
+		if ((!msh->next || check == msh->next->type) && check == PIPE)
 			return (0);
 		msh = msh->next;
 	}
 	return (1);
 }
+
 int	check_red_file_name(t_args *msh)
 {
 	int	check;

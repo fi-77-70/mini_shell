@@ -1,10 +1,21 @@
 #include "../minishell.h"
 
+int	checker_ex(char *line, int i, int quote)
+{
+	if (line[i] && line[i + 1] && (line[i] == '$' || line[i] == '~')
+		&& (ft_isalnum(line[i + 1])
+			|| line[i + 1] == '?' || line[i + 1] == '$'
+			|| ((line[i + 1] == '"' || line[i + 1] == 39) && quote < 0)))
+				return (1);
+	else
+		return (0);
+}
+
 char	*ft_expand(char *line, t_menu *menu)
 {
-	int i;
-	int second;
-	int quote;
+	int	i;
+	int	second;
+	int	quote;
 
 	i = 0;
 	quote = -1;
@@ -21,8 +32,7 @@ char	*ft_expand(char *line, t_menu *menu)
 			while (line[i] && line[i] != 39)
 				i++;
 		}
-		if (line[i] && line[i + 1] && (line[i] == '$' || line[i] == '~') && (ft_isalnum(line[i + 1])
-				|| line[i + 1] == '?' || line[i + 1] == '$' || ((line[i + 1] == '"' || line[i + 1] == 39) && quote < 0)))
+		if (checker_ex(line, i, quote))
 		{
 			line = ft_expander(line, i, menu);
 			second = 1;

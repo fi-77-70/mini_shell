@@ -31,9 +31,9 @@ int	strclen(char *str, char c)
 
 char	*env_get(char *name, t_menu *menu)
 {
-	int i;
-	int bytes;
-	char **temp;
+	int		i;
+	int		bytes;
+	char	**temp;
 
 	if (!name)
 		return (NULL);

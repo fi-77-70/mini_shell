@@ -55,7 +55,8 @@ int	handle_pipes(t_cmds **cmds, t_menu *menu)
 	while (cmd)
 	{
 		pipe(fds);
-		if ((menu->pid_arr[i++] = fork()) != 0)
+		menu->pid_arr[i] = fork();
+		if (menu->pid_arr[i++] != 0)
 		{
 			pipe_utils_parent(fds);
 			cmd = cmd->next;
@@ -176,11 +177,12 @@ char	*get_command_path(t_cmds *cmds, t_menu *menu)
 
 	i = 0;
 	possible_paths = NULL;
-	possible_paths = ft_split(path = env_get("PATH", menu), ':');
+	path = env_get("PATH", menu);
+	possible_paths = ft_split(path, ':');
 	free(path);
 	while (possible_paths && possible_paths[i])
 	{
-		path = ft_strjoin(possible_paths[i], "/");
+		path = ft_strjoin(possible_paths[i++], "/");
 		path = ft_strjoin_free(path, cmds->cmd);
 		if (!access(path, F_OK))
 		{
@@ -188,7 +190,6 @@ char	*get_command_path(t_cmds *cmds, t_menu *menu)
 			return (path);
 		}
 		free(path);
-		i++;
 	}
 	ft_free_matrix(possible_paths);
 	write_error_message(cmds->cmd);
@@ -205,7 +206,7 @@ void	exe_3(t_menu *menu, t_cmds *cmds, int *result)
 		path = ft_strdup(cmds->cmd);
 	else
 		path = get_command_path(cmds, menu);
-	*result = execve(path, cmds->args , menu->env);
+	*result = execve(path, cmds->args, menu->env);
 	free(path);
 }
 
@@ -219,11 +220,11 @@ void	exe_2(t_menu *menu, t_cmds *cmds)
 	if (errno == EACCES)
 	{
 		if (check_dir(cmds->cmd) == 2)
-			{
-				result = 126;
-				write_error_message(cmds->cmd);
-				write_error_message(": Is a directory\n");
-			}
+		{
+			result = 126;
+			write_error_message(cmds->cmd);
+			write_error_message(": Is a directory\n");
+		}
 		else
 		{
 			result = 126;
@@ -254,12 +255,12 @@ void	exe_2(t_menu *menu, t_cmds *cmds)
 	free_mid_process(menu);
 	exit(result);
 }
+
 void	process_handler(t_menu *menu)
 {
-	t_cmds *cmds;
+	t_cmds	*cmds;
 
 	cmds = *(menu->cmds);
-	
 	if (create_pid_arr(menu) == 1 && ft_is_built(cmds))
 		return (free(menu->pid_arr), menu->pid_arr = NULL, handle_builts(cmds, menu), reset_ouput(menu));
 	if (handle_pipes(&cmds, menu))
