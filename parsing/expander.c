@@ -117,7 +117,8 @@ char	*ft_expander(char *str, int i, t_menu *menu)
 	char	*var_name;
 	char	*expanded;
 
-	i++;
+	if (str[i] == '$')
+		i++;
 	if (str[i] == '?')
 	{
 		var_name = ft_strdup("?");

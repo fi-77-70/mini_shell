@@ -7,12 +7,9 @@ int	ft_export(t_cmds *cmds, t_menu *menu)
 	i = 1;
 	if (!cmds->args[1])
 	{
-		if (menu->is_child)
-		{
-			free_mid_process(menu);
-			exit (1);
-		}
 		print_env(menu);
+		if (menu->is_child)
+			return (free_mid_process(menu), exit (1), 1);
 		return (menu->return_code = 0, 0);
 	}
 	while (cmds->args[i])
@@ -20,19 +17,13 @@ int	ft_export(t_cmds *cmds, t_menu *menu)
 		if (handle_export_arg(cmds->args[i], menu))
 		{
 			if (menu->is_child)
-			{
-				free_mid_process(menu);
-				exit (1);
-			}
+				return (free_mid_process(menu), exit (1), 1);
 			return (menu->return_code = 1, 1);
 		}
 		i++;
 	}
 	if (menu->is_child)
-	{
-		free_mid_process(menu);
-		exit (0);
-	}
+		return (free_mid_process(menu), exit (1), 1);
 	return (menu->return_code = 0, 0);
 }
 
@@ -48,7 +39,7 @@ int	handle_export_arg(char *arg, t_menu *menu)
 			write_error_message("export: not a valid identifier\n"), 1);
 	find_key_value(arg, &key, &value);
 	if (!value)
-		new_entry = ft_strjoin(key, "=");
+		new_entry = ft_strdup(key);
 	else
 		new_entry = ft_strjoin3(key, '=', value);
 	index = find_env_index(menu->env, key);
@@ -76,38 +67,11 @@ void	print_env(t_menu *menu)
 	}
 	while (menu->env[i])
 	{
-		if (ft_strchr(menu->env[i], '='))
-			printf("declare -x %s\n", menu->env[i]);
+		printf("declare -x %s\n", menu->env[i]);
 		i++;
 	}
 	menu->return_code = 0;
 }
-
-/* int	parse_export_input(const char *input)
-{
-	int	i;
-	int	equal_sign;
-
-	i = 0;
-	equal_sign = 0;
-	if (!input || input[0] == '\0'
-		|| (!(ft_isalpha(input[i])) && input[i] != '_'))
-		return (0);
-	i++;
-	while (input[i])
-	{
-		if (input[i] == '=')
-		{
-			equal_sign++;
-			if (equal_sign > 1)
-				return (0);
-		}
-		else if (!ft_isalnum(input[i]) && input[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-} */
 
 int	parse_export_input(const char *input)
 {

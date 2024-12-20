@@ -37,6 +37,8 @@ char	*env_get(char *name, t_menu *menu)
 
 	if (!name)
 		return (NULL);
+	if (!ft_strcmp(name, "~"))
+		return (ft_strdup(menu->til));
 	if (!ft_strcmp(name, "$"))
 		return (ft_itoa(pid_get(menu)));
 	i = -1;
