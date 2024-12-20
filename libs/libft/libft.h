@@ -6,7 +6,7 @@
 /*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 20:59:48 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/17 22:27:00 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 15:42:16 by pmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,9 @@ int		ft_strcmp(char *s1, char *s2);
 
 void	ft_free_matrix(char **matrix);
 
-char 	**ft_splot(char *str);
+char	**ft_splot(char *str);
 
-char 	*ft_take_out_back(char *str, char out);
+char	*ft_take_out_back(char *str, char out);
 
 char	*ft_strjoin_free(char *str1, char *str2);
 

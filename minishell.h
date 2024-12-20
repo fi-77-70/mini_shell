@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/20 15:58:32 by pmachado          #+#    #+#             */
+/*   Updated: 2024/12/20 16:02:15 by pmachado         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -89,7 +101,7 @@ int					ft_pwd(t_cmds *cmds, t_menu *menu);
 int					ft_echo(t_cmds *cmds, t_menu *menu);
 int					ft_cd(t_cmds *cmds, t_menu *menu);
 int					ft_env(t_cmds *cmds, t_menu *menu);
-int					ft_export(t_cmds *cmds,t_menu *menu);
+int					ft_export(t_cmds *cmds, t_menu *menu);
 int					ft_unset(t_cmds *cmds, t_menu *menu);
 void				del_variable(t_menu *menu, const char *key);
 
@@ -97,16 +109,16 @@ int					handle_export_arg(char *arg, t_menu *menu);
 void				print_env(t_menu *menu);
 int					parse_export_input(const char *input);
 void				find_key_value(char *input, char **key, char **value);
-int					find_env_index(char **env,const char *key);
+int					find_env_index(char **env, const char *key);
 
 int					ft_strclen_custom(const char *str, char c);
 int					verify_nbr_args(t_cmds *cmds, t_menu *menu);
 int					change_dir(t_menu *menu, char *path);
-void				update_env_var(t_menu *menu, const char *key, const char *value);
+void				update_env_var(t_menu *menu, const char *key,
+						const char *value);
 void				handle_builts(t_cmds *cmds, t_menu *menu);
 char				**create_env(char **env, char *new_var);
 char				*ft_strjoin3(const char *s1, char c, const char *s2);
-
 
 char				*ft_expand(char *line, t_menu *menu);
 char				*ft_take_out_back(char *str, char out);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/20 16:03:03 by pmachado          #+#    #+#             */
+/*   Updated: 2024/12/20 16:06:08 by pmachado         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_env(t_cmds *cmds, t_menu *menu)
@@ -29,5 +41,3 @@ int	ft_env(t_cmds *cmds, t_menu *menu)
 		return (free_mid_process(menu), exit(0), 0);
 	return (menu->return_code = 0, 0);
 }
-
-// precisamos de checkar os processos pq com pipes o comando executa duas vezes.
