@@ -6,7 +6,7 @@
 /*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:08 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 16:03:09 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:48:33 by pmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,38 +43,37 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 	if (i == 1)
 		exit(0);
 	if (i > 2)
-	{
-		write_error_message("exit: too many arguments\n");
-		if (menu->is_child)
-		{
-			free_mid_process(menu);
-			exit(1);
-		}
-		else
-			menu->return_code = 1;
-		return ;
-	}
+		return (handle_too_many_args(cmds, menu));
 	i--;
 	len = ft_strlen(cmds->args[i]);
 	if (*(cmds->args[i]) == '+')
-		len = len - 1;
-	itoa = ft_itol(code = ft_atoll(cmds->args[i]));
+		len--;
+	code = ft_atoll(cmds->args[i]);
+	itoa = ft_itol(code);
 	if (!ft_str_is_nr(cmds->args[i]) || len > 20
 		|| (size_t)len != ft_strlen(itoa))
-	{
-		free(itoa);
-		write_error_message("exit: numeric argument required\n");
-		if (cmds == *(menu->cmds))
-		{
-			free_mid_process(menu);
-			exit(2);
-		}
-		else
-			free_mid_process(menu);
-		exit(2);
-	}
+		handle_invalid_arg(cmds, menu, itoa);
 	free(itoa);
-	code = code % 256;
 	free_mid_process(menu);
-	exit(code);
+	exit(code % 256);
+}
+
+void	handle_too_many_args(t_cmds *cmds, t_menu *menu)
+{
+	write_error_message("exit: too many arguments\n");
+	if (menu->is_child)
+	{
+		free_mid_process(menu);
+		exit(1);
+	}
+	else
+		menu->return_code = 1;
+}
+
+void	handle_invalid_arg(t_cmds *cmds, t_menu *menu, char *itoa)
+{
+	free(itoa);
+	write_error_message("exit: numeric argument required\n");
+	free_mid_process(menu);
+	exit(2);
 }

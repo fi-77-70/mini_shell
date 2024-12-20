@@ -6,7 +6,7 @@
 /*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:58:32 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 16:02:15 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 16:55:41 by pmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int					ft_export(t_cmds *cmds, t_menu *menu);
 int					ft_unset(t_cmds *cmds, t_menu *menu);
 void				del_variable(t_menu *menu, const char *key);
 
+int					handle_checks_cd(char *arg, t_menu *menu, char **path);
 int					handle_export_arg(char *arg, t_menu *menu);
 void				print_env(t_menu *menu);
 int					parse_export_input(const char *input);
