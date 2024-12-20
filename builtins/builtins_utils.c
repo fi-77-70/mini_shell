@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/20 16:02:45 by pmachado          #+#    #+#             */
+/*   Updated: 2024/12/20 16:04:40 by pmachado         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	reset_ouput(t_menu *menu)
@@ -24,12 +36,6 @@ void	handle_builts(t_cmds *cmds, t_menu *menu)
 		ft_export(cmds, menu);
 	if (!ft_strcmp(cmds->cmd, "unset"))
 		ft_unset(cmds, menu);
-	/* if (!menu->is_child)
-	{
-		ft_putstr_fd("ENTREI\n", menu->fd_out);
-		dup2(menu->fd_in, STDIN_FILENO);
-		dup2(menu->fd_out, STDOUT_FILENO);
-	} */
 	return ;
 }
 

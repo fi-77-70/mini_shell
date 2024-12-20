@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/20 15:55:53 by pmachado          #+#    #+#             */
+/*   Updated: 2024/12/20 15:57:22 by pmachado         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_cmd(char *str)
@@ -23,6 +35,7 @@ int	is_cmd(char *str)
 		result = 1;
 	return (result);
 }
+
 void	free_line(char **line)
 {
 	int	j;
@@ -143,7 +156,6 @@ int	main(int ac, char **av, char **envp)
 	int		exit_code;
 	t_menu	*menu;
 
-	/* 	t_args	*temp; */
 	(void)ac;
 	(void)av;
 	menu = NULL;
