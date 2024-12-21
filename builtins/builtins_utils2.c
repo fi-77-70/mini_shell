@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:53:23 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/21 13:49:03 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 16:40:50 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	key_exists(t_menu *menu, char *key)
 	if (!key)
 		return (0);
 	len = ft_strlen(key);
-	if (strchr(key, '+'))
+	if (ft_strchr(key, '+'))
 		len--;
 	while (menu->env[i])
 	{

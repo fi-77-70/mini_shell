@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:18:40 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 02:21:57 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 16:41:48 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,19 @@ int	is_cmd(char *str)
 
 	cmd = str;
 	result = 0;
-	if (!strncmp(cmd, "echo", 4))
+	if (!ft_strncmp(cmd, "echo", 4))
 		result = 1;
-	if (!strncmp(cmd, "cd", 2))
+	if (!ft_strncmp(cmd, "cd", 2))
 		result = 1;
-	if (!strncmp(cmd, "pwd", 3))
+	if (!ft_strncmp(cmd, "pwd", 3))
 		result = 1;
-	if (!strncmp(cmd, "export", 6))
+	if (!ft_strncmp(cmd, "export", 6))
 		result = 1;
-	if (!strncmp(cmd, "unset", 5))
+	if (!ft_strncmp(cmd, "unset", 5))
 		result = 1;
-	if (!strncmp(cmd, "env", 3))
+	if (!ft_strncmp(cmd, "env", 3))
 		result = 1;
-	if (!strncmp(cmd, "exit", 4))
+	if (!ft_strncmp(cmd, "exit", 4))
 		result = 1;
 	return (result);
 }
