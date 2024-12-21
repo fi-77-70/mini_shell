@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_utils_2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/21 02:18:40 by filferna          #+#    #+#             */
+/*   Updated: 2024/12/21 02:21:57 by filferna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	init_struct(t_menu **menu, char **envp)
@@ -57,4 +69,16 @@ void	free_line(char **line)
 	}
 	free(line);
 	line = NULL;
+}
+
+int	print_until(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != c)
+		printf("%c", str[i++]);
+	if (str[i] && str[i] == c)
+		printf("%c", str[i]);
+	return (i);
 }

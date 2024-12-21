@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:03:33 by filferna          #+#    #+#             */
-/*   Updated: 2024/04/24 19:38:20 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 01:07:33 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strchr(const char *str, int c)
 	char	*temp;
 
 	temp = (char *)str;
+	if (!temp)
+		return (NULL);
 	while (*temp != (char)c && *temp != '\0')
 		temp++;
 	if (*temp == (char)c)

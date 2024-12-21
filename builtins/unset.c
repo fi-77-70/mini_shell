@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:30 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 16:03:31 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/21 02:10:00 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,17 @@ int	ft_unset(t_cmds *cmds, t_menu *menu)
 	while (cmds->args[i])
 	{
 		if (!parse_export_input(cmds->args[i]))
+		{
+			if (menu->is_child)
+				return (free_mid_process(menu), exit(1), 1);
 			return (menu->return_code = 1, 1);
+		}
 		else
 			del_variable(menu, cmds->args[i]);
 		i++;
 	}
+	if (menu->is_child)
+		return (free_mid_process(menu), exit(0), 0);
 	return (0);
 }
 
@@ -35,7 +41,7 @@ void	del_variable(t_menu *menu, const char *key)
 	int	i;
 	int	index;
 
-	index = find_env_index(menu->env, key);
+	index = find_env_index(menu->env, key, 1);
 	if (index == -1)
 		return ;
 	free(menu->env[index]);

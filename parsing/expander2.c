@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/21 02:20:44 by filferna          #+#    #+#             */
+/*   Updated: 2024/12/21 02:45:23 by filferna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	checker_ex(char *line, int i, int quote)
@@ -18,7 +30,8 @@ void	ex_utils(char **line, int *i)
 	temp = *line;
 	if (temp[*i] == 92 && temp[*i + 1])
 		*i += 1;
-	if (temp[*i])
+	if (temp[*i] && (temp[*i] != '$' || (temp[*i] == '$'
+				&& temp[*i + 1] && temp[*i + 1] == ' ')))
 		*i += 1;
 }
 
@@ -38,9 +51,11 @@ char	*ft_expand(char *line, t_menu *menu)
 {
 	int	i;
 	int	quote;
+	int	expanded;
 
 	i = 0;
 	quote = -1;
+	expanded = 0;
 	if (!line)
 		return (NULL);
 	while (line[i])

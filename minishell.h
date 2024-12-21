@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:58:32 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/21 01:00:24 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 02:17:39 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int					handle_export_arg(char *arg, t_menu *menu);
 void				print_env(t_menu *menu);
 int					parse_export_input(const char *input);
 void				find_key_value(char *input, char **key, char **value);
-int					find_env_index(char **env, const char *key);
+int					find_env_index(char **env, const char *key, int bool);
 
 int					ft_strclen_custom(const char *str, char c);
 int					verify_nbr_args(t_cmds *cmds, t_menu *menu);
@@ -172,5 +172,6 @@ int					handle_red_out(t_menu *menu, t_args *temp, int fd_out);
 int					handle_red_app(t_menu *menu, t_args *temp, int fd_out);
 int					handle_red_in(t_menu *menu, t_args *temp, int fd_in);
 char				*get_command_path(t_cmds *cmds, t_menu *menu);
+int					print_until(char *str, char c);
 
 #endif

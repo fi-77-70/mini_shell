@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:02:45 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 16:04:40 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/21 02:10:09 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_strclen_custom(const char *str, char c)
 	return (ft_strlen(str));
 }
 
-int	find_env_index(char **env, const char *key)
+int	find_env_index(char **env, const char *key, int bool)
 {
 	int	i;
 	int	len;
@@ -80,7 +80,7 @@ int	find_env_index(char **env, const char *key)
 		return (-1);
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], key, len) == 0 && env[i][len] == '=')
+		if (ft_strncmp(env[i], key, len) == 0 && (env[i][len] == '=' || bool))
 			return (i);
 		i++;
 	}

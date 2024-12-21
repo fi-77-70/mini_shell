@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:53:23 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 23:56:05 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 02:17:16 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,27 @@ int	key_exists(t_menu *menu, char *key)
 void	print_env(t_menu *menu)
 {
 	int		i;
+	int		a;
 	char	**print_alpha;
 
 	i = 0;
 	if (!menu || !menu->env)
-	{
-		wem("export: Failed to obtain vars\n");
-		return ;
-	}
+		return (wem("export: Failed to obtain vars\n"));
 	print_alpha = dup_rrr(menu->env);
 	if (!print_alpha)
 		return ;
 	sort_alpha(print_alpha);
 	while (print_alpha[i])
 	{
-		printf("declare -x %s\n", print_alpha[i]);
-		i++;
+		printf("declare -x ");
+		if (ft_strchr(print_alpha[i], '='))
+			a = print_until(print_alpha[i], '=') + 1;
+		else
+			a = 0;
+		if (ft_strchr(print_alpha[i], '='))
+			printf("\"%s\"\n", print_alpha[i++] + a);
+		else
+			printf("%s\n", print_alpha[i++] + a);
 	}
 	free_line(print_alpha);
 	menu->return_code = 0;
