@@ -4,7 +4,7 @@ SRC = main.c ./parsing/lexer.c ./parsing/expander.c ./parsing/input_parsing.c ./
 		./executer/execute.c	./parsing/input_divider.c	./executer/exe_bui.c ./parsing/expand_utils.c ./executer/execute_utils.c\
 		./builtins/exit.c ./builtins/env.c ./builtins/pwd.c ./builtins/builtins_utils.c ./builtins/echo.c ./parsing/input_parsing_3.c\
 		./builtins/unset.c ./builtins/export.c ./utils/utils.c ./utils/utils_2.c ./parsing/expander2.c ./parsing/expander3.c ./parsing/input_parsing_2.c\
-		./builtins/cd.c	./builtins/builtins_utils2.c ./main_utils.c ./main_utils_2.c ./parsing/input_div_2.c ./executer/exe_bui_2.c\
+		./builtins/cd.c	./builtins/builtins_utils2.c ./main_utils.c ./main_utils_2.c ./parsing/input_div_2.c ./executer/exe_bui_2.c ./builtins/builtins_utils3.c\
 
 LIBS = ./libs/libft/libft.a	./libs/ft_printf/libftprintf.a
 

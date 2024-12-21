@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:19 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/21 02:10:04 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:16:46 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int	parse_export_input(const char *input)
 	i++;
 	while (input[i] && input[i] != '=')
 	{
-		if (!(ft_isalnum(input[i]) || input[i] == '_'))
+		if (!(ft_isalnum(input[i]) || input[i] == '_' || (input[i] == '+'
+					&& input[i +1] && input[i + 1] == '=')))
 			return (0);
 		i++;
 	}
@@ -115,9 +116,13 @@ void	sub_key_value(t_menu *menu, char *key, char *value)
 
 	i = 0;
 	len = ft_strlen(key);
+	if (ft_strchr(key, '+'))
+		len--;
 	while (menu->env[i] && ft_strncmp(menu->env[i], key, len))
 		i++;
-	if (ft_strchr(menu->env[i], '=') && value)
+	if ((ft_strchr(key, '+')))
+		menu->env[i] = ft_strjoin_exp(menu->env[i], value);
+	else if (ft_strchr(menu->env[i], '=') && value)
 	{
 		free(menu->env[i]);
 		menu->env[i] = ft_strjoin3(key, '=', value);

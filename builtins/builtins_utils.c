@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:02:45 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/21 02:10:09 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:00:27 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	*ft_strjoin3(const char *s1, char c, const char *s2)
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
 	result = malloc(len1 + len2 + 2);
+	if (ft_strchr(s1, '+'))
+		len1--;
 	if (!result)
 		return (NULL);
 	ft_memcpy(result, s1, len1);

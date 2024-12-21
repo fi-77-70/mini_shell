@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:08 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 23:56:05 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 13:14:39 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 	while (cmds->args[i])
 		i++;
 	if (i == 1)
-		exit(0);
+		return (free_mid_process(menu), exit(0));
 	if (i > 2)
 		return (handle_too_many_args(menu));
 	i--;
