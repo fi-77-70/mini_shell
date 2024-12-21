@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:25 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 20:11:05 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 23:56:05 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_pwd(t_cmds *cmds, t_menu *menu)
 			return (free_mid_process(menu), exit(0), 0);
 		return (0);
 	}
-	write_error_message("Issue finding current directory\n");
+	wem("Issue finding current directory\n");
 	if (menu->is_child)
 		return (free_mid_process(menu), exit(1), 0);
 	return (menu->return_code = 1, 1);
@@ -38,7 +38,7 @@ int	ft_pwd(t_cmds *cmds, t_menu *menu)
 
 int	handle_pwd_err(t_menu *menu, char *message, int err_code)
 {
-	write_error_message(message);
+	wem(message);
 	if (menu->is_child)
 		return (free_mid_process(menu), exit(0), 0);
 	menu->return_code = 1;

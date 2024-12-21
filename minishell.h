@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:58:32 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 22:14:55 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 01:00:24 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void				free_list(t_args **mshh);
 void				wait_for_process(t_menu *menu);
 int					handle_pipes(t_cmds **cmds, t_menu *menu);
 void				handle_builts(t_cmds *cmds, t_menu *menu);
-void				write_error_message(char *str);
+void				wem(char *str);
 int					is_white_space(char c);
 int					check_dir(char *str);
 int					check_acess_file(char *str, int per, t_menu *menu);
@@ -145,5 +145,32 @@ int					check_pipe_exist(char *str, int i);
 int					checker_ex(char *line, int i, int quote);
 void				ex_utils(char **line, int *i);
 void				ex_utils_2(char *line, int *i, int *quote);
+
+long long			ft_atoll(char *str);
+void				put_str_fd(char *str, int fd);
+int					ft_static(int sig);
+void				signal_handle(int sig);
+
+void				handle_sigint(int signum);
+void				free_cmds_2(t_cmds *temp);
+
+void				init_struct(t_menu **menu, char **envp);
+int					is_cmd(char *str);
+
+int					get_args_size(t_args *msh);
+void				get_args_2(t_args *temp, char **args);
+char				**get_args(t_args *msh, t_cmds *cmd);
+t_args				*get_redir(t_args *msh);
+
+int					create_pid_arr(t_menu *menu);
+void				pipe_utils_parent(int *fds);
+int					p_u_c(t_menu *menu, t_cmds *cmd, int *fds, t_cmds **cmds);
+int					handle_pipes(t_cmds **cmds, t_menu *menu);
+int					handle_is_dir_er(t_menu *menu);
+int					handle_acess_file_er(t_menu *menu);
+int					handle_red_out(t_menu *menu, t_args *temp, int fd_out);
+int					handle_red_app(t_menu *menu, t_args *temp, int fd_out);
+int					handle_red_in(t_menu *menu, t_args *temp, int fd_in);
+char				*get_command_path(t_cmds *cmds, t_menu *menu);
 
 #endif

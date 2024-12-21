@@ -10,36 +10,47 @@ void	free_mid_process(t_menu *menu)
 	free(menu);
 }
 
-int	check_acess_file(char *str, int per, t_menu *menu)
+int	check_acess_file_2(char *str, int per, t_menu *menu)
 {
-	if (access(str, F_OK))
-	{
-		if (!menu->is_child)
-			return (write_error_message(" No such file or directory\n"), menu->return_code = 1, 0);
-		return (write_error_message(" No such file or directory\n"),
-			free_mid_process(menu), exit(1), 0);
-	}
-	if (per == 1 && access(str, R_OK))
-	{
-		if (!menu->is_child)
-			return (write_error_message(" Permission denied\n"), menu->return_code = 1, 0);
-		return (write_error_message(" Permission denied\n"),
-			free_mid_process(menu), exit(1), 0);
-	}
 	if (per == 2 && access(str, W_OK))
 	{
 		if (!menu->is_child)
-			return (write_error_message(" Permission denied\n"), menu->return_code = 1, 0);
-		return (write_error_message(" Permission denied\n"),
+			return (wem(" Permission denied\n"), menu->return_code = 1, 0);
+		return (wem(" Permission denied\n"),
 			free_mid_process(menu), exit(1), 0);
 	}
 	if (per == 3 && access(str, X_OK))
 	{
 		if (!menu->is_child)
-			return (write_error_message(" Permission denied\n"), menu->return_code = 1, 0);
-		return (write_error_message(" Permission denied\n"),
+			return (wem(" Permission denied\n"), menu->return_code = 1, 0);
+		return (wem(" Permission denied\n"),
 			free_mid_process(menu), exit(1), 1);
 	}
+	return (3);
+}
+
+int	check_acess_file(char *str, int per, t_menu *menu)
+{
+	int	res;
+
+	if (access(str, F_OK))
+	{
+		if (!menu->is_child)
+			return (wem(" No such file or directory\n"),
+				menu->return_code = 1, 0);
+		return (wem(" No such file or directory\n"),
+			free_mid_process(menu), exit(1), 0);
+	}
+	if (per == 1 && access(str, R_OK))
+	{
+		if (!menu->is_child)
+			return (wem(" Permission denied\n"), menu->return_code = 1, 0);
+		return (wem(" Permission denied\n"),
+			free_mid_process(menu), exit(1), 0);
+	}
+	res = check_acess_file_2(str, per, menu);
+	if (res != 3)
+		return (0);
 	else
 		return (1);
 }
@@ -63,94 +74,6 @@ int	is_white_space(char c)
 	if (c >= 9 && c <= 13)
 		return (1);
 	if (c == 32)
-		return (1);
-	return (0);
-}
-
-void	write_error_message(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		write(STDERR_FILENO, &str[i++], 1);
-}
-
-void	wait_for_process(t_menu *menu)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (!menu->pid_arr)
-		return ;
-	while (menu->pid_arr[i] != 0)
-	{
-		// printf("wait pid -----> [%d]\n", menu->pid_arr[i]);
-		waitpid(menu->pid_arr[i++], &j, 0);
-		menu->return_code = WEXITSTATUS(j);
-	}
-	free(menu->pid_arr);
-	menu->pid_arr = NULL;
-}
-
-void	dup_arrr(char **map, t_menu **menu)
-{
-	t_menu	*temp;
-	int		y;
-
-	temp = *menu;
-	temp->env = NULL;
-	y = 0;
-	while (map[y])
-		y++;
-	temp->env = (char **)malloc(sizeof(char *) * (y + 1));
-	y = -1;
-	while (map[++y])
-	{
-		temp->env[y] = ft_strdup(map[y]);
-	}
-	temp->env[y] = NULL;
-}
-
-int	pid_get(t_menu *menu, char *var_name)
-{
-	int	i;
-
-	i = fork();
-	if (i == 0)
-	{
-		if (var_name)
-			free(var_name);
-		free_line(menu->env);
-		free(menu);
-		exit(0);
-	}
-	else
-		return (i);
-}
-
-int	ft_is_built(t_cmds *cmds)
-{
-	char	*str;
-
-	str = NULL;
-	if (cmds->cmd)
-		str = cmds->cmd;
-	// if (!ft_strcmp(str, "echo"))
-	// 	return (1);
-	if (!ft_strcmp(str, "cd"))
-		return (1);
-	if (!ft_strcmp(str, "exit"))
-		return (1);
-	if (!ft_strcmp(str, "pwd"))
-		return (1);
-	if (!ft_strcmp(str, "env"))
-		return (1);
-	if (!ft_strcmp(str, "export"))
-		return (1);
-	if (!ft_strcmp(str, "unset"))
 		return (1);
 	return (0);
 }

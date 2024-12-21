@@ -10,7 +10,7 @@ void	ft_unquote_3(t_args *temp, char *final, int *a, char *quote)
 		while (temp->token[i] && temp->token[i] != 39 && temp->token[i] != '"')
 		{
 			final[*a] = temp->token[i];
-			a += 1;
+			*a += 1;
 			i++;
 		}
 		if (temp->token[i] && (i == 0 || (temp->token[i - 1] && temp->token[i
@@ -111,18 +111,18 @@ int	ft_input_check(t_args **mshh)
 
 	msh = *mshh;
 	if (!check_multiple_pipes(msh))
-		return (write_error_message("Error: sequential pipes\n"), 0);
+		return (wem("Error: sequential pipes\n"), 0);
 	if (!check_red_file_name(msh))
-		return (write_error_message("Error: redirect file name missing\n"), 0);
+		return (wem("Error: redirect file name missing\n"), 0);
 	if (!check_multiple_red_in(msh))
-		return (write_error_message("Error: sequential redirections\n"), 0);
+		return (wem("Error: sequential redirections\n"), 0);
 	if (!check_multiple_red_out(msh))
-		return (write_error_message("Error: sequential redirections\n"), 0);
+		return (wem("Error: sequential redirections\n"), 0);
 	if (!check_multiple_here_doc(msh))
-		return (write_error_message("Error: sequential here docs\n"), 0);
+		return (wem("Error: sequential here docs\n"), 0);
 	if (!check_multiple_app(msh))
-		return (write_error_message("Error: sequential redirections\n"), 0);
+		return (wem("Error: sequential redirections\n"), 0);
 	if (!ft_check_quotes(mshh))
-		return (write_error_message("Error: unclosed quotes\n"), 0);
+		return (wem("Error: unclosed quotes\n"), 0);
 	return (1);
 }

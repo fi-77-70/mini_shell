@@ -6,164 +6,60 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:55:53 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 18:25:38 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/20 23:19:01 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_cmd(char *str)
+int	main_menu(t_menu *menu)
 {
-	char	*cmd;
-	int		result;
-
-	cmd = str;
-	result = 0;
-	if (!strncmp(cmd, "echo", 4))
-		result = 1;
-	if (!strncmp(cmd, "cd", 2))
-		result = 1;
-	if (!strncmp(cmd, "pwd", 3))
-		result = 1;
-	if (!strncmp(cmd, "export", 6))
-		result = 1;
-	if (!strncmp(cmd, "unset", 5))
-		result = 1;
-	if (!strncmp(cmd, "env", 3))
-		result = 1;
-	if (!strncmp(cmd, "exit", 4))
-		result = 1;
-	return (result);
-}
-
-void	free_line(char **line)
-{
-	int	j;
-
-	j = -1;
-	while (line[++j])
+	if (!menu->line[0])
 	{
-		if (line[j])
-			free(line[j]);
-		line[j] = NULL;
+		free(menu->mshh);
+		free(menu->line);
+		return (0);
 	}
-	free(line);
-	line = NULL;
+	*(menu->mshh) = lexer(menu->mshh, menu->line, menu);
+	free_line(menu->line);
+	return (1);
 }
 
-void	free_list(t_args **mshh)
+int	main_exe(t_menu *menu)
 {
-	t_args	*temp;
-
-	if (!mshh)
-		return ;
-	while (*mshh)
+	menu->cmds = ft_cmd_div(*(menu->mshh));
+	menu->first_cmd = menu->cmds;
+	if (!ft_here_doc(menu))
 	{
-		temp = (*mshh)->next;
-		if ((*mshh)->token)
-		{
-			free((*mshh)->token);
-			(*mshh)->token = NULL;
-		}
-		free(*mshh);
-		*mshh = NULL;
-		*mshh = temp;
+		free_all(menu);
+		return (0);
 	}
-	if (*mshh)
+	process_handler(menu);
+	if (menu->pid_arr)
+		wait_for_process(menu);
+	return (1);
+}
+
+int	loop_check(t_menu *menu)
+{
+	if (!main_menu(menu))
+		return (0);
+	if (ft_input_check(menu->mshh))
 	{
-		free(*mshh);
-		*mshh = NULL;
+		if (!main_exe(menu))
+			return (0);
 	}
-	free(mshh);
-	mshh = NULL;
+	else
+		return (free_list(menu->mshh), 0);
+	return (1);
 }
 
-void	init_struct(t_menu **menu, char **envp)
+int	mini_loop(t_menu *menu)
 {
-	t_menu	*temp;
-
-	temp = *menu;
-	temp = (t_menu *)malloc(sizeof(t_menu));
-	dup_arrr(envp, &temp);
-	temp->fd_in = dup(STDIN_FILENO);
-	temp->fd_out = dup(STDOUT_FILENO);
-	temp->mshh = NULL;
-	temp->line = NULL;
-	temp->return_code = 0;
-	temp->is_child = 0;
-	temp->pid_arr = NULL;
-	temp->cmds = NULL;
-	temp->first_cmd = NULL;
-	temp->til = getenv("HOME");
-	*menu = temp;
-}
-
-void	free_cmds(t_cmds **cmds)
-{
-	t_cmds	*temp;
-	t_args	*del;
-	int		i;
-
-	if (!cmds || !*cmds)
-		return ;
-	temp = *cmds;
-	while (temp)
-	{
-		i = -1;
-		if (temp->cmd)
-			free(temp->cmd);
-		if (temp->args)
-		{
-			while (temp->args[++i])
-				free(temp->args[i]);
-			free(temp->args);
-		}
-		if (temp->redir)
-		{
-			while (temp->redir)
-			{
-				del = temp->redir->next;
-				free(temp->redir);
-				temp->redir = del;
-			}
-		}
-		*cmds = temp->next;
-		free(temp);
-		temp = NULL;
-		temp = *cmds;
-	}
-	free(cmds);
-	cmds = NULL;
-}
-
-void	free_all(t_menu *menu)
-{
-	free_list(menu->mshh);
-	free_cmds(menu->cmds);
-}
-
-void	handle_sigint(int signum)
-{
-	(void)signum;
-	printf("^C\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-int	main(int ac, char **av, char **envp)
-{
-	char	*str;
 	int		exit_code;
-	t_menu	*menu;
+	char	*str;
 
-	(void)ac;
-	(void)av;
-	menu = NULL;
 	exit_code = 0;
-	init_struct(&menu, envp);
-	signal(SIGQUIT, SIG_IGN);
-	rl_catch_signals = 0;
 	while (1)
 	{
 		signal(SIGINT, handle_sigint);
@@ -174,45 +70,26 @@ int	main(int ac, char **av, char **envp)
 				exit_code);
 		add_history(str);
 		str = ft_expand(str, menu);
-		menu->mshh = (t_args **)malloc(sizeof(t_args *));
 		menu->line = ft_splot(str);
 		free(str);
-		if (!menu->line[0])
-		{
-			free(menu->mshh);
-			free(menu->line);
+		menu->mshh = (t_args **)malloc(sizeof(t_args *));
+		if (!loop_check(menu))
 			continue ;
-		}
-		*(menu->mshh) = lexer(menu->mshh, menu->line, menu);
-		free_line(menu->line);
-		/* 		temp = *(menu->mshh); */
-		if (ft_input_check(menu->mshh))
-		{
-			/* 			while (temp)
-			{
-				printf("token --> [%s]\n", temp->token);
-				printf("type  --> [%d]\n", temp->type);
-				temp = temp->next;
-			} */
-			menu->cmds = ft_cmd_div(*(menu->mshh));
-			menu->first_cmd = menu->cmds;
-			if (!ft_here_doc(menu))
-			{
-				//write_error_message("SKIPPING LOOP\n");
-				free_all(menu);
-				continue ;
-			}
-			process_handler(menu);
-			if (menu->pid_arr)
-				wait_for_process(menu);
-		}
-		else
-		{
-			free_list(menu->mshh);
-			continue ;
-		}
 		if (!menu->cmds)
 			menu->cmds = ft_cmd_div(*(menu->mshh));
 		free_all(menu);
 	}
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_menu	*menu;
+
+	(void)ac;
+	(void)av;
+	menu = NULL;
+	init_struct(&menu, envp);
+	signal(SIGQUIT, SIG_IGN);
+	rl_catch_signals = 0;
+	mini_loop(menu);
 }

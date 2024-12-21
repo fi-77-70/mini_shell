@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:08 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 20:09:40 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 23:56:05 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 
 void	handle_too_many_args(t_menu *menu)
 {
-	write_error_message("exit: too many arguments\n");
+	wem("exit: too many arguments\n");
 	if (menu->is_child)
 	{
 		free_mid_process(menu);
@@ -73,7 +73,7 @@ void	handle_too_many_args(t_menu *menu)
 void	handle_invalid_arg(t_menu *menu, char *itoa)
 {
 	free(itoa);
-	write_error_message("exit: numeric argument required\n");
+	wem("exit: numeric argument required\n");
 	free_mid_process(menu);
 	exit(2);
 }

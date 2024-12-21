@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:19 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 21:50:19 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 23:56:05 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	handle_export_arg(char *arg, t_menu *menu)
 
 	if (!parse_export_input(arg))
 		return (menu->return_code = 1,
-			write_error_message("export: not a valid identifier\n"), 1);
+			wem("export: not a valid identifier\n"), 1);
 	find_key_value(arg, &key, &value);
 	if (key_exists(menu, key))
 		return (sub_key_value(menu, key, value),

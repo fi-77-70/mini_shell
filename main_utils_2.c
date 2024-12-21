@@ -1,0 +1,60 @@
+#include "minishell.h"
+
+void	init_struct(t_menu **menu, char **envp)
+{
+	t_menu	*temp;
+
+	temp = *menu;
+	temp = (t_menu *)malloc(sizeof(t_menu));
+	dup_arrr(envp, &temp);
+	temp->fd_in = dup(STDIN_FILENO);
+	temp->fd_out = dup(STDOUT_FILENO);
+	temp->mshh = NULL;
+	temp->line = NULL;
+	temp->return_code = 0;
+	temp->is_child = 0;
+	temp->pid_arr = NULL;
+	temp->cmds = NULL;
+	temp->first_cmd = NULL;
+	temp->til = getenv("HOME");
+	*menu = temp;
+}
+
+int	is_cmd(char *str)
+{
+	char	*cmd;
+	int		result;
+
+	cmd = str;
+	result = 0;
+	if (!strncmp(cmd, "echo", 4))
+		result = 1;
+	if (!strncmp(cmd, "cd", 2))
+		result = 1;
+	if (!strncmp(cmd, "pwd", 3))
+		result = 1;
+	if (!strncmp(cmd, "export", 6))
+		result = 1;
+	if (!strncmp(cmd, "unset", 5))
+		result = 1;
+	if (!strncmp(cmd, "env", 3))
+		result = 1;
+	if (!strncmp(cmd, "exit", 4))
+		result = 1;
+	return (result);
+}
+
+void	free_line(char **line)
+{
+	int	j;
+
+	j = -1;
+	while (line[++j])
+	{
+		if (line[j])
+			free(line[j]);
+		line[j] = NULL;
+	}
+	free(line);
+	line = NULL;
+}

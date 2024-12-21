@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:53:23 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 21:55:01 by pmachado         ###   ########.fr       */
+/*   Updated: 2024/12/20 23:56:05 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	print_env(t_menu *menu)
 	i = 0;
 	if (!menu || !menu->env)
 	{
-		write_error_message("export: Failed to obtain vars\n");
+		wem("export: Failed to obtain vars\n");
 		return ;
 	}
 	print_alpha = dup_rrr(menu->env);

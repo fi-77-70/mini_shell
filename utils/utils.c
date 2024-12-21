@@ -1,10 +1,9 @@
 #include "../minishell.h"
 
-char	*ft_take_out_back(char *str, char out)
+int	take_len(char *str, char out)
 {
-	int		i;
-	int		len;
-	char	*new;
+	int	len;
+	int	i;
 
 	i = 0;
 	len = ft_strlen(str);
@@ -18,6 +17,17 @@ char	*ft_take_out_back(char *str, char out)
 		if (str[i])
 			i++;
 	}
+	return (len);
+}
+
+char	*ft_take_out_back(char *str, char out)
+{
+	int		i;
+	int		len;
+	char	*new;
+
+	i = 0;
+	len = take_len(str, out);
 	new = (char *)malloc((sizeof(char) * len) + 1);
 	i = 0;
 	len = 0;
@@ -34,66 +44,7 @@ char	*ft_take_out_back(char *str, char out)
 	return (free(str), new);
 }
 
-long long	ft_atoll(char *str)
-{
-	long long	result;
-	int			sign;
-
-	if (!ft_strcmp(str, "-9223372036854775808"))
-		return (LLONG_MIN);
-	result = 0;
-	sign = 1;
-	while (*str == 32 || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			sign = -1;
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		result = result * 10 + (*str - 48);
-		str++;
-	}
-	return (result * sign);
-}
-
-void	put_str_fd(char *str, int fd)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		write(fd, &str[i++], 1);
-	write(fd, "\n", 1);
-}
-
-int	ft_static(int sig)
-{
-	static int	i;
-
-	if (sig == SIGINT)
-		i = 1;
-	else if (sig == 3)
-		i = 0;
-	return (i);
-}
-
-void	signal_handle(int sig)
-{
-	if (sig == SIGINT)
-	{
-		ft_static(SIGINT);
-		rl_replace_line("", 0);
-		printf("^C");
-		close(STDIN_FILENO);
-	}
-	else
-		return ;
-}
-
-int ft_here_loop_2(t_cmds *cmd, t_menu *menu)
+int	ft_here_loop_2(t_cmds *cmd, t_menu *menu)
 {
 	char	*input;
 
@@ -112,7 +63,7 @@ int ft_here_loop_2(t_cmds *cmd, t_menu *menu)
 		if (!ft_strcmp(input, cmd->redir->token))
 		{
 			cmd->redir = cmd->redir->next;
-			break ;
+			return (1);
 		}
 		else
 		{
