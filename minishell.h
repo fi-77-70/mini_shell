@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:58:32 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/21 14:14:49 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:55:53 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int					check_red_file_name(t_args *msh);
 int					check_other_word(char *str, int *i, int direction);
 int					check_pipe_exist(char *str, int i);
 int					checker_ex(char *line, int i, int quote);
-void				ex_utils(char **line, int *i);
+void				ex_utils(char **line, int *i, int quote);
 void				ex_utils_2(char *line, int *i, int *quote);
 
 long long			ft_atoll(char *str);
@@ -174,5 +174,5 @@ int					handle_red_in(t_menu *menu, t_args *temp, int fd_in);
 char				*get_command_path(t_cmds *cmds, t_menu *menu);
 int					print_until(char *str, char c);
 char				*ft_strjoin_exp(char *env, char *value);
-
+void				new_sig(int sig);
 #endif

@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:19:49 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 02:19:50 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:53:37 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	pipe_utils_parent(int *fds)
 int	p_u_c(t_menu *menu, t_cmds *cmd, int *fds, t_cmds **cmds)
 {
 	menu->is_child = 1;
-	signal(SIGINT, SIG_DFL);
 	*cmds = cmd;
 	if (!cmd->next)
 	{
@@ -72,6 +71,7 @@ int	handle_pipes(t_cmds **cmds, t_menu *menu)
 		{
 			pipe_utils_parent(fds);
 			cmd = cmd->next;
+			signal(SIGINT, new_sig);
 			if (!cmd)
 				return (dup2(menu->fd_in, STDIN_FILENO), close(fds[1]), 1);
 		}

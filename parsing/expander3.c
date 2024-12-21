@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:20:48 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 02:20:49 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:38:21 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	check_other_word(char *str, int *i, int direction)
 		if (other_word == 1 && ft_isalnum(str[*i]))
 			other_word = 2;
 		if (other_word == 2)
+			break ;
+		if (*i == 0)
 			break ;
 		*i += direction;
 	}

@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:21:09 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 02:21:11 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:26:14 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_unquote_3(t_args *temp, char *final, int *a, char *quote)
 			*quote = temp->token[i];
 			i++;
 		}
-		while (temp->token[i] != *quote && temp->token[i])
+		while (temp->token[i] && temp->token[i] != *quote)
 		{
 			final[*a] = temp->token[i++];
 			*a += 1;

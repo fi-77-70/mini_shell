@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:20:38 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 02:20:39 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:41:33 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ char	*expand_variable(char *str, char *var, int *j)
 void	final_1(char *str, int *i, int *expanded)
 {
 	*i += 1;
-	if (ft_isdigit(str[*i]) || str[*i] == '$')
+	if (ft_isdigit(str[*i]) || str[*i] == '$' || str[*i] == '?')
 		*i += 1;
 	else
-		while (ft_isalnum(str[*i]))
+		while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 			*i += 1;
-	if (str[*i] == '?')
-		*i += 1;
 	*expanded = 1;
 }
 
@@ -75,7 +73,7 @@ char	*get_var_name(char *env_var)
 	if (!env_var)
 		return (NULL);
 	i = 0;
-	while (ft_isalnum(env_var[i]))
+	while (ft_isalnum(env_var[i]) || env_var[i] == '_')
 		i++;
 	if (ft_isdigit(env_var[0]))
 		return (NULL);
@@ -83,7 +81,7 @@ char	*get_var_name(char *env_var)
 	if (!var)
 		return (NULL);
 	i = 0;
-	while (env_var[i] && ft_isalnum(env_var[i]))
+	while (env_var[i] && (ft_isalnum(env_var[i]) || env_var[i] == '_'))
 	{
 		var[i] = env_var[i];
 		i++;

@@ -6,11 +6,19 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:16:02 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 14:16:03 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:57:11 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	new_sig(int sig)
+{
+	(void)sig;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+}
 
 char	*ft_strjoin_exp(char *env, char *value)
 {

@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:03 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/21 02:02:13 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:07:16 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_env(t_cmds *cmds, t_menu *menu)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (!menu || !menu->env)
 	{
 		wem("env: Failed to obtain environment vars\n");
@@ -31,10 +31,10 @@ int	ft_env(t_cmds *cmds, t_menu *menu)
 			return (free_mid_process(menu), exit(1), 0);
 		return (menu->return_code = 1, 1);
 	}
-	while (menu->env[i])
+	while (menu->env[++i])
 	{
 		if (ft_strchr(menu->env[i], '='))
-			printf("%s\n", menu->env[i++]);
+			printf("%s\n", menu->env[i]);
 	}
 	if (menu->is_child)
 		return (free_mid_process(menu), exit(0), 0);
