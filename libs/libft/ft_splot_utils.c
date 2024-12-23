@@ -6,11 +6,12 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:42:11 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/20 17:42:50 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:54:52 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 void	jump(char *str, int *j, int *i)
 {
@@ -68,7 +69,7 @@ void	cut_symbols(char *str, int *i, int *j)
 		if (str[*i] && str[*i + 1] && ((str[*i + 1] == '<'
 					&& str[*i] == '<') || (str[*i + 1] == '>'
 					&& str[*i] == '>')))
-			*i += 2;
+			*i += 1;
 		if (str[*i])
 			*i += 1;
 	}

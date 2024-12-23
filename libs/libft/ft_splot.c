@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:42:36 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 17:50:44 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:54:44 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	check_symbol(char *str, t_counter *ct, char **matrix, int *a)
 	j = &ct->j;
 	if (str[*i] == ' ' || (str[*i] != '|' && str[*i] != '<' && str[*i] != '>'))
 		return ;
-	if (str[*j] && str[*j + 1] && str[*j + 2]
+	if (str[*j] && str[*j + 1]
 		&& (!ft_strncmp(str + *j, ">>", 2) || !ft_strncmp(str
 				+ *j, "<<", 2)))
 		symbol_utils(str, ct, matrix, a);
@@ -112,7 +112,7 @@ char	**ft_splot(char *str)
 	ct->i = 0;
 	ct->j = 0;
 	ct->a = 0;
-	matrix = (char **)malloc(sizeof(char *) * (cut_count(str)));
+	matrix = (char **)malloc(sizeof(char *) * (cut_count(str)) + 1);
 	if (!matrix)
 		return (NULL);
 	yes = 0;
