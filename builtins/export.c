@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:19 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/21 14:16:46 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/27 18:17:01 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	sub_key_value(t_menu *menu, char *key, char *value)
 	while (menu->env[i] && ft_strncmp(menu->env[i], key, len))
 		i++;
 	if ((ft_strchr(key, '+')))
-		menu->env[i] = ft_strjoin_exp(menu->env[i], value);
+		menu->env[i] = ft_strjoin_exp(menu->env[i], '=', value);
 	else if (ft_strchr(menu->env[i], '=') && value)
 	{
 		free(menu->env[i]);

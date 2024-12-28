@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:55:53 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/20 23:19:01 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:47:21 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ int	mini_loop(t_menu *menu)
 		exit_code = menu->return_code;
 		str = readline("minishell: ");
 		if (!str)
-			return (printf("exit\n"), free_line(menu->env), free(menu),
-				exit_code);
+			return (printf("exit\n"), free_line(menu->env), exit_code);
 		add_history(str);
 		str = ft_expand(str, menu);
 		menu->line = ft_splot(str);
@@ -83,13 +82,13 @@ int	mini_loop(t_menu *menu)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_menu	*menu;
+	t_menu	*meu;
 
 	(void)ac;
 	(void)av;
-	menu = NULL;
-	init_struct(&menu, envp);
+	meu = menu();
+	init_struct(&meu, envp);
 	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
-	mini_loop(menu);
+	mini_loop(meu);
 }

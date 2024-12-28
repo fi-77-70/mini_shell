@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:18:52 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 02:18:53 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:49:15 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	free_mid_process(t_menu *menu)
 	if (menu->pid_arr)
 		free(menu->pid_arr);
 	free_line(menu->env);
-	free(menu);
 }
 
 int	check_acess_file_2(char *str, int per, t_menu *menu)

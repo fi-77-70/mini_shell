@@ -6,21 +6,21 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:19:36 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 15:38:51 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/27 19:00:38 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exe_3(t_menu *menu, t_cmds *cmds, int *result)
+void	exe_3(t_menu *meu, t_cmds *cmds, int *result)
 {
 	char	*path;
 
 	if (!ft_strncmp(cmds->cmd, "/", 1) || !ft_strncmp(cmds->cmd, "./", 2))
 		path = ft_strdup(cmds->cmd);
 	else
-		path = get_command_path(cmds, menu);
-	*result = execve(path, cmds->args, menu->env);
+		path = get_command_path(cmds, meu);
+	*result = execve(path, cmds->args, meu->env);
 	free(path);
 }
 

@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:19:06 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 02:19:07 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:23:34 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,5 @@ void	handle_sigint(int signum)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	menu()->return_code = 130;
 }

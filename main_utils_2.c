@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:18:40 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 16:41:48 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:48:06 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	init_struct(t_menu **menu, char **envp)
 	t_menu	*temp;
 
 	temp = *menu;
-	temp = (t_menu *)malloc(sizeof(t_menu));
 	dup_arrr(envp, &temp);
 	temp->fd_in = dup(STDIN_FILENO);
 	temp->fd_out = dup(STDOUT_FILENO);

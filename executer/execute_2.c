@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:19:49 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 15:53:37 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/28 16:25:28 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,29 @@ void	pipe_utils_parent(int *fds)
 
 int	p_u_c(t_menu *menu, t_cmds *cmd, int *fds, t_cmds **cmds)
 {
+	t_args	*begin;
+
+	begin = NULL;
 	menu->is_child = 1;
 	*cmds = cmd;
 	if (!cmd->next)
 	{
 		dup2(menu->fd_out, STDOUT_FILENO);
-		close(menu->fd_out);
-		return (0);
+		return (close (menu->fd_out), 0);
 	}
 	dup2(fds[1], STDOUT_FILENO);
 	close(fds[1]);
+	while (cmd->next && cmd->next->redir)
+	{
+		if (!begin)
+			begin = cmd->next->redir;
+		if (cmd->next->redir->type == RED_IN
+			|| cmd->next->redir->type == HERE_DOC)
+			return (cmd->next->redir = begin, 0);
+		cmd->next->redir = cmd->next->redir->next;
+	}
+	if (begin)
+		cmd->next->redir = begin;
 	close(fds[0]);
 	return (0);
 }

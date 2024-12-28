@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:16:38 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 02:18:32 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:22:20 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	signal_handle(int sig)
 		ft_static(SIGINT);
 		rl_replace_line("", 0);
 		printf("^C");
+		menu()->return_code = 130;
 		close(STDIN_FILENO);
 	}
 	else

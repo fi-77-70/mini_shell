@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:58:32 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/21 15:55:53 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/27 18:16:08 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,8 @@ int					handle_red_app(t_menu *menu, t_args *temp, int fd_out);
 int					handle_red_in(t_menu *menu, t_args *temp, int fd_in);
 char				*get_command_path(t_cmds *cmds, t_menu *menu);
 int					print_until(char *str, char c);
-char				*ft_strjoin_exp(char *env, char *value);
+char				*ft_strjoin_exp(const char *s1, char c, const char *s2);
 void				new_sig(int sig);
+
+t_menu				*menu(void);
 #endif

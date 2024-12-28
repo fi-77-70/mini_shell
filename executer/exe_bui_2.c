@@ -6,11 +6,18 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:19:23 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/21 15:52:32 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/27 18:32:49 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_menu	*menu(void)
+{
+	static t_menu	menu;
+
+	return (&menu);
+}
 
 void	wem(char *str)
 {
@@ -33,7 +40,10 @@ void	wait_for_process(t_menu *menu)
 	while (menu->pid_arr[i] != 0)
 	{
 		waitpid(menu->pid_arr[i++], &j, 0);
-		menu->return_code = WEXITSTATUS(j);
+		if (!WIFEXITED(j))
+			menu->return_code = 130;
+		else
+			menu->return_code = WEXITSTATUS(j);
 	}
 	free(menu->pid_arr);
 	menu->pid_arr = NULL;
