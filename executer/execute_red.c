@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:20:01 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/28 01:12:54 by filferna         ###   ########.fr       */
+/*   Updated: 2024/12/28 21:05:28 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	handle_acess_file_er(t_menu *menu)
 
 int	handle_red_out(t_menu *menu, t_args *temp, int fd_out)
 {
-	fd_out = open(temp->token, O_RDWR | O_CREAT, 0777);
+	fd_out = open(temp->token, O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (check_dir(temp->token) == 2)
 		if (handle_is_dir_er(menu))
 			return (1);
