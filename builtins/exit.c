@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:08 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/21 13:14:39 by filferna         ###   ########.fr       */
+/*   Updated: 2025/01/03 15:04:00 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_str_is_nr(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (str[0] == '-' || str[i] == '+')
+		if (i == 0 && (str[0] == '-' || str[i] == '+'))
 			i++;
 		if (str[i] < 48 || str[i] > 57)
 			return (0);
