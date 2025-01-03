@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:30 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/21 02:10:00 by filferna         ###   ########.fr       */
+/*   Updated: 2025/01/03 11:11:21 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	ft_unset(t_cmds *cmds, t_menu *menu)
 		if (!parse_export_input(cmds->args[i]))
 		{
 			if (menu->is_child)
-				return (free_mid_process(menu), exit(1), 1);
-			return (menu->return_code = 1, 1);
+				return (free_mid_process(menu), exit(0), 0);
+			return (menu->return_code = 0, 1);
 		}
 		else
 			del_variable(menu, cmds->args[i]);

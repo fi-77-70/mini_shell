@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:55:53 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/27 17:47:21 by filferna         ###   ########.fr       */
+/*   Updated: 2025/01/03 11:10:45 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	loop_check(t_menu *menu)
 			return (0);
 	}
 	else
-		return (free_list(menu->mshh), 0);
+		return (free_list(menu->mshh), menu->return_code = 2, 0);
 	return (1);
 }
 
