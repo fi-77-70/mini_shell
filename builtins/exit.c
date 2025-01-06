@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:08 by pmachado          #+#    #+#             */
-/*   Updated: 2025/01/06 16:07:07 by pmachado         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:25:22 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 	char		*itoa;
 
 	i = 0;
+	code = menu->return_code;
 	while (cmds->args[i])
 		i++;
 	if (i == 1)
-		return (free_mid_process(menu), exit(0));
+		return (free_mid_process(menu), exit(code));
 	if (i > 2)
 		return (handle_too_many_args(menu, cmds->args));
 	i--;
