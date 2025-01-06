@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:08 by pmachado          #+#    #+#             */
-/*   Updated: 2025/01/03 15:04:00 by filferna         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:07:07 by pmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 	if (i == 1)
 		return (free_mid_process(menu), exit(0));
 	if (i > 2)
-		return (handle_too_many_args(menu));
+		return (handle_too_many_args(menu, cmds->args));
 	i--;
 	len = ft_strlen(cmds->args[i]);
 	if (*(cmds->args[i]) == '+')
@@ -58,8 +58,10 @@ void	built_exit(t_cmds *cmds, t_menu *menu)
 	exit(code % 256);
 }
 
-void	handle_too_many_args(t_menu *menu)
+void	handle_too_many_args(t_menu *menu, char **args)
 {
+	if (!ft_str_is_nr(args[1]))
+		handle_invalid_arg(menu, ft_strdup(args[0]));
 	wem("exit: too many arguments\n");
 	if (menu->is_child)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:58:32 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/27 18:16:08 by filferna         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:05:48 by pmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void				update_env_var(t_menu *menu, const char *key,
 void				handle_builts(t_cmds *cmds, t_menu *menu);
 char				**create_env(char **env, char *new_var);
 char				*ft_strjoin3(const char *s1, char c, const char *s2);
-void				handle_too_many_args(t_menu *menu);
+void				handle_too_many_args(t_menu *menu, char **args);
 void				handle_invalid_arg(t_menu *menu, char *itoa);
 int					handle_pwd_err(t_menu *menu, char *message, int err_code);
 int					key_exists(t_menu *menu, char *key);
