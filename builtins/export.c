@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:19 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/27 18:17:01 by filferna         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:57:46 by pmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 int	ft_export(t_cmds *cmds, t_menu *menu)
 {
 	int	i;
+	int	error;
 
 	i = 1;
+	error = 0;
 	if (!cmds->args[1])
 	{
 		print_env(menu);
@@ -27,16 +29,16 @@ int	ft_export(t_cmds *cmds, t_menu *menu)
 	while (cmds->args[i])
 	{
 		if (handle_export_arg(cmds->args[i], menu))
-		{
-			if (menu->is_child)
-				return (free_mid_process(menu), exit (1), 1);
-			return (menu->return_code = 1, 1);
-		}
+			error = 1;
 		i++;
 	}
+	if (error)
+		menu->return_code = 1;
+	else
+		menu->return_code = 0;
 	if (menu->is_child)
-		return (free_mid_process(menu), exit (1), 1);
-	return (menu->return_code = 0, 0);
+		return (free_mid_process(menu), exit (error), error);
+	return (menu->return_code);
 }
 
 int	handle_export_arg(char *arg, t_menu *menu)
@@ -47,8 +49,8 @@ int	handle_export_arg(char *arg, t_menu *menu)
 	char	*new_entry;
 
 	if (!parse_export_input(arg))
-		return (menu->return_code = 1,
-			wem("export: not a valid identifier\n"), 1);
+		return (wem("export: '"), wem(arg),
+			wem("' not a valid identifier\n"), 1);
 	find_key_value(arg, &key, &value);
 	if (key_exists(menu, key))
 		return (sub_key_value(menu, key, value),

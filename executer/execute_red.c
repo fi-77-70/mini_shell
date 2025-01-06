@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_red.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 02:20:01 by filferna          #+#    #+#             */
-/*   Updated: 2024/12/28 21:05:28 by filferna         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:40:17 by pmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	handle_acess_file_er(t_menu *menu)
 
 int	handle_red_out(t_menu *menu, t_args *temp, int fd_out)
 {
-	fd_out = open(temp->token, O_RDWR | O_CREAT | O_TRUNC, 0777);
+	fd_out = open(temp->token, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (check_dir(temp->token) == 2)
 		if (handle_is_dir_er(menu))
 			return (1);
@@ -39,7 +39,7 @@ int	handle_red_out(t_menu *menu, t_args *temp, int fd_out)
 
 int	handle_red_app(t_menu *menu, t_args *temp, int fd_out)
 {
-	fd_out = open(temp->token, O_CREAT | O_APPEND | O_RDWR, 0777);
+	fd_out = open(temp->token, O_CREAT | O_APPEND | O_RDWR, 0644);
 	if (check_dir(temp->token) == 2)
 		if (handle_is_dir_er(menu))
 			return (1);
@@ -53,7 +53,7 @@ int	handle_red_app(t_menu *menu, t_args *temp, int fd_out)
 
 int	handle_red_in(t_menu *menu, t_args *temp, int fd_in)
 {
-	fd_in = open(temp->token, O_RDWR, 0777);
+	fd_in = open(temp->token, O_RDONLY, 0777);
 	if (check_dir(temp->token) == 2)
 		if (handle_is_dir_er(menu))
 			return (1);

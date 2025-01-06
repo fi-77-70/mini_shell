@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:02:51 by pmachado          #+#    #+#             */
-/*   Updated: 2024/12/27 18:14:48 by filferna         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:13:09 by pmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,22 @@ int	handle_checks_cd(char *arg, t_menu *menu, char **path)
 		*path = env_get("OLDPWD", menu);
 		return (1);
 	}
-	*path = menu->til;
+	if (arg && arg[0] == '~')
+	{
+		*path = menu->til;
+		return (-1);
+	}
 	if (!*path)
 	{
-		ft_putstr_fd("cd: no HOME var \n", STDERR_FILENO);
-		menu->return_code = 1;
-		return (-1);
+		*path = env_get("HOME", menu);
+		if (!*path)
+		{
+			ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO);
+			menu->return_code = 1;
+			return (-1);
+		}
+		else
+			return (1);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmachado <pmachado@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:03:30 by pmachado          #+#    #+#             */
-/*   Updated: 2025/01/03 11:11:21 by filferna         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:13:28 by pmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,7 @@ int	ft_unset(t_cmds *cmds, t_menu *menu)
 	while (cmds->args[i])
 	{
 		if (!parse_export_input(cmds->args[i]))
-		{
-			if (menu->is_child)
-				return (free_mid_process(menu), exit(0), 0);
-			return (menu->return_code = 0, 1);
-		}
+			;
 		else
 			del_variable(menu, cmds->args[i]);
 		i++;
